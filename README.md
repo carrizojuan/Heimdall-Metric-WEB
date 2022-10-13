@@ -1,6 +1,6 @@
 # Heimdall-Metric - API
 
-Plataforma de telemedición. Servicio API-REST
+Plataforma de telemedición
 
 ## Tecnologías
 
@@ -8,10 +8,7 @@ Este proyecto contiene las sguientes tecnologías:
 
 - Python 3.x
 - Django 3.0.8
-- Django Rest Framework 
 - PostgreSQL
-- Django Rest Knox 
-- drf-yasg - Swagger generator
 - Base de py-helium-console-client
 - Influxable
 
@@ -70,20 +67,6 @@ celery worker -A OdynAPI.celery --loglevel=info
 Esto son para tareas asincronas en el proyecto
 
 
-
-## Documentación API's
-Al APi se encuentra documentado con drf-yasg (utiliza Swagger). 
-
-Si se corre localmente:
-    
-    {IP}:{PUERTO}/api/v1/docs/ 
-    visualiza la APi en forma dinámica y permite realizar operaciones
-
-    {IP}:{PUERTO}/redoc/
-    Documentación de la API
-    
-    {IP}:{PUERTO}/api/v1/docs.json
-    Permite poder obtener una salida en formato json. De la misma manera soporta YAML
 
 ## Archivo configuración
 
