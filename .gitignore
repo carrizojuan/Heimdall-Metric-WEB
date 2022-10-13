@@ -1,0 +1,28 @@
+# PYTHON
+*.pyc
+.pyc
+/entorno/
+/env/
+# DJANGO
+*.log
+*.pot
+*.pyo
+*.db
+__pycache__/
+db.sqlite3
+media
+/venv
+__pycache__
+#OdynAPI/staticfiles/
+
+# Environment files
+pydock/.envz
+# VISUAL STUDIO cODE
+.vscode
+# PYCHARM
+.idea/
+
+# Docker env file
+.env
+
+src/heimdallMetricAPI/settings/credentials/*.conf
