@@ -1,83 +1,63 @@
 {% load static %}
-
-<!DOCTYPE html>
 <html lang="es">
+  <head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+    <title>
+            {% block block_title %}Dashboard{% endblock block_title %} | Heimdall Metric
+    </title>
+    <!-- CSS files -->
+    <link rel="stylesheet" href="{% static 'dist/css/tabler.min.css' %}">
+    <link rel="stylesheet" href="{% static 'dist/css/tabler-flags.min.css' %}">
+    <link rel="stylesheet" href="{% static 'dist/css/tabler-payments.min.css' %}">
+    <link rel="stylesheet" href="{% static 'dist/css/tabler-vendors.min.css' %}">
+    <link rel="stylesheet" href="{% static 'dist/css/demo.min.css' %}">
+      {% block css_extra %}
+      {% endblock css_extra %}
+  </head>
 
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
-        <link rel="icon" type="image/png" href="{% static 'img/favicon-96x96.png' %}">
+  <body >
+    <div class="wrapper">
+        {% block sidebar %}
+            {% include "base/admin/sidebar.html" %}
+        {% endblock sidebar %}
 
-        <title>
-            {% block block_title %}Dashboard{% endblock block_title %} | Ministerio de Salud Publica
-        </title>
-
-        <!-- FontAwesome -->
-        <link
-            href="{% static 'vendors/fontawesome/css/all.css' %}"
-            rel="stylesheet"
-        />
-
-        <link rel="stylesheet" href="{% static 'vendors/bootstrap/css/bootstrap.min.css' %}">
-
-        <!-- animation css -->
-        <link rel="stylesheet" href="{% static 'vendors/animation/css/animate.min.css' %}">
-        
-        <link rel="stylesheet" href="{% static 'vendors/jquery-scrollbar/css/jquery.scrollbar.min.css' %}">
-        
-        <link
-            rel="stylesheet"
-            type="text/css"
-            href="{% static 'css/admin.css' %}"
-        />
-
-        <link
-            rel="stylesheet"
-            type="text/css"
-            href="{% static 'css/common.css' %}"
-        />
-
-        {% block css_extra %} 
-        {% endblock css_extra %}
-    </head>
-
-<body>
-    <!-- [ Pre-loader ] start -->
-    <div class="loader-bg">
-        <div class="loader-track">
-            <div class="loader-fill"></div>
-        </div>
-    </div>
-    <!-- [ Pre-loader ] End -->
-
-    {% block sidebar %} 
-        {% include "base/admin/sidebar.html" %}
-    {% endblock sidebar %}
-    
-    {% block header %} 
-        {% include "base/admin/header.html" %}
-    {% endblock header %}
-    <div class="pcoded-main-container">
-        <div class="pcoded-wrapper">
-            <div class="pcoded-content">
-                <div class="pcoded-inner-content">
-                    {% block page_header %} {% endblock page_header %}
-
-                    <div class="main-body">
-                        <div class="page-wrapper">
-                            {% block content %} {% endblock content %}
-                        </div>
-                    </div>
+        {% block header %}
+            {% include "base/admin/header.html" %}
+        {% endblock header %}
+        <div class="page-wrapper">
+        <div class="container-xl">
+          <!-- Page title -->
+          <div class="page-header d-print-none">
+            <div class="row align-items-center">
+              <div class="col">
+                <!-- Page pre-title -->
+                <div class="page-pretitle">
+                  CATEGORIA
                 </div>
+                <h2 class="page-title">
+                  TITULO
+                </h2>
+              </div>
             </div>
+          </div>
         </div>
+
+        <div class="page-body">
+            {% block content %} {% endblock content %}
+        </div>
+
+
+      </div>
     </div>
-    <script src="{% static 'js/vendor-all.min.js' %}"></script>
-    <script src="{% static 'vendors/bootstrap/js/bootstrap.min.js' %}"></script>
-    <script src="{% static 'js/pcoded.min.js' %}"></script>
+
+
+    <!-- Tabler Core -->
+    <script src="{% static 'dist/js/tabler.min.js' %}"></script>
+    <script src="{% static 'dist/js/demo.min.js' %}"></script>
 
     {% block javascript_extra %}
-    {% endblock javascript_extra %} 
-</body>
+    {% endblock javascript_extra %}
+  </body>
 </html>
