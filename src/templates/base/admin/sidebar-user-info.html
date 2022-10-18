@@ -1,0 +1,8 @@
+{% load static %}
+
+<li class="yay-user-info" style="margin-top: 5px;">
+	<a href="#">
+		<img src="{% static 'img/default/default_user.jpg' %}" alt="USER" class="circle">
+		<h3 class="yay-user-info-name">{{user.get_full_name|default:'-'}}</h3>
+	</a>
+</li>

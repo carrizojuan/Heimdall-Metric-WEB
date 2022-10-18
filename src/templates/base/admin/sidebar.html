@@ -1,0 +1,154 @@
+{% load users_tags %}
+
+<nav class="pcoded-navbar">
+    <div class="navbar-wrapper">
+        <div class="navbar-brand header-logo">
+            {% include "base/admin/b-brand.html" %}
+            <a class="mobile-menu" id="mobile-collapse" href="javascript:"><span></span></a>
+        </div>
+        <div class="navbar-content scroll-div">
+            <ul class="nav pcoded-inner-navbar">
+                {% include "base/admin/sidebar-user-info.html" %}
+                <!-- PARA GRUPO DE CONSULTA (consulta_ciudadano) --> 
+                {% if request.user|has_group:"consulta_ciudadano" or request.user|has_group:"consulta_administrador" %} 
+                    <li class="nav-item pcoded-menu-caption">
+                        <label>CIUDADANOS</label>
+                    </li>
+                    <li class="nav-item {% if sidebar_active == 'consulta_ciudadano' %}active{% endif %}">
+                        <a href="{% url 'usuarios:consulta_ciudadano' %}" class="nav-link "><span class="pcoded-micon"><i class="fas fa-search"></i></span><span class="pcoded-mtext">Consulta de Personas</span></a>
+                    </li>
+                    <li class="nav-item {% if sidebar_active == 'importar_vacunas' %}active{% endif %}">
+                        <a href="{% url 'usuarios:importar_vacunacion' %}" class="nav-link "><span class="pcoded-micon"><i class="fas fa-file-import"></i></span><span class="pcoded-mtext">Importar de Nomivac</span></a>
+                    </li>
+                {% endif %}
+                
+                <!-- PARA GRUPO DE CONSULTA (consulta_administrador) --> 
+                {% if request.user|has_group:"consulta_administrador" %} 
+                    <li class="nav-item pcoded-menu-caption">
+                        <label>ESTADISTICAS</label>
+                    </li>
+
+                    <li class="nav-item {% if sidebar_active == 'dashboard' %}active{% endif %}">
+                        <a href="{% url 'dashboard_admin' %}" class="nav-link "><span class="pcoded-micon"><i class="fas fa-columns"></i></span><span class="pcoded-mtext">Dashboard</span></a>
+                    </li>
+
+                    <li class="nav-item {% if sidebar_active == 'estadisticas' %}active{% endif %}">
+                        <a href="{% url 'estadisticas:dashboard' %}" class="nav-link "><span class="pcoded-micon"><i class="fas fa-chart-area"></i></span><span class="pcoded-mtext">Visitas</span></a>
+                    </li>
+
+                     <li class="nav-item {% if sidebar_active == 'estadisticas_turnos' %}active{% endif %}">
+                        <a href="{% url 'estadisticas:turnos' %}" class="nav-link "><span class="pcoded-micon"><i class="fas fa-chart-area"></i></span><span class="pcoded-mtext">Turnos</span></a>
+                    </li>
+
+                    <li class="nav-item pcoded-menu-caption">
+                        <label>ADMIN</label>
+                    </li>
+      
+                    <li class="nav-item {% if sidebar_active == 'centros' %}active{% endif %}">
+                        <a href="{% url 'centros_vacunacion:listar' %}" class="nav-link "><span class="pcoded-micon"><i class="far fa-hospital"></i></span><span class="pcoded-mtext"> Centros de Vacunación</span></a>
+                    </li>
+                    <li class="nav-item {% if sidebar_active == 'obras_sociales' %}active{% endif %}">
+                        <a href="{% url 'obra_social:listar' %}" class="nav-link "><span class="pcoded-micon"><i class="fas fa-stethoscope"></i></span><span class="pcoded-mtext"> Obras Sociales</span></a>
+                    </li>
+                    <li class="nav-item {% if sidebar_active == 'vacunas' %}active{% endif %}">
+                        <a href="{% url 'vacuna:listar' %}" class="nav-link "><span class="pcoded-micon"><i class="fas fa-vial"></i></span><span class="pcoded-mtext"> Vacunas</span></a>
+                    </li>
+
+                    <li class="nav-item pcoded-menu-caption">
+                        <label>CERTIFICADOS</label>
+                    </li>
+                    <li class="nav-item {% if sidebar_active == 'validar_certificado' %}active{% endif %}">
+                        <a href="{% url 'certificados:validar' %}" class="nav-link "><span class="pcoded-micon"><i class="fas fa-check-double"></i></span><span class="pcoded-mtext"> Validar Certificado</span></a>
+                    </li>
+
+                    {% if user.is_superuser %}
+                        <li class="nav-item pcoded-menu-caption">
+                            <label>CERTIFICADOS</label>
+                        </li>
+                        
+
+                        <li class="nav-item {% if sidebar_active == 'validar_certificado' %}active{% endif %}">
+                            <a href="{% url 'certificados:validar' %}" class="nav-link "><span class="pcoded-micon"><i class="fas fa-check-double"></i></span><span class="pcoded-mtext"> Validar Certificado</span></a>
+                        </li>
+                    {% endif %}
+
+                    <!-- ========================
+                             SECCION PADRON 
+                         ======================== -->
+                    <li class="nav-item pcoded-menu-caption">
+                        <label>PADRÓN</label>
+                    </li>
+                    
+                    {% if user.is_superuser %}
+                        <li class="nav-item {% if sidebar_active == 'empadronados' %}active{% endif %}">
+                            <a href="{% url 'usuarios:listar_empadronados' %}" class="nav-link "><span class="pcoded-micon"><i class="fas fa-users"></i></span><span class="pcoded-mtext"> Personas</span></a>
+                        </li>
+
+                        <li class="nav-item {% if sidebar_active == 'vacunaciones_cargar' %}active{% endif %}">
+                            <a href="{% url 'vacunaciones:upload' %}" class="nav-link "><span class="pcoded-micon"><i class="fas fa-upload"></i></span><span class="pcoded-mtext"> Cargar Vacunaciones</span></a>
+                        </li>
+                    {% endif%}
+                    
+                    <li class="nav-item {% if sidebar_active == 'registros_voluntarios' %}active{% endif %}">
+                        <a href="{% url 'registro_vacunacion:listar' %}" class="nav-link "><span class="pcoded-micon"><i class="fas fa-clipboard-list"></i></span><span class="pcoded-mtext"> Registros Voluntarios</span></a>
+                    </li>
+                    
+                    <li class="nav-item {% if sidebar_active == 'vacunaciones' %}active{% endif %}">
+                      <a href="{% url 'vacunaciones:listar' %}" class="nav-link "><span class="pcoded-micon"><i class="fas fa-syringe"></i></span><span class="pcoded-mtext"> Vacunaciones</span></a>
+                    </li>
+
+                    <!-- ========================
+                             SECCION TURNOS 
+                         ======================== -->
+                    <li class="nav-item pcoded-menu-caption">
+                        <label>TURNOS</label>
+                    </li>
+                    <li class="nav-item {% if sidebar_active == 'turnos' %}active{% endif %}">
+                        <a href="{% url 'turnos:listar' %}" class="nav-link "><span class="pcoded-micon"><i class="fas fa-calendar-day"></i></span><span class="pcoded-mtext"> Turnos</span></a>
+                    </li>
+                    {% if user.is_authenticated and user.is_superuser %}
+                        <li class="nav-item {% if sidebar_active == 'turnos_cargar' %}active{% endif %}">
+                            <a href="{% url 'turnos:cargar_turnos_paso1' %}" class="nav-link "><span class="pcoded-micon"><i class="fas fa-upload"></i></span><span class="pcoded-mtext"> Cargar Trunos</span></a>
+                        </li>
+                    {% endif %}
+                    
+                    <!-- ========================
+                             SECCION TURNOS 
+                         ======================== -->
+                    <li class="nav-item pcoded-menu-caption">
+                        <label>USUARIOS</label>
+                    </li>
+
+                    <li class="nav-item {% if sidebar_active == 'usuarios' %}active{% endif %}">
+                        <a href="{% url 'usuarios:listar' %}" class="nav-link "><span class="pcoded-micon"><i class="fas fa-user-shield"></i></span><span class="pcoded-mtext"> Usuarios</span></a>
+                    </li>
+
+                    <li class="nav-item {% if sidebar_active == 'grupos' %}active{% endif %}">
+                        <a href="{% url 'usuarios:grupos_listar' %}" class="nav-link "><span class="pcoded-micon"><i class="fas fa-users-cog"></i></span><span class="pcoded-mtext"> Grupos</span></a>
+                    </li>
+
+                    <li class="nav-item {% if sidebar_active == 'notificaciones' %}active{% endif %}">
+                        <a href="{% url 'notificaciones:listar' %}" class="nav-link "><span class="pcoded-micon"><i class="far fa-bell"></i></span><span class="pcoded-mtext"> Notificaciones</span></a>
+                    </li>
+
+                    <!-- ========================
+                             SECCION TURNOS 
+                         ======================== -->
+                    {% if user.is_superuser %}
+                        <li class="nav-item pcoded-menu-caption">
+                            <label>SCRIPTS</label>
+                        </li>
+
+                        <li class="nav-item {% if sidebar_active == 'script_base' %}active{% endif %}">
+                            <a href="{% url 'registros_base' %}" class="nav-link "><span class="pcoded-micon"><i class="fas fa-scroll"></i></span><span class="pcoded-mtext"> Base</span></a>
+                        </li>
+
+                        <li class="nav-item {% if sidebar_active == 'script_registros' %}active{% endif %}">
+                            <a href="{% url 'turnos_control:registros_control' %}" class="nav-link "><span class="pcoded-micon"><i class="fas fa-scroll"></i></span><span class="pcoded-mtext"> Registros Para Control</span></a>
+                        </li>
+                    {% endif %}
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</nav>

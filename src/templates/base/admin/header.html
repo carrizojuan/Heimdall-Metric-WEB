@@ -1,0 +1,38 @@
+{% load static %}
+
+<header class="navbar pcoded-header navbar-expand-lg navbar-light">
+    <div class="m-header">
+        <a class="mobile-menu" id="mobile-collapse1" href="javascript:"><span></span></a>
+        {% include "base/admin/b-brand.html" %}
+    </div>
+    <a class="mobile-menu" id="mobile-header" href="javascript:">
+        <i class="feather icon-more-horizontal"></i>
+    </a>
+    <div class="collapse navbar-collapse">
+        <ul class="navbar-nav ml-auto">
+            <li>
+                <div class="dropdown drp-user">
+                    <a href="javascript:" class="dropdown-toggle" data-toggle="dropdown">
+                        <i class="fas fa-user-cog"></i> MI CUENTA
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right profile-notification">
+                        <div class="pro-head">
+                            <img src="{% static 'img/default/default_user.jpg' %}" class="img-radius" alt="User-Profile-Image">
+                            <span>{{user.get_full_name}}</span>
+                            <a href="{% url 'logout' %}" class="dud-logout" title="Logout">
+                                <i class="fas fa-sign-out-alt"></i>
+                            </a>
+                        </div>
+                        <ul class="pro-body">
+                            <li><a href="{% url 'home' %}" class="dropdown-item"><i class="fas fa-home"></i> Ir al Home</a></li>
+                            {% if request.user.is_superuser %}
+                                <li><a href="{% url 'admin:index' %}" class="dropdown-item"><i class="fas fa-user-shield"></i> Panel Admin</a></li>
+                            {% endif %}
+                            <li><a href="{% url 'usuarios:perfil' %}" class="dropdown-item"><i class="fa fa-user"></i> Perfil</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+</header>
