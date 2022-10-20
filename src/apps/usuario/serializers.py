@@ -29,6 +29,7 @@ class LoginSerializer(serializers.Serializer):
             return usuario
         raise serializers.ValidationError({"message": "Credenciales Incorrectas"})
 
+
 # Register Serializer
 class RegistroSerializer(serializers.ModelSerializer):
     class Meta:
@@ -43,3 +44,14 @@ class RegistroSerializer(serializers.ModelSerializer):
                                               apellidos=validated_data['apellidos']
                                               )
         return usuario
+
+class ChangePasswordSerializer(serializers.Serializer):
+    model = Usuario
+
+    old_password = serializers.CharField(required=True)
+    new_password = serializers.CharField(required=True)
+
+
+# restablecer contraseña
+class SolicitarRestablecimientoSerializer(serializers.Serializer):
+    email = serializers.CharField(required=True, help_text=_("correo electrónico"))
