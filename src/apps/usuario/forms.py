@@ -1,12 +1,14 @@
+from pydoc import plain
 from django import forms
 from django.contrib.admin.widgets import FilteredSelectMultiple
 from django.contrib.auth.models import Permission, Group
 from django.core.exceptions import ValidationError
 
+
 from .models import Usuario
 
 
-class UsuarioForm(forms.ModelForm):
+""" class UsuarioForm(forms.ModelForm):
     email = forms.EmailField(required=False, widget=forms.TextInput(attrs={'class': 'form-control'}))
     nombres = forms.CharField(required=False, label="Nombres",
                               widget=forms.TextInput(attrs={'class': 'form-control'}))
@@ -92,4 +94,23 @@ class PassForm(forms.ModelForm):
 
     class Meta:
         model = Usuario
-        fields = ['password', 'confirm_password']
+        fields = ['password', 'confirm_password'] """
+
+
+class RegisterForm(forms.ModelForm):
+    email = forms.EmailField(required=True,widget=forms.TextInput(attrs={'class': 'form-label form-control'}
+    ))
+    nombre_usuario = forms.CharField(required=True,label="Nombre de Usuario",
+                                    widget=forms.TextInput(attrs={'class': 'form-control'}))
+    nombres = forms.CharField(required=False, label="Nombres",
+                              widget=forms.TextInput(attrs={'class': 'form-control'}))
+    apellidos = forms.CharField(required=False, label="Apellidos",
+                                widget=forms.TextInput(attrs={'class': 'form-control'}))
+    password = forms.EmailField(required=True,
+                                widget=forms.PasswordInput(attrs={'class': 'form-control', 'autocomplete': 'off'}))
+
+    class Meta:
+        model = Usuario
+        fields = ["nombre_usuario", "email", "nombres", "apellidos","password"]
+
+

@@ -1,0 +1,63 @@
+{% load static %}
+<html lang="es">
+  <head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+    <title>
+            {% block block_title %}Dashboard{% endblock block_title %} | Heimdall Metric
+    </title>
+    <!-- CSS files -->
+    <link rel="stylesheet" href="{% static 'dist/css/tabler.min.css' %}">
+    <link rel="stylesheet" href="{% static 'dist/css/tabler-flags.min.css' %}">
+    <link rel="stylesheet" href="{% static 'dist/css/tabler-payments.min.css' %}">
+    <link rel="stylesheet" href="{% static 'dist/css/tabler-vendors.min.css' %}">
+    <link rel="stylesheet" href="{% static 'dist/css/demo.min.css' %}">
+      {% block css_extra %}
+      {% endblock css_extra %}
+  </head>
+
+  <body >
+    <div class="wrapper">
+        {% block sidebar %}
+            {% include "base/admin/sidebar.html" %}
+        {% endblock sidebar %}
+
+        {% block header %}
+            {% include "base/admin/header.html" %}
+        {% endblock header %}
+        <div class="page-wrapper">
+        <div class="container-xl">
+          <!-- Page title -->
+          <div class="page-header d-print-none">
+            <div class="row align-items-center">
+              <div class="col">
+                <!-- Page pre-title -->
+                <div class="page-pretitle">
+                  CATEGORIA
+                </div>
+                <h2 class="page-title">
+                  TITULO
+                </h2>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="page-body">
+            {% block content %} {% endblock content %}
+        </div>
+
+
+      </div>
+    </div>
+
+
+    <!-- Tabler Core -->
+    <script src="{% static 'dist/js/tabler.min.js' %}"></script>
+    <script src="{% static 'dist/js/demo.min.js' %}"></script>
+
+    {% block javascript_extra %}
+    {% endblock javascript_extra %}
+  </body>
+</html>

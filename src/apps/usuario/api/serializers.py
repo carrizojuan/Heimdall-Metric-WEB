@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from django.contrib.auth import authenticate
-from .models import Usuario
+from ..models import Usuario
 from django.utils.translation import gettext_lazy as _
 from knox.models import AuthToken
 
