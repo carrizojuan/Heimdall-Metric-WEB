@@ -5,7 +5,7 @@ from django.views.generic.edit import FormView
 from apps.utils.mixins import AdminRequiredMixin
 from apps.usuario.forms import RegisterForm
 
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 class DashboardAdmin(TemplateView):
     template_name = 'home.html'
@@ -23,5 +23,22 @@ def login(request):
 
 def registrar_usuario(request):
     template_name = "usuario/sign-up.html"
-    form = RegisterForm()
+    
+    """ for field in form:
+        print(field.errors)
+        for error in field.errors:
+            print(error) """
+    if request.method == 'POST':
+        form = RegisterForm(request.POST)
+        if form.is_valid():
+            form.save()
+            """ username = form.cleaned_data.get('username')
+            raw_password = form.cleaned_data.get('password1')
+            user = authenticate(username=username, password=raw_password)
+            login(request, user) """
+            return redirect('inicio')
+        else:
+            print("Form no valido")
+    else:
+        form = RegisterForm()
     return render(request, template_name, {'form': form})

@@ -98,7 +98,7 @@ class PassForm(forms.ModelForm):
 
 
 class RegisterForm(forms.ModelForm):
-    email = forms.EmailField(required=True,widget=forms.TextInput(attrs={'class': 'form-label form-control'}
+    email = forms.EmailField(required=True,widget=forms.EmailInput(attrs={'class': 'form-label form-control'}
     ))
     nombre_usuario = forms.CharField(required=True,label="Nombre de Usuario",
                                     widget=forms.TextInput(attrs={'class': 'form-control'}))
@@ -106,7 +106,7 @@ class RegisterForm(forms.ModelForm):
                               widget=forms.TextInput(attrs={'class': 'form-control'}))
     apellidos = forms.CharField(required=False, label="Apellidos",
                                 widget=forms.TextInput(attrs={'class': 'form-control'}))
-    password = forms.EmailField(required=True,
+    password = forms.CharField(required=True,
                                 widget=forms.PasswordInput(attrs={'class': 'form-control', 'autocomplete': 'off'}))
 
     class Meta:
