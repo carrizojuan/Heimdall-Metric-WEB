@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 import os
 import configparser
 from datetime import timedelta
+from django.urls import reverse_lazy
 
 from pathlib import Path
 
@@ -40,7 +41,7 @@ DJANGO_APPS = [
 
 
 LOCAL_APPS = [
-    # 'apps.usuario',
+    'apps.usuario',
     # 'apps.registro',
     # 'apps.entidad',
     # 'apps.equipo',
@@ -138,4 +139,9 @@ parser.read(credentials_file)
 
 
 # modelo utilizado para autenticación (personalizado, no por defecto de Django)
-# AUTH_USER_MODEL = 'usuario.Usuario'
+AUTH_USER_MODEL = 'usuario.Usuario'
+
+LOGIN_URL = 'login'
+LOGIN_REDIRECT_URL = ''
+
+

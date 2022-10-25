@@ -9,7 +9,7 @@ from django.views.generic.edit import FormView
 from apps.utils.mixins import AdminRequiredMixin
 
 
-class DashboardAdmin(TemplateView):
+class DashboardAdmin(LoginRequiredMixin, AdminRequiredMixin, TemplateView):
     template_name = 'home.html'
 
     def get_context_data(self, **kwargs):
