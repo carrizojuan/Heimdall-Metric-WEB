@@ -42,7 +42,7 @@ DJANGO_APPS = [
 LOCAL_APPS = [
     'apps.usuario',
     # 'apps.registro',
-    # 'apps.entidad',
+    'apps.entidad',
     # 'apps.equipo',
     # 'apps.medidor'
 ]
@@ -164,3 +164,5 @@ REST_KNOX = {
   'AUTO_REFRESH': False,
   # 'EXPIRY_DATETIME_FORMAT': api_settings.DATETME_FORMAT,
 }
+
+LOGIN_URL = "login"

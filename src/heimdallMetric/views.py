@@ -1,13 +1,17 @@
 
-from tempfile import template
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
+from django.urls import reverse_lazy
 from django.views.generic import TemplateView
-from django.views.generic.edit import FormView
 from apps.utils.mixins import AdminRequiredMixin
 from apps.usuario.forms import RegisterForm
 from apps.usuario.models import Usuario
-
+from django.contrib import messages
+from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth.forms import PasswordChangeForm
 from django.shortcuts import render, redirect
+
+
 
 class DashboardAdmin(TemplateView):
     template_name = 'home.html'
@@ -45,14 +49,16 @@ def registrar_usuario(request):
 def detalle_usuario(request):
     template_name = "usuario/detalle.html"
     usuario = request.user
+    #entidad_id = 
     ctx = {
         'nombre_apellido': usuario.get_full_name(),
         'nombre_usuario': usuario.nombre_usuario,
-        'correo_electronico': usuario.email
+        'email': usuario.email
     }
     return render(request, template_name, ctx)
 
 
+@login_required
 def lista_usuarios(request):
     template_name = "usuario/lista_usuarios.html"
     usuarios = Usuario.objects.filter(is_active=True)
@@ -60,3 +66,20 @@ def lista_usuarios(request):
         'usuarios': usuarios
     }
     return render(request, template_name, ctx)
+
+
+def change_password(request):
+    if request.method == 'POST':
+        form = PasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)  # Important!
+            messages.success(request, 'Your password was successfully updated!')
+            return redirect('change_password')
+        else:
+            messages.error(request, 'Please correct the error below.')
+    else:
+        form = PasswordChangeForm(request.user)
+    return render(request, 'usuario/cambiar_contraseña.html', {
+        'form': form
+    })

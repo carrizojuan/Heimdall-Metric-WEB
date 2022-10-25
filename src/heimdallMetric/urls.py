@@ -45,6 +45,7 @@ urlpatterns = [
     path('login', views.login ,name="login"),
     path('registrarme', views.registrar_usuario, name="registro_usuario"),
     path('perfil', views.detalle_usuario, name="detalle_usuario"),
-    path('usuarios', views.lista_usuarios, name="lista_usuarios")
+    path('usuarios', views.lista_usuarios, name="lista_usuarios"),
+    path('cambiar-contraseña', views.change_password, name='change_password'),
 ]
 

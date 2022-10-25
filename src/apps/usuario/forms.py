@@ -114,3 +114,14 @@ class RegisterForm(forms.ModelForm):
         fields = ["nombre_usuario", "email", "nombres", "apellidos","password"]
 
 
+
+class CambiarContraseñaForm(forms.ModelForm):
+    password = forms.EmailField(required=True,
+                                widget=forms.PasswordInput(attrs={'class': 'input100', 'placeholder': "Contraseña"}))
+    confirm_password = forms.CharField(required=True,
+                                       widget=forms.PasswordInput(
+                                           attrs={'class': 'input100 pwds', 'placeholder': "Confirmar Contraseña"}))
+
+    class Meta:
+        model = Usuario
+        fields = ['password', 'confirm_password'] 
