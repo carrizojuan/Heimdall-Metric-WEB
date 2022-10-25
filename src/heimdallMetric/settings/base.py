@@ -142,6 +142,6 @@ parser.read(credentials_file)
 AUTH_USER_MODEL = 'usuario.Usuario'
 
 LOGIN_URL = 'login'
-LOGIN_REDIRECT_URL = ''
+LOGIN_REDIRECT_URL = '/'
 
 
