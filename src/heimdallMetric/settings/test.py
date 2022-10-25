@@ -4,7 +4,7 @@ from .base import *
 DEBUG = True
 
 
-ALLOWED_HOSTS = ['10.1.75.100', 'heimdallmetrics-api-test.ecom.com.ar']
+ALLOWED_HOSTS = ['10.1.75.100', 'heimdallmetrics-test.ecom.com.ar']
 
 DATABASES = {
     'default': {
