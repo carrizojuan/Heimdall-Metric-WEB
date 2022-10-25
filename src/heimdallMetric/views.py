@@ -1,9 +1,11 @@
 
+from tempfile import template
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
 from apps.utils.mixins import AdminRequiredMixin
 from apps.usuario.forms import RegisterForm
+from apps.usuario.models import Usuario
 
 from django.shortcuts import render, redirect
 
@@ -24,10 +26,6 @@ def login(request):
 def registrar_usuario(request):
     template_name = "usuario/sign-up.html"
     
-    """ for field in form:
-        print(field.errors)
-        for error in field.errors:
-            print(error) """
     if request.method == 'POST':
         form = RegisterForm(request.POST)
         if form.is_valid():
@@ -42,3 +40,23 @@ def registrar_usuario(request):
     else:
         form = RegisterForm()
     return render(request, template_name, {'form': form})
+
+
+def detalle_usuario(request):
+    template_name = "usuario/detalle.html"
+    usuario = request.user
+    ctx = {
+        'nombre_apellido': usuario.get_full_name(),
+        'nombre_usuario': usuario.nombre_usuario,
+        'correo_electronico': usuario.email
+    }
+    return render(request, template_name, ctx)
+
+
+def lista_usuarios(request):
+    template_name = "usuario/lista_usuarios.html"
+    usuarios = Usuario.objects.filter(is_active=True)
+    ctx = {
+        'usuarios': usuarios
+    }
+    return render(request, template_name, ctx)
