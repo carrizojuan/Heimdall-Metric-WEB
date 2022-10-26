@@ -1,3 +1,4 @@
+{% load static %}
 <!doctype html>
 
 <html lang="en">
@@ -5,13 +6,17 @@
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
     <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
-    <title>Sign in - Tabler - Premium and Open Source dashboard template with responsive and high quality UI.</title>
+    <title>
+            {% block block_title %}Dashboard{% endblock block_title %} | Heimdall Metric
+    </title>
     <!-- CSS files -->
-    <link href="./dist/css/tabler.min.css" rel="stylesheet"/>
-    <link href="./dist/css/tabler-flags.min.css" rel="stylesheet"/>
-    <link href="./dist/css/tabler-payments.min.css" rel="stylesheet"/>
-    <link href="./dist/css/tabler-vendors.min.css" rel="stylesheet"/>
-    <link href="./dist/css/demo.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="{% static 'dist/css/tabler.min.css' %}">
+    <link rel="stylesheet" href="{% static 'dist/css/tabler-flags.min.css' %}">
+    <link rel="stylesheet" href="{% static 'dist/css/tabler-payments.min.css' %}">
+    <link rel="stylesheet" href="{% static 'dist/css/tabler-vendors.min.css' %}">
+    <link rel="stylesheet" href="{% static 'dist/css/demo.min.css' %}">
+      {% block css_extra %}
+      {% endblock css_extra %}
   </head>
   <body  class=" border-top-wide border-primary d-flex flex-column">
     <div class="page page-center">
@@ -31,7 +36,7 @@
               <label class="form-label">
                 Password
                 <span class="form-label-description">
-                  <a href="./forgot-password.html">I forgot password</a>
+                  <a href="{% url 'restablecer_contraseña' %}">I forgot password</a>
                 </span>
               </label>
               <div class="input-group input-group-flat">

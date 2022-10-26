@@ -133,3 +133,6 @@ class CambiarContraseñaForm(PasswordChangeForm):
         model = Usuario
         fields = ['old_password', 'new_password1', 'new_password2']
     
+class ResetPasswordForm(forms.Form):
+    email = forms.EmailField(required=True, label="Direccion de correo electronico", widget=forms.EmailInput(attrs={'class': 'form-label form-control'}
+    ))

@@ -2,14 +2,15 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, FormView
 from apps.utils.mixins import AdminRequiredMixin
-from apps.usuario.forms import RegisterForm, CambiarContraseñaForm
+from apps.usuario.forms import RegisterForm, CambiarContraseñaForm, ResetPasswordForm
 from apps.usuario.models import Usuario
 from django.contrib import messages
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.views import PasswordChangeView
 from django.shortcuts import render, redirect
+
 
 
 
@@ -68,24 +69,23 @@ def lista_usuarios(request):
     return render(request, template_name, ctx)
 
 
-def change_password(request):
-    if request.method == 'POST':
-        form = PasswordChangeForm(request.user, request.POST)
-        if form.is_valid():
-            user = form.save()
-            update_session_auth_hash(request, user)  # Important!
-            messages.success(request, 'Your password was successfully updated!')
-            return redirect('change_password')
-        else:
-            messages.error(request, 'Please correct the error below.')
-    else:
-        form = PasswordChangeForm(request.user)
-    return render(request, 'usuario/cambiar_contraseña.html', {
-        'form': form
-    })
-
 
 class CambiarContraseñaView(PasswordChangeView):
     template_name = "usuario/cambiar_contraseña.html"
     form_class = CambiarContraseñaForm
     success_url = reverse_lazy('dashboard_admin')
+
+
+
+class ResetPasswordView(FormView):
+    form_class = ResetPasswordForm
+    template_name = 'usuario/forgot-password.html'
+    success_url = reverse_lazy('login')
+
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
+    

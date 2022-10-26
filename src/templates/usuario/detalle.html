@@ -1,3 +1,4 @@
+
 {% extends "base/admin/base.html" %}
 
 {% block categoria_name %}USUARIO{% endblock categoria_name %}
@@ -5,20 +6,9 @@
 
 
 {% block content %}
-{% comment %} <div class="card">
-	<div class="card-body">
-		<div class="card-title">Informacion Basica</div>
-		<div class="mb-2">			
-			Nombre y apellido: <strong>{{nombre_apellido}}</strong>
-		</div>
-		<div class="mb-2">			
-			Correo electronico: <strong>{{correo_electronico}}</strong>
-		</div>
-		<div class="mb-2">
-			Nombre de usuario: <strong>{{nombre_usuario}}</strong>
-		</div>
-	</div>
-</div> {% endcomment %}
+
+
+
 <div class="card">
 
 	<div class="card-body">
@@ -63,7 +53,7 @@
 		</div>
 		<h3 class="card-title mt-4">Contraseña</h3>
 		<div>
-		  <a href="#" class="btn">
+		  <a href="{% url 'change_password' %}" class="btn">
 			Cambiar contraseña
 		  </a>
 		</div>
