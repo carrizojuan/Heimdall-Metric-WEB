@@ -55,8 +55,10 @@ def detalle_usuario(request):
 
 def lista_usuarios(request):
     template_name = "usuario/lista_usuarios.html"
+
     usuarios = Usuario.objects.filter(is_active=True)
     ctx = {
-        'usuarios': usuarios
+        'usuarios': usuarios,
+        "sidebar_active": "usuarios"
     }
     return render(request, template_name, ctx)
