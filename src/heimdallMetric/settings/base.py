@@ -49,6 +49,9 @@ LOCAL_APPS = [
 ]
 
 THIRD_APPS = [
+    # 'rest_framework',
+    # 'drf_yasg',
+    # 'knox'
 ]
 
 INSTALLED_APPS = DJANGO_APPS + LOCAL_APPS + THIRD_APPS
@@ -143,5 +146,3 @@ AUTH_USER_MODEL = 'usuario.Usuario'
 
 LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = '/'
-
-

@@ -24,4 +24,10 @@ urlpatterns = [
     path('logout/', auth_views.logout_then_login, name="logout"),
     path('login/', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
 
+    # path('inicio', views.DashboardAdmin.as_view(), name='dashboard_admin'),
+    # path('login', views.login ,name="login"),
+    path('registrarme', views.registrar_usuario, name="registro_usuario"),
+    path('perfil', views.detalle_usuario, name="detalle_usuario"),
+    path('usuarios', views.lista_usuarios, name="lista_usuarios")
 ]
+
