@@ -4,11 +4,11 @@ from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 from apps.utils.mixins import AdminRequiredMixin
-from apps.usuario.forms import RegisterForm
+from apps.usuario.forms import RegisterForm, CambiarContraseñaForm
 from apps.usuario.models import Usuario
 from django.contrib import messages
 from django.contrib.auth import update_session_auth_hash
-from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth.views import PasswordChangeView
 from django.shortcuts import render, redirect
 
 
@@ -83,3 +83,9 @@ def change_password(request):
     return render(request, 'usuario/cambiar_contraseña.html', {
         'form': form
     })
+
+
+class CambiarContraseñaView(PasswordChangeView):
+    template_name = "usuario/cambiar_contraseña.html"
+    form_class = CambiarContraseñaForm
+    success_url = reverse_lazy('dashboard_admin')
