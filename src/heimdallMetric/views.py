@@ -16,13 +16,7 @@ from django.contrib.auth.views import PasswordChangeView
 from django.shortcuts import render, redirect
 
 
-<<<<<<< HEAD
-class DashboardAdmin(LoginRequiredMixin, AdminRequiredMixin, TemplateView):
-=======
-
-
-class DashboardAdmin(TemplateView):
->>>>>>> d5401eb0153f6ce56248473a70ace470bf1d901b
+class DashboardAdmin(LoginRequiredMixin,TemplateView):
     template_name = 'home.html'
 
     def get_context_data(self, **kwargs):
