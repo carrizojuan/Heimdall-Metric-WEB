@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 from tempfile import template
-=======
-
->>>>>>> d5401eb0153f6ce56248473a70ace470bf1d901b
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy
