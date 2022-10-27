@@ -12,7 +12,7 @@ from django.contrib.auth.views import PasswordChangeView
 from django.shortcuts import render, redirect
 
 
-class DashboardAdmin(LoginRequiredMixin,TemplateView):
+class DashboardAdmin(LoginRequiredMixin, TemplateView):
     template_name = 'home.html'
 
     def get_context_data(self, **kwargs):
@@ -27,7 +27,7 @@ class DashboardAdmin(LoginRequiredMixin,TemplateView):
 
 
 def registrar_usuario(request):
-    template_name = "usuario/sign-up.html"
+    template_name = "registrarse.html"
 
     if request.method == 'POST':
         form = RegisterForm(request.POST)
@@ -48,7 +48,7 @@ def registrar_usuario(request):
 def detalle_usuario(request):
     template_name = "usuario/detalle.html"
     usuario = request.user
-    #entidad_id = 
+    # entidad_id =
     ctx = {
         'nombre_apellido': usuario.get_full_name(),
         'nombre_usuario': usuario.nombre_usuario,
@@ -69,12 +69,10 @@ def lista_usuarios(request):
     return render(request, template_name, ctx)
 
 
-
 class CambiarContraseñaView(PasswordChangeView):
     template_name = "usuario/cambiar_contraseña.html"
     form_class = CambiarContraseñaForm
     success_url = reverse_lazy('dashboard_admin')
-
 
 
 class ResetPasswordView(FormView):
@@ -84,8 +82,7 @@ class ResetPasswordView(FormView):
 
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)
-    
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         return context
-    
