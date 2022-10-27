@@ -16,7 +16,7 @@ DATABASES = {
     }
 }
 
-""" INFLUXDB_URL = parser.get('influxdb', 'INFLUXDB_URL')
+INFLUXDB_URL = parser.get('influxdb', 'INFLUXDB_URL')
 INFLUXDB_DATABASE_NAME = parser.get('influxdb', 'INFLUXDB_DATABASE_NAME')
 
 # Optional
@@ -56,4 +56,4 @@ LOGGING = {
             'handlers': ['console', 'file']
         }
     }
-} """
+}

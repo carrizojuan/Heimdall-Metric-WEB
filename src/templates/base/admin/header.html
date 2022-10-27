@@ -32,15 +32,15 @@
               <a href="#" class="nav-link d-flex lh-1 text-reset p-0" data-bs-toggle="dropdown" aria-label="Open user menu">
                 <span class="avatar avatar-sm" style="background-image: url({% static 'avatars/000m.jpg' %})"></span>
                 <div class="d-none d-xl-block ps-2">
-                  <div>NOMBRE, APELLIDO</div>
-                  <div class="mt-1 small text-muted">EMPRESA,ROL</div>
+                  <div>{{ user.get_full_name }}</div>
+<!--                  <div class="mt-1 small text-muted">EMPRESA,ROL</div>-->
                 </div>
               </a>
               <div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
                 <a href="{% url 'detalle_usuario' %}" class="dropdown-item">Mi Perfil</a>
                 <div class="dropdown-divider"></div>
                 <a href="#" class="dropdown-item">Configuración</a>
-                <a href="#" class="dropdown-item">Logout</a>
+                <a href="{% url 'logout' %}" class="dropdown-item">Logout</a>
               </div>
             </div>
           </div>

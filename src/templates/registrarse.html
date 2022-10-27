@@ -1,19 +1,17 @@
 {% load static %}
+<!doctype html>
 
 <html lang="es">
   <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
     <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
-    <title>
-      Sign up - Tabler - Premium and Open Source dashboard template with responsive and high quality UI.
-    </title>
+    <title>Registrar - Heimdall Metrics</title>
     <!-- CSS files -->
-    
     <link href="{% static 'dist/css/tabler.min.css' %}" rel="stylesheet"/>
-    <link href="{% static 'dist/css/tabler-flags.min.css' %}"/>
+    <link href="{% static 'dist/css/tabler-flags.min.css' %}" rel="stylesheet"/>
     <link href="{% static 'dist/css/tabler-payments.min.css' %}" rel="stylesheet"/>
-    <link href="{% static 'dist/css/tabler-vendors.min.css' %}"/>
+    <link href="{% static 'dist/css/tabler-vendors.min.css' %}" rel="stylesheet"/>
     <link href="{% static 'dist/css/demo.min.css' %}" rel="stylesheet"/>
       {% block css_extra %}
       {% endblock css_extra %}
@@ -22,7 +20,8 @@
     <div class="page page-center">
       <div class="container-tight py-4">
         <div class="text-center mb-4">
-          <a href="." class="navbar-brand navbar-brand-autodark"><img src="./static/logo.svg" height="36" alt=""></a>
+          -logo-
+          <!--          <a href="." class="navbar-brand navbar-brand-autodark"><img src="./static/logo.svg" height="36" alt=""></a>-->
         </div>
         <form class="card card-md" action=" " method="POST">
           {% csrf_token %}
@@ -60,7 +59,7 @@
     </div>
     <!-- Libs JS -->
     <!-- Tabler Core -->
-    <script src="./dist/js/tabler.min.js"></script>
-    <script src="./dist/js/demo.min.js"></script>
+    <script src="{% static 'dist/js/tabler.min.js' %}"></script>
+    <script src="{% static 'dist/js/demo.min.js' %}"></script>
   </body>
 </html>

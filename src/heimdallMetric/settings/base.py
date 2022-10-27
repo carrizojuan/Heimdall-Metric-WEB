@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 import os
 import configparser
 from datetime import timedelta
+from django.urls import reverse_lazy
 
 from pathlib import Path
 
@@ -48,9 +49,9 @@ LOCAL_APPS = [
 ]
 
 THIRD_APPS = [
-    'rest_framework',
-    'drf_yasg',
-    'knox'
+    # 'rest_framework',
+    # 'drf_yasg',
+    # 'knox'
 ]
 
 INSTALLED_APPS = DJANGO_APPS + LOCAL_APPS + THIRD_APPS
@@ -141,9 +142,7 @@ parser.read(credentials_file)
 
 
 # modelo utilizado para autenticación (personalizado, no por defecto de Django)
-# AUTH_USER_MODEL = 'usuario.Usuario'
 AUTH_USER_MODEL = 'usuario.Usuario'
-
 
 # Django Rest-Framework
 REST_FRAMEWORK = {
@@ -165,4 +164,5 @@ REST_KNOX = {
   # 'EXPIRY_DATETIME_FORMAT': api_settings.DATETME_FORMAT,
 }
 
-LOGIN_URL = "login"
+LOGIN_URL = 'login'
+LOGIN_REDIRECT_URL = '/'

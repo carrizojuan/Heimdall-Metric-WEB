@@ -1,4 +1,4 @@
-
+from tempfile import template
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy
@@ -12,9 +12,7 @@ from django.contrib.auth.views import PasswordChangeView
 from django.shortcuts import render, redirect
 
 
-
-
-class DashboardAdmin(TemplateView):
+class DashboardAdmin(LoginRequiredMixin, AdminRequiredMixin, TemplateView):
     template_name = 'home.html'
 
     def get_context_data(self, **kwargs):
@@ -23,14 +21,14 @@ class DashboardAdmin(TemplateView):
         return context
 
 
-def login(request):
-    template_name = "usuario/sign-in.html"
-    return render(request, template_name)
+# def login(request):
+#     template_name = "usuario/sign-in.html"
+#     return render(request, template_name)
 
 
 def registrar_usuario(request):
     template_name = "usuario/sign-up.html"
-    
+
     if request.method == 'POST':
         form = RegisterForm(request.POST)
         if form.is_valid():
@@ -62,14 +60,14 @@ def detalle_usuario(request):
 @login_required
 def lista_usuarios(request):
     template_name = "usuario/lista_usuarios.html"
+
     usuarios = Usuario.objects.filter(is_active=True)
     ctx = {
-        'usuarios': usuarios
+        'usuarios': usuarios,
+        "sidebar_active": "usuarios"
     }
     return render(request, template_name, ctx)
-
-
-
+    
 class CambiarContraseñaView(PasswordChangeView):
     template_name = "usuario/cambiar_contraseña.html"
     form_class = CambiarContraseñaForm
@@ -88,4 +86,3 @@ class ResetPasswordView(FormView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         return context
-    
