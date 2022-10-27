@@ -25,8 +25,8 @@ class Entidad(models.Model):
 
 
 class Miembro(models.Model):
-    entidad = models.ForeignKey(Entidad, on_delete=models.CASCADE, related_name="miembro_entidad")
-    usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE, related_name="miembro_usuario")
+    entidad = models.ForeignKey(Entidad, on_delete=models.CASCADE)
+    usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
     fecha_asignacion = models.DateTimeField(auto_now_add=True, verbose_name=_("fecha de asignación"), help_text=_(
         "fecha de asignación del miembro a entidad"))
     activo = models.BooleanField(default=False,verbose_name=_("activo"), help_text=_(

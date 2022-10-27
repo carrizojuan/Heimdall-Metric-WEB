@@ -1,8 +1,11 @@
+from cProfile import label
 from pydoc import plain
+from pyexpat import model
 from django import forms
 from django.contrib.admin.widgets import FilteredSelectMultiple
 from django.contrib.auth.models import Permission, Group
 from django.core.exceptions import ValidationError
+from django.contrib.auth.forms import PasswordChangeForm
 
 
 from .models import Usuario
@@ -114,3 +117,22 @@ class RegisterForm(forms.ModelForm):
         fields = ["nombre_usuario", "email", "nombres", "apellidos","password"]
 
 
+
+class CambiarContraseñaForm(PasswordChangeForm):
+    old_password = forms.CharField(required=True, label="Antigua contraseña",
+                                    widget=forms.PasswordInput(attrs={'class': 'form-group mb-3 form-control', 
+                                    'placeholder': "Ingresar actual contraseña", 'type': 'password'}))
+    new_password1 = forms.CharField(required=True, label="Nueva contraseña",
+                                    widget=forms.PasswordInput(attrs={'class': 'form-group mb-3 form-control', 
+                                    'placeholder': "Ingresar actual contraseña", 'type': 'password'}))
+    new_password2 = forms.CharField(required=True, label="Confirmacion nueva contraseña",
+                                    widget=forms.PasswordInput(attrs={'class': 'form-group mb-3 form-control', 
+                                    'placeholder': "Ingresar actual contraseña", 'type': 'password'}))
+    
+    class Meta:
+        model = Usuario
+        fields = ['old_password', 'new_password1', 'new_password2']
+    
+class ResetPasswordForm(forms.Form):
+    email = forms.EmailField(required=True, label="Direccion de correo electronico", widget=forms.EmailInput(attrs={'class': 'form-label form-control'}
+    ))

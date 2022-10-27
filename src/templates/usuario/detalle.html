@@ -1,3 +1,4 @@
+
 {% extends "base/admin/base.html" %}
 
 {% block categoria_name %}USUARIO{% endblock categoria_name %}
@@ -5,19 +6,68 @@
 
 
 {% block content %}
+
+
+
 <div class="card">
+
 	<div class="card-body">
-		<div class="card-title">Informacion Basica</div>
-		<div class="mb-2">			
-			Nombre y apellido: <strong>{{nombre_apellido}}</strong>
+		<h2 class="mb-4">Mi Perfil</h2>
+		<h3 class="card-title">Perfil</h3>
+		<div class="row align-items-center">
+		  <div class="col-auto"><span class="avatar avatar-xl" style="background-image: url(./static/avatars/000m.jpg)"></span>
+		  </div>
+		  <div class="col-auto"><a href="#" class="btn">
+			  Cambiar avatar
+			</a></div>
+		  <div class="col-auto"><a href="#" class="btn btn-ghost-danger">
+			  Eliminar avatar
+			</a></div>
 		</div>
-		<div class="mb-2">			
-			Correo electronico: <strong>{{correo_electronico}}</strong>
+		<h3 class="card-title mt-4">Perfil de Organizacion</h3>
+		<div class="row g-3">
+		  <div class="col-md">
+			<div class="form-label">Nombre Organizacion</div>
+			<input type="text" class="form-control" value="Tabler">
+		  </div>
+		  <div class="col-md">
+			<div class="form-label">ID Organizacion</div>
+			<input type="text" class="form-control" value="560afc32">
+		  </div>
+		  <div class="col-md">
+			<div class="form-label">Ubicacion</div>
+			<input type="text" class="form-control" value="Peimei, China">
+		  </div>
 		</div>
-		<div class="mb-2">
-			Nombre de usuario: <strong>{{nombre_usuario}}</strong>
+		<h3 class="card-title mt-4">Email</h3>
+		
+		<div>
+		  <div class="row g-2">
+			<div class="col-auto">
+			  <input type="text" class="form-control w-auto" value="{{email}}">
+			</div>
+			<div class="col-auto"><a href="#" class="btn">
+				Cambiar
+			  </a></div>
+		  </div>
+		</div>
+		<h3 class="card-title mt-4">Contraseña</h3>
+		<div>
+		  <a href="{% url 'change_password' %}" class="btn">
+			Cambiar contraseña
+		  </a>
 		</div>
 	</div>
+	<div class="card-footer bg-transparent mt-auto">
+		<div class="btn-list justify-content-end">
+		  <a href="#" class="btn">
+			Cancelar
+		  </a>
+		  <a href="#" class="btn btn-primary">
+			Enviar
+		  </a>
+		</div>
+	  </div>
 </div>
 
 

@@ -1,4 +1,4 @@
-# Heimdall-Metric - API
+# Heimdall-Metric - web
 
 Plataforma de telemedición
 
@@ -25,26 +25,6 @@ Para hacerlo en un SO Linux: https://www.digitalocean.com/community/tutorials/ho
 
 https://linuxhint.com/postgresql_installation_guide_ubuntu_20-04/
 
-#### Instalando django knox
-
-Fuente: https://james1345.github.io/django-rest-knox/installation/
-
-Para Debian y Ubuntu:
-
-```sh
-sudo apt-get install build-essential
-sudo apt-get install python3 python-dev python3-dev \
-   build-essential libssl-dev libffi-dev \
-   libxml2-dev libxslt1-dev zlib1g-dev \
-   python-pip
-```
-
-Si se obtiene un error `error: command 'x86_64-linux-gnu-gcc'` correr los siguientes comandos:
-
-```sh
-sudo apt-get install python-dev
-sudo apt-get install libpq-dev python-dev libxml2-dev libxslt1-dev libldap2-dev libsasl2-dev libffi-dev
-```
 
 ### Instalación
 

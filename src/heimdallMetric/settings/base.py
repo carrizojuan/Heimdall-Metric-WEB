@@ -43,7 +43,7 @@ DJANGO_APPS = [
 LOCAL_APPS = [
     'apps.usuario',
     # 'apps.registro',
-    # 'apps.entidad',
+    'apps.entidad',
     # 'apps.equipo',
     # 'apps.medidor'
 ]

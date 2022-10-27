@@ -1,15 +1,28 @@
+<<<<<<< HEAD
 from tempfile import template
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import TemplateView
-from django.views.generic.edit import FormView
-from apps.utils.mixins import AdminRequiredMixin
-from apps.usuario.forms import RegisterForm
-from apps.usuario.models import Usuario
+=======
 
+>>>>>>> d5401eb0153f6ce56248473a70ace470bf1d901b
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
+from django.urls import reverse_lazy
+from django.views.generic import TemplateView, FormView
+from apps.utils.mixins import AdminRequiredMixin
+from apps.usuario.forms import RegisterForm, CambiarContraseñaForm, ResetPasswordForm
+from apps.usuario.models import Usuario
+from django.contrib import messages
+from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth.views import PasswordChangeView
 from django.shortcuts import render, redirect
 
 
+<<<<<<< HEAD
 class DashboardAdmin(LoginRequiredMixin, AdminRequiredMixin, TemplateView):
+=======
+
+
+class DashboardAdmin(TemplateView):
+>>>>>>> d5401eb0153f6ce56248473a70ace470bf1d901b
     template_name = 'home.html'
 
     def get_context_data(self, **kwargs):
@@ -45,14 +58,16 @@ def registrar_usuario(request):
 def detalle_usuario(request):
     template_name = "usuario/detalle.html"
     usuario = request.user
+    #entidad_id = 
     ctx = {
         'nombre_apellido': usuario.get_full_name(),
         'nombre_usuario': usuario.nombre_usuario,
-        'correo_electronico': usuario.email
+        'email': usuario.email
     }
     return render(request, template_name, ctx)
 
 
+@login_required
 def lista_usuarios(request):
     template_name = "usuario/lista_usuarios.html"
 
@@ -62,3 +77,25 @@ def lista_usuarios(request):
         "sidebar_active": "usuarios"
     }
     return render(request, template_name, ctx)
+
+
+
+class CambiarContraseñaView(PasswordChangeView):
+    template_name = "usuario/cambiar_contraseña.html"
+    form_class = CambiarContraseñaForm
+    success_url = reverse_lazy('dashboard_admin')
+
+
+
+class ResetPasswordView(FormView):
+    form_class = ResetPasswordForm
+    template_name = 'usuario/forgot-password.html'
+    success_url = reverse_lazy('login')
+
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
+    
