@@ -91,7 +91,7 @@ class ResetPasswordView(FormView):
 
 
 def password_reset_request(request):
-    template_name = "usuario/password_reset.html"
+    template_name = "usuario/reset_pass/password_reset.html"
     if request.method == "POST":
         password_reset_form = ResetPasswordForm(request.POST)
         if password_reset_form.is_valid():
@@ -101,7 +101,7 @@ def password_reset_request(request):
             print(usuario)
             if usuario:
                 subject = "Password Reset Requested"
-                email_template_name = "usuario/password_reset_email.txt"
+                email_template_name = "usuario/reset_pass/password_reset_email.txt"
                 c = {
                     "email": usuario.email,
                     "domain": "127.0.0.1:8000",

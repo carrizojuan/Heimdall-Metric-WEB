@@ -34,6 +34,46 @@
                   </span>
                 </a>
               </li>
+              <li class="nav-item {% if sidebar_active == 'usuarios' %}active{% endif %}" >
+                <a class="nav-link" href="{% url 'usuarios_activos' %}" >
+                  <span class="nav-link-icon d-md-none d-lg-inline-block">
+                    <i class="bi bi-people"></i>
+                  </span>
+                  <span class="nav-link-title">
+                    Usuarios Activos
+                  </span>
+                </a>
+              </li>
+              <li class="nav-item {% if sidebar_active == 'usuarios' %}active{% endif %}" >
+                <a class="nav-link" href="{% url 'usuarios_inactivos' %}" >
+                  <span class="nav-link-icon d-md-none d-lg-inline-block">
+                    <i class="bi bi-people"></i>
+                  </span>
+                  <span class="nav-link-title">
+                    Usuarios Inactivos
+                  </span>
+                </a>
+              </li>
+              <li class="nav-item {% if sidebar_active == 'usuarios' %}active{% endif %}" >
+                <a class="nav-link" href="{% url 'usuarios_administradores' %}" >
+                  <span class="nav-link-icon d-md-none d-lg-inline-block">
+                    <i class="bi bi-people"></i>
+                  </span>
+                  <span class="nav-link-title">
+                    Usuarios Administrador
+                  </span>
+                </a>
+              </li>
+              <li class="nav-item {% if sidebar_active == 'usuarios' %}active{% endif %}" >
+                <a class="nav-link" href="{% url 'usuarios_monitores' %}" >
+                  <span class="nav-link-icon d-md-none d-lg-inline-block">
+                    <i class="bi bi-people"></i>
+                  </span>
+                  <span class="nav-link-title">
+                    Usuarios Monitor
+                  </span>
+                </a>
+              </li>
               {% endif %}
             </ul>
           </div>

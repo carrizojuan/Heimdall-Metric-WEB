@@ -35,9 +35,9 @@ urlpatterns = [
     #RESETEO DE CONTRASEÑA
 
     path('reset_password', views.password_reset_request, name="password_reset"),
-    path('reset_password_sent', views.PasswordResetDoneView.as_view(template_name = "usuario/password_reset_sent.html"), name="password_reset_sent"),
-    path('reset/<uidb64>/<token>/', views.PasswordResetConfirmView.as_view(template_name = "usuario/password_reset_form.html"), name="password_reset_confirm"),
-    path('reset_password_complete', views.PasswordResetCompleteView.as_view(template_name = "usuario/password_reset_done.html"), name="password_reset_complete"),
+    path('reset_password_sent', views.PasswordResetDoneView.as_view(template_name = "usuario/reset_pass/password_reset_sent.html"), name="password_reset_sent"),
+    path('reset/<uidb64>/<token>/', views.PasswordResetConfirmView.as_view(template_name = "usuario/reset_pass/password_reset_form.html"), name="password_reset_confirm"),
+    path('reset_password_complete', views.PasswordResetCompleteView.as_view(template_name = "usuario/reset_pass/password_reset_done.html"), name="password_reset_complete"),
 
     #USUARIOS 
     path('perfil', views.detalle_usuario, name="detalle_usuario"),
