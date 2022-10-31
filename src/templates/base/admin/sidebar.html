@@ -23,8 +23,9 @@
                   
                 </a>
               </li>
+              {% if request.user.is_staff %}
               <li class="nav-item {% if sidebar_active == 'usuarios' %}active{% endif %}" >
-                <a class="nav-link" href="{% url 'lista_usuarios' %}" >
+                <a class="nav-link" href="{% url 'usuarios' %}" >
                   <span class="nav-link-icon d-md-none d-lg-inline-block">
                     <i class="bi bi-people"></i>
                   </span>
@@ -33,6 +34,7 @@
                   </span>
                 </a>
               </li>
+              {% endif %}
             </ul>
           </div>
         </div>
