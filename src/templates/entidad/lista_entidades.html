@@ -2,6 +2,15 @@
 
 {% block categoria_name %}ENTIDAD{% endblock categoria_name %}
 {% block title_name %}Todas las Entidades{% endblock title_name %}
+{% block items_menu %}
+    <div class="btn-list">
+      <a href="{% url 'entidad:nueva_entidad' %}" class="btn btn-primary d-none d-sm-inline-block" >
+        <i class="bi bi-plus"></i>
+        Nueva Entidad
+      </a>
+
+    </div>
+{% endblock items_menu %}
 
 {% block content %}
 
