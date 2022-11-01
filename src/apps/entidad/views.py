@@ -9,6 +9,7 @@ from apps.utils.mixins import AdminRequiredMixin
 # from django.contrib.auth import update_session_auth_hash
 from django.views.generic.edit import CreateView
 from django.views.generic.detail import DetailView
+from django.views.generic.edit import UpdateView
 from django.shortcuts import render, redirect
 from .models import Entidad, Miembro
 from .forms import RegisterEntidadForm
@@ -53,3 +54,22 @@ class DetalleEntidadView(LoginRequiredMixin, AdminRequiredMixin, DetailView):
         print(ctx)
         ctx['sidebar_active'] = 'entidad'
         return ctx
+
+
+class ActualizarEntidadView(LoginRequiredMixin, AdminRequiredMixin, UpdateView):
+    model = Entidad
+    template_name = 'entidad/editar_entidad.html'
+    form_class = RegisterEntidadForm
+
+    def get_context_data(self, **kwargs):
+        context = super(ActualizarEntidadView, self).get_context_data(**kwargs)
+        context['sidebar_active'] = 'entidad'
+        print(context)
+        return context
+
+    def get_success_url(self, **kwargs):
+        return reverse('entidad:lista_entidades', args=[])
+
+    def get_form_kwargs(self):
+        kwargs = super(ActualizarEntidadView, self).get_form_kwargs()
+        return kwargs
