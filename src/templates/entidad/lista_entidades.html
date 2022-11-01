@@ -45,7 +45,7 @@
                 <td>
                 <a href="{% url 'entidad:detalle_entidad' entidad.pk %}">Detalle</a>
                 <a href="{% url 'entidad:modificar_entidad' entidad.pk %}">Editar</a>
-                <a href="#">Eliminar</a>
+                <a href="{% url 'entidad:eliminar_entidad' entidad.pk %}">Eliminar</a>
                 </td>
             </tr>
             {% empty %}

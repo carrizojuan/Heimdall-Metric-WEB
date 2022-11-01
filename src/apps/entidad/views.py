@@ -1,15 +1,14 @@
 # from tempfile import template
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
-from django.urls import reverse
-# from django.urls import reverse_lazy
+from django.urls import reverse, reverse_lazy
 # from django.views.generic import TemplateView, FormView
 from apps.utils.mixins import AdminRequiredMixin
 # from django.contrib import messages
 # from django.contrib.auth import update_session_auth_hash
 from django.views.generic.edit import CreateView
 from django.views.generic.detail import DetailView
-from django.views.generic.edit import UpdateView
+from django.views.generic.edit import UpdateView, DeleteView
 from django.shortcuts import render, redirect
 from .models import Entidad, Miembro
 from .forms import RegisterEntidadForm
@@ -73,3 +72,16 @@ class ActualizarEntidadView(LoginRequiredMixin, AdminRequiredMixin, UpdateView):
     def get_form_kwargs(self):
         kwargs = super(ActualizarEntidadView, self).get_form_kwargs()
         return kwargs
+
+
+class EliminarEntidadView(DeleteView):
+    model = Entidad
+    success_url = reverse_lazy('entidad:lista_entidades')
+    template_name = 'entidad/eliminar_entidad.html'
+
+    def get_context_data(self, **kwargs):
+        ctx = super(EliminarEntidadView, self).get_context_data(**kwargs)
+        # print(self.object)
+        ctx['form'] = RegisterEntidadForm(instance=self.object)
+        ctx['sidebar_active'] = 'entidad'
+        return ctx
