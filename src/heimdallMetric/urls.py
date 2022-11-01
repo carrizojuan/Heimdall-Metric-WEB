@@ -21,18 +21,38 @@ from . import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.DashboardAdmin.as_view(), name='dashboard_admin'),
+
+    #AUTENTICACION USUARIO
+
     path('logout/', auth_views.logout_then_login, name="logout"),
     path('login/', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
-
-    # path('inicio', views.DashboardAdmin.as_view(), name='dashboard_admin'),
-    # path('login', views.login ,name="login"),
     path('registrarme', views.registrar_usuario, name="registro_usuario"),
-    path('perfil', views.detalle_usuario, name="detalle_usuario"),
-    path('usuarios', views.lista_usuarios, name="lista_usuarios"),
+
+    #CAMBIO CONTRASEÑA
+
     path('cambiar-contraseña', views.CambiarContraseñaView.as_view(), name='change_password'),
     path('restablecer-contraseña', views.ResetPasswordView.as_view(), name="restablecer_contraseña"),
 
     path('Entidad/', include('apps.entidad.urls')),
     path('Miembro/', include('apps.entidad.url_miembros')),
+
+    #RESETEO DE CONTRASEÑA
+
+    path('reset_password', views.password_reset_request, name="password_reset"),
+    path('reset_password_sent', views.PasswordResetDoneView.as_view(template_name = "usuario/reset_pass/password_reset_sent.html"), name="password_reset_sent"),
+    path('reset/<uidb64>/<token>/', views.PasswordResetConfirmView.as_view(template_name = "usuario/reset_pass/password_reset_form.html"), name="password_reset_confirm"),
+    path('reset_password_complete', views.PasswordResetCompleteView.as_view(template_name = "usuario/reset_pass/password_reset_done.html"), name="password_reset_complete"),
+
+    #USUARIOS 
+    path('perfil', views.detalle_usuario, name="detalle_usuario"),
+    path('usuarios', views.UsuarioListView.as_view(), name="usuarios"),
+    path('usuarios/activos', views.UsuarioActivosListView.as_view(), name="usuarios_activos"),
+    path('usuarios/inactivos', views.UsuarioInactivosListView.as_view(), name="usuarios_inactivos"),
+    path('usuarios/administradores', views.UsuarioAdministradorListView.as_view(), name="usuarios_administradores"),
+    path('usuarios/monitores', views.UsuarioMonitorListView.as_view(), name="usuarios_monitores"),
+
+
 ]
+
+
 

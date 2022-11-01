@@ -1,0 +1,51 @@
+{% extends "base/admin/base.html" %}
+
+{% block categoria_name %}USUARIOS{% endblock categoria_name %}
+{% block title_name %}ACTIVOS{% endblock title_name %}
+
+{% block content %}
+
+
+<div style="position: relative;">
+    <div class="card">
+        <div class="table-responsive">
+        <table class="table table-vcenter card-table">
+            <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Nombre de Usuario</th>
+                <th>Email</th>
+                <th>Rol</th>
+                <th class="w-1"></th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for user in object_list %}
+            <tr>
+                <td>{{user.apellidos}} {{user.nombres}}</td>
+                <td class="text-muted">
+                {{user.nombre_usuario}}
+                </td>
+                <td class="text-muted"><a href="#" class="text-reset">{{user.email}}</a></td>
+                <td class="text-muted">
+                {% if user.is_staff %}
+                Administrador
+                {% else %}
+                Monitor
+                {% endif %}
+                </td>
+                <td>
+                <a href="#">Editar</a>
+                </td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        </div>
+        
+    </div>
+</div>
+
+
+
+{% endblock content %}

@@ -25,4 +25,6 @@ pydock/.envz
 # Docker env file
 .env
 
+.conf
+
 src/heimdallMetric/settings/credentials/*.conf
