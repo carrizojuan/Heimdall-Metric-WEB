@@ -11,7 +11,7 @@ from django.views.generic.detail import DetailView
 from django.views.generic.edit import UpdateView, DeleteView
 from django.shortcuts import render, redirect
 from .models import Entidad, Miembro
-from .forms import RegisterEntidadForm
+from .forms import RegisterEntidadForm, RegisterMiembroForm
 
 
 @login_required
@@ -50,11 +50,11 @@ class DetalleEntidadView(LoginRequiredMixin, AdminRequiredMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         ctx = super(DetalleEntidadView, self).get_context_data(**kwargs)
-        print(ctx)
+        # print(ctx)
         ctx['sidebar_active'] = 'entidades'
-        print(kwargs.get("object").pk)
+        # print(kwargs.get("object").pk)
         miembros = Miembro.objects.filter(entidad=kwargs.get("object").pk)
-        print(miembros)
+        # print(miembros)
         ctx['miembros'] = miembros
         return ctx
 
@@ -88,4 +88,40 @@ class EliminarEntidadView(DeleteView):
         # print(self.object)
         ctx['form'] = RegisterEntidadForm(instance=self.object)
         ctx['sidebar_active'] = 'entidad'
+        return ctx
+
+
+
+
+
+class CrearMiembroView(LoginRequiredMixin, AdminRequiredMixin, CreateView):
+    model = Miembro
+    template_name = 'entidad/nuevo_miembro.html'
+    form_class = RegisterMiembroForm
+
+    def get_success_url(self, **kwargs):
+        print(kwargs)
+        return reverse('entidad:detalle_entidad', args=[{'pk': kwargs.get("object").pk}])
+
+    def form_valid(self, form):
+        f = form.save(commit=True)
+        return super(CrearMiembroView, self).form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super(CrearMiembroView, self).get_context_data(**kwargs)
+        return context
+
+
+
+
+class EliminarMiembroView(DeleteView):
+    model = Miembro
+    success_url = reverse_lazy('entidad:lista_entidades')
+    template_name = 'entidad/eliminar_miembro.html'
+
+    def get_context_data(self, **kwargs):
+        ctx = super(EliminarMiembroView, self).get_context_data(**kwargs)
+        # print(self.object)
+        # ctx['form'] = RegisterMiembroForm(instance=self.object)
+        ctx['sidebar_active'] = 'entidades'
         return ctx

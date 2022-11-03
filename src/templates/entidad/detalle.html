@@ -44,6 +44,19 @@
                   <div class="card-body">
                         <div class="card-header">
                                 <h3 class="card-title">Miembros</h3>
+                          <div class="col-auto ms-auto d-print-none">
+                            <div class="btn-list">
+                              <span class="d-none d-sm-inline">
+                                  <a href="{% url 'miembro:nuevo_miembro' entidad.pk %}" class="btn btn-primary d-none d-sm-inline-block" >
+                                    <i class="bi bi-plus"></i>
+                                    Nuevo Miembro
+                                  </a>
+
+                              </span>
+                            </div>
+                          </div>
+
+
                         </div>
                             <div class="card-body">
                                 <div class="table-responsive">
@@ -75,7 +88,7 @@
                                         <td>
                                         <a href="#">Detalle</a>
                                         <a href="#">Editar</a>
-                                        <a href="#">Eliminar</a>
+                                        <a href="{% url 'miembro:eliminar_miembro' miembro.pk %}">Eliminar</a>
                                         </td>
                                     </tr>
                                     {% empty %}
