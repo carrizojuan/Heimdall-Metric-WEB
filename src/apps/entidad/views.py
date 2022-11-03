@@ -51,7 +51,11 @@ class DetalleEntidadView(LoginRequiredMixin, AdminRequiredMixin, DetailView):
     def get_context_data(self, **kwargs):
         ctx = super(DetalleEntidadView, self).get_context_data(**kwargs)
         print(ctx)
-        ctx['sidebar_active'] = 'entidad'
+        ctx['sidebar_active'] = 'entidades'
+        print(kwargs.get("object").pk)
+        miembros = Miembro.objects.filter(entidad=kwargs.get("object").pk)
+        print(miembros)
+        ctx['miembros'] = miembros
         return ctx
 
 

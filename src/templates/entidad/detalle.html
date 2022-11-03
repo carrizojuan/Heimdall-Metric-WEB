@@ -1,38 +1,101 @@
 {% extends "base/admin/base.html" %}
 
 {% block content %}
+         <div class="container-xl">
+            <div class="row row-cards">
+              <div class="col-lg-4">
+                <div class="card card-lg">
+                  <div class="card-body">
+                          <div class="card-header">
+                                <h3 class="card-title">Detalle Entidad</h3>
+                            </div>
+                            <div class="card-body">
+                                <form method="post">
+                                    {% csrf_token %}
+                                    <div class="mb-3">
+                                      <label class="form-label">Nombre</label>
+                                      <input type="text" id="id_nombre" class="form-control" name="example-text-input" placeholder="{{entidad.nombre}}" readonly="">
+                                    </div>
+                                  <div class="mb-3">
+                                    <div>
+                                      <label class="form-check">
+                                        <input class="form-check-input" id="id_is_active" type="checkbox" {% if entidad.is_active == True %}checked {% endif %} disabled>
+                                        <span class="form-check-label">¿Activo?</span>
+                                      </label>
+                                    </div>
+                                  </div>
 
-<div class="card">
-    <div class="card-header">
-        <h3 class="card-title">Detalle Entidad</h3>
-    </div>
-    <div class="card-body">
-        <form method="post">
-            {% csrf_token %}
-            <div class="mb-3">
-              <label class="form-label">Nombre</label>
-              <input type="text" id="id_nombre" class="form-control" name="example-text-input" placeholder="{{entidad.nombre}}" readonly="">
+
+                                    <a href="{% url 'entidad:lista_entidades' %}" class="btn">
+                                    Cancelar
+                                  </a>
+                                    <a href="{% url 'entidad:modificar_entidad' entidad.pk %}" class="btn  btn-primary">
+                                    Modificar
+                                  </a>
+
+                                </form>
+                            </div>
+                  </div>
+                </div>
+              </div>
+
+                <div class="col-lg-8">
+                <div class="card card-lg">
+                  <div class="card-body">
+                        <div class="card-header">
+                                <h3 class="card-title">Miembros</h3>
+                        </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                <table class="table table-vcenter card-table">
+                                    <thead>
+                                    <tr>
+                                        <th>Nombre</th>
+                                        <th>Nombre de Usuario</th>
+                                        <th>Email</th>
+                                        <th>Rol</th>
+                                        <th class="w-1">Opciones</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for miembro in miembros %}
+                                    <tr>
+                                        <td>{{miembro.usuario.apellidos}} {{miembro.usuario.nombres}}</td>
+                                        <td class="text-muted">
+                                        {{miembro.usuario.nombre_usuario}}
+                                        </td>
+                                        <td class="text-muted"><a href="#" class="text-reset">{{miembro.usuario.email}}</a></td>
+                                        <td class="text-muted">
+                                            {% if miembro.rol == 1 %}
+                                            Administrador
+                                            {% else %}
+                                            Monitor
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                        <a href="#">Detalle</a>
+                                        <a href="#">Editar</a>
+                                        <a href="#">Eliminar</a>
+                                        </td>
+                                    </tr>
+                                    {% empty %}
+                                    <tr>
+                                        <td>No se encontraron resultados</td>
+                                    </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+
+
+
+                            </div>
+                  </div>
+                </div>
+              </div>
+
             </div>
-          <div class="mb-3">
-            <div>
-              <label class="form-check">
-                <input class="form-check-input" id="id_is_active" type="checkbox" {% if entidad.is_active == True %}checked {% endif %} disabled>
-                <span class="form-check-label">¿Activo?</span>
-              </label>
-            </div>
-          </div>
 
-
-            <a href="{% url 'entidad:lista_entidades' %}" class="btn">
-			Cancelar
-		  </a>
-            <a href="{% url 'entidad:modificar_entidad' entidad.pk %}" class="btn  btn-primary">
-			Modificar
-		  </a>
-
-        </form>
-    </div>
-</div>
+         </div>
 
 
 {% endblock content %}
