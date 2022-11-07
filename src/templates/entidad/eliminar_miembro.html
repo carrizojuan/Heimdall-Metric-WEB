@@ -9,7 +9,7 @@
     <div class="card-body">
         <form method="post">
             {% csrf_token %}
-            completar con form al hacer detalle y modificar miembro
+            {{form.as_p}}
             <a href="{% url 'entidad:lista_entidades' %}" class="btn">
 			Cancelar
 		  </a>

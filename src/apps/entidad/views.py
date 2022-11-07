@@ -131,6 +131,9 @@ class EliminarMiembroView(DeleteView):
     def get_context_data(self, **kwargs):
         ctx = super(EliminarMiembroView, self).get_context_data(**kwargs)
         # print(self.object)
-        # ctx['form'] = RegisterMiembroForm(instance=self.object)
+        ctx['form'] = RegisterMiembroForm(instance=self.object)
+        ctx['form'].fields["usuario"].widget.attrs["disabled"] = True
+        ctx['form'].fields["rol"].widget.attrs["disabled"] = True
+        ctx['form'].fields["activo"].widget.attrs["disabled"] = True
         ctx['sidebar_active'] = 'entidades'
         return ctx
