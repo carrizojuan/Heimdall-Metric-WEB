@@ -92,9 +92,6 @@ class EliminarEntidadView(DeleteView):
         return ctx
 
 
-
-
-
 class CrearMiembroView(LoginRequiredMixin, AdminRequiredMixin, CreateView):
     model = Miembro
     template_name = 'entidad/nuevo_miembro.html'
@@ -121,8 +118,6 @@ class CrearMiembroView(LoginRequiredMixin, AdminRequiredMixin, CreateView):
         return context
 
 
-
-
 class EliminarMiembroView(DeleteView):
     model = Miembro
     success_url = reverse_lazy('entidad:lista_entidades')
@@ -137,3 +132,26 @@ class EliminarMiembroView(DeleteView):
         ctx['form'].fields["activo"].widget.attrs["disabled"] = True
         ctx['sidebar_active'] = 'entidades'
         return ctx
+
+
+class ActualizarMiembroView(LoginRequiredMixin, AdminRequiredMixin, UpdateView):
+    model = Miembro
+    template_name = 'entidad/editar_miembro.html'
+    form_class = RegisterMiembroForm
+
+    def get_context_data(self, **kwargs):
+        context = super(ActualizarMiembroView, self).get_context_data(**kwargs)
+        context["miembro"] = self.kwargs["pk"]
+        miembro = Miembro.objects.get(pk=self.kwargs["pk"])
+        entidad = Entidad.objects.get(id=miembro.entidad.pk)
+        context["entidad"] = entidad
+        context['form'].fields["usuario"].widget.attrs["readonly"] = True
+        return context
+
+    def get_success_url(self, **kwargs):
+        miembro = Miembro.objects.get(pk=self.kwargs["pk"])
+        return reverse('entidad:detalle_entidad', kwargs={'pk': miembro.entidad.pk})
+
+    def get_form_kwargs(self):
+        kwargs = super(ActualizarMiembroView, self).get_form_kwargs()
+        return kwargs
