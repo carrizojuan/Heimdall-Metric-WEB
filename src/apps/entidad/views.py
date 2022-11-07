@@ -11,6 +11,7 @@ from django.views.generic.detail import DetailView
 from django.views.generic.edit import UpdateView, DeleteView
 from django.shortcuts import render, redirect
 from .models import Entidad, Miembro
+from apps.usuario.models import Usuario
 from .forms import RegisterEntidadForm, RegisterMiembroForm
 
 
@@ -100,15 +101,23 @@ class CrearMiembroView(LoginRequiredMixin, AdminRequiredMixin, CreateView):
     form_class = RegisterMiembroForm
 
     def get_success_url(self, **kwargs):
-        print(kwargs)
-        return reverse('entidad:detalle_entidad', args=[{'pk': kwargs.get("object").pk}])
+        return reverse('entidad:detalle_entidad', kwargs={'pk': self.kwargs.get("pk")})
 
     def form_valid(self, form):
-        f = form.save(commit=True)
+        f = form.save(commit=False)
+        # print(form)
+        f.entidad = Entidad.objects.get(id=self.kwargs["pk"])
         return super(CrearMiembroView, self).form_valid(form)
 
     def get_context_data(self, **kwargs):
         context = super(CrearMiembroView, self).get_context_data(**kwargs)
+        context["entidad"] = self.kwargs["pk"]
+        entidades = Entidad.objects.filter(id=self.kwargs["pk"])
+        # print(entidades)
+        miembros_entidad = Miembro.objects.filter(entidad=self.kwargs["pk"]).values('usuario__pk')
+        # print(miembros_entidad)
+        context["form"].fields["usuario"].queryset = Usuario.objects.exclude(pk__in=miembros_entidad)
+        # print(context)
         return context
 
 

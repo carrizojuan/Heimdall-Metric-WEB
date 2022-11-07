@@ -9,12 +9,9 @@
     <div class="card-body">
         <form method="post">
             {% csrf_token %}
-<!--            {{form.as_p}}-->
-            nombre entidad
-            listado usuarios a agregar
-            Rol
+            {{form.as_p}}
 
-            <a href="{% url 'entidad:detalle_entidad' entidad.pk %}" class="btn">
+            <a href="{% url 'entidad:detalle_entidad' entidad %}" class="btn">
 			Cancelar
 		  </a>
             <button type="submit" class="btn btn-primary">Guardar</button>
