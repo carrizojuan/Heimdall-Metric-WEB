@@ -42,3 +42,49 @@ class CrearTipoGatewayView(LoginRequiredMixin, AdminRequiredMixin, CreateView):
     def get_context_data(self, **kwargs):
         context = super(CrearTipoGatewayView, self).get_context_data(**kwargs)
         return context
+
+
+class DetalleTipoGatewayView(LoginRequiredMixin, AdminRequiredMixin, DetailView):
+    model = TipoGateway
+    template_name = 'tipo_gateway/detalle.html'
+    context_object_name = 'tipo_gateway'
+
+    def get_context_data(self, **kwargs):
+        ctx = super(DetalleTipoGatewayView, self).get_context_data(**kwargs)
+        # print(ctx)
+        ctx['sidebar_active'] = 'tipo_gateway'
+        return ctx
+
+
+class ActualizarTipoGatewayView(LoginRequiredMixin, AdminRequiredMixin, UpdateView):
+    model = TipoGateway
+    template_name = 'tipo_gateway/editar_tipo_gateway.html'
+    form_class = RegisterTipoGatewayForm
+    context_object_name = 'tipo_gateway'
+
+    def get_context_data(self, **kwargs):
+        context = super(ActualizarTipoGatewayView, self).get_context_data(**kwargs)
+        context['sidebar_active'] = 'tipo_gateway'
+        # print(context)
+        return context
+
+    def get_success_url(self, **kwargs):
+        return reverse('tipo_gateway:lista_tipogateway', args=[])
+
+    def get_form_kwargs(self):
+        kwargs = super(ActualizarTipoGatewayView, self).get_form_kwargs()
+        return kwargs
+
+
+class EliminarTipoGatewayView(DeleteView):
+    model = TipoGateway
+    success_url = reverse_lazy('tipo_gateway:lista_tipogateway')
+    template_name = 'tipo_gateway/eliminar_tipo_gateway.html'
+    context_object_name = 'tipo_gateway'
+
+    def get_context_data(self, **kwargs):
+        ctx = super(EliminarTipoGatewayView, self).get_context_data(**kwargs)
+        # print(self.object)
+        ctx['form'] = RegisterTipoGatewayForm(instance=self.object)
+        ctx['sidebar_active'] = 'tipo_gateway'
+        return ctx

@@ -31,9 +31,9 @@
             <tr>
                 <td>{{gateway.nombre}}</td>
                 <td>
-                <a href="">Detalle</a>
-                <a href="">Editar</a>
-                <a href="">Eliminar</a>
+                <a href="{% url 'tipo_gateway:detalle_tipo_gateway' gateway.pk %}">Detalle</a>
+                <a href="{% url 'tipo_gateway:modificar_tipo_gateway' gateway.pk %}">Editar</a>
+                <a href="{% url 'tipo_gateway:eliminar_tipo_gateway' gateway.pk %}">Eliminar</a>
                 </td>
             </tr>
             {% empty %}

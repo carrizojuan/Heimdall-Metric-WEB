@@ -62,7 +62,7 @@ class DetalleEntidadView(LoginRequiredMixin, AdminRequiredMixin, DetailView):
 
 class ActualizarEntidadView(LoginRequiredMixin, AdminRequiredMixin, UpdateView):
     model = Entidad
-    template_name = 'entidad/editar_entidad.html'
+    template_name = 'entidad/editar_tipo_gateway.html'
     form_class = RegisterEntidadForm
 
     def get_context_data(self, **kwargs):
@@ -82,7 +82,7 @@ class ActualizarEntidadView(LoginRequiredMixin, AdminRequiredMixin, UpdateView):
 class EliminarEntidadView(DeleteView):
     model = Entidad
     success_url = reverse_lazy('entidad:lista_entidades')
-    template_name = 'entidad/eliminar_entidad.html'
+    template_name = 'entidad/eliminar_tipo_gateway.html'
 
     def get_context_data(self, **kwargs):
         ctx = super(EliminarEntidadView, self).get_context_data(**kwargs)

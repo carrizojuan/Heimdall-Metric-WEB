@@ -1,0 +1,37 @@
+{% extends "base/admin/base.html" %}
+
+{% block content %}
+         <div class="container-xl">
+            <div class="row row-cards">
+              <div class="col-lg-4">
+                <div class="card card-lg">
+                  <div class="card-body">
+                          <div class="card-header">
+                                <h3 class="card-title">Detalle Tipo Gateway</h3>
+                            </div>
+                            <div class="card-body">
+                                <form method="post">
+                                    {% csrf_token %}
+                                    <div class="mb-3">
+                                      <label class="form-label">Nombre</label>
+                                      <input type="text" id="id_nombre" class="form-control" name="example-text-input" placeholder="{{tipo_gateway.nombre}}" readonly="">
+                                    </div>
+
+
+                                    <a href="{% url 'tipo_gateway:lista_tipogateway' %}" class="btn">
+                                    Cancelar
+                                  </a>
+                                    <a href="{% url 'tipo_gateway:modificar_tipo_gateway' tipo_gateway.pk %}" class="btn  btn-primary">
+                                    Modificar
+                                  </a>
+
+                                </form>
+                            </div>
+                  </div>
+                </div>
+              </div>
+         </div>
+
+
+{% endblock content %}
+
