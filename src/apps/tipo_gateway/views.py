@@ -12,7 +12,7 @@ from django.views.generic.list import ListView
 from django.views.generic.edit import UpdateView, DeleteView
 from django.shortcuts import render, redirect
 from .models import TipoGateway
-# from .forms import RegisterTipoGateway
+from .forms import RegisterTipoGatewayForm
 
 
 class TiposGatewayView(LoginRequiredMixin, AdminRequiredMixin, ListView):
@@ -25,3 +25,20 @@ class TiposGatewayView(LoginRequiredMixin, AdminRequiredMixin, ListView):
         ctx = super(TiposGatewayView, self).get_context_data(**kwargs)
         ctx['sidebar_active'] = 'tipo_gateway'
         return ctx
+
+
+class CrearTipoGatewayView(LoginRequiredMixin, AdminRequiredMixin, CreateView):
+    model = TipoGateway
+    template_name = 'tipo_gateway/nuevo_tipo_gateway.html'
+    form_class = RegisterTipoGatewayForm
+
+    def get_success_url(self, **kwargs):
+        return reverse('tipo_gateway:lista_tipogateway', args=[])
+
+    def form_valid(self, form):
+        f = form.save(commit=True)
+        return super(CrearTipoGatewayView, self).form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super(CrearTipoGatewayView, self).get_context_data(**kwargs)
+        return context
