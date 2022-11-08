@@ -1,0 +1,58 @@
+{% extends "base/admin/base.html" %}
+
+{% block categoria_name %}Tipos Gateway{% endblock categoria_name %}
+{% block title_name %}Listado{% endblock title_name %}
+{% block items_menu %}
+    <div class="btn-list">
+      <a href="" class="btn btn-primary d-none d-sm-inline-block" >
+        <i class="bi bi-plus"></i>
+        Nuevo Tipo Gateway
+      </a>
+
+    </div>
+{% endblock items_menu %}
+
+{% block content %}
+
+
+<div style="position: relative;">
+    <div class="card">
+        <div class="table-responsive">
+            <table class="table table-vcenter card-table">
+            <thead>
+            <tr>
+                <th>Tipo</th>
+                <th class="w-1">Opciones</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for gateway in gateways %}
+
+            <tr>
+                <td>{{gateway.nombre}}</td>
+                <td>
+                <a href="">Detalle</a>
+                <a href="">Editar</a>
+                <a href="">Eliminar</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td>No se encontraron resultados</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        </div>
+    </div>
+</div>
+
+
+{% comment %} <div class="d-flex mt-4">
+	{% include ui/pagination.html class="ms-auto" %}
+</div> {% endcomment %}
+
+
+{% endblock content %}
+
+

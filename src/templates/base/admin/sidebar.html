@@ -46,6 +46,17 @@
                 </a>
               </li>
 
+              <li class="nav-item {% if sidebar_active == 'tipo_gateway' %}active{% endif %}" >
+                <a class="nav-link" href="{% url 'tipo_gateway:lista_tipogateway' %}" >
+                  <span class="nav-link-icon d-md-none d-lg-inline-block">
+                    <i class="bi bi-tag"></i>
+                  </span>
+                  <span class="nav-link-title">
+                    Tipo Gateway
+                  </span>
+                </a>
+              </li>
+
               <li class="nav-item {% if sidebar_active == 'usuarios' %}active{% endif %}" >
                 <a class="nav-link" href="{% url 'usuarios_activos' %}" >
                   <span class="nav-link-icon d-md-none d-lg-inline-block">
