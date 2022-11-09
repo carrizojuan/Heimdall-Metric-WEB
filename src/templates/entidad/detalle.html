@@ -43,9 +43,25 @@
                 <div class="card card-lg">
                   <div class="card-body">
                         <div class="card-header">
-                                <h3 class="card-title">Miembros</h3>
+                                <h3 class="card-title">Miembros {% if miembro_status == 'inactivos' %}Inactivos{% endif %} {% if miembro_status == 'activos' %}Activos{% endif %} {% if miembro_status == 'todos' %}{% endif %}</h3>
                           <div class="col-auto ms-auto d-print-none">
                             <div class="btn-list">
+                                <div class="col-6 col-sm-4 col-md-2 col-xl mb-3">
+                                    <a href="{% url 'entidad:detalle_entidad_inactivos' entidad.pk %}" class="btn btn-ghost-primary active w-100">
+                                      Inactivos
+                                    </a>
+                                </div>
+                               <div class="col-6 col-sm-4 col-md-2 col-xl mb-3">
+                                    <a href="{% url 'entidad:detalle_entidad_activos' entidad.pk %}" class="btn btn-ghost-primary active w-100">
+                                      Activos
+                                    </a>
+                                </div>
+                               <div class="col-6 col-sm-4 col-md-2 col-xl mb-3">
+                                    <a href="{% url 'entidad:detalle_entidad' entidad.pk %}" class="btn btn-ghost-primary active w-100">
+                                      Todos
+                                    </a>
+                                </div>
+
                               <span class="d-none d-sm-inline">
                                   <a href="{% url 'miembro:nuevo_miembro' entidad.pk %}" class="btn btn-primary d-none d-sm-inline-block" >
                                     <i class="bi bi-plus"></i>
