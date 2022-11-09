@@ -94,6 +94,7 @@ class DetalleEntidadInactivosView(LoginRequiredMixin, AdminRequiredMixin, Detail
         ctx['miembros'] = miembros
         return ctx
 
+
 class ActualizarEntidadView(LoginRequiredMixin, AdminRequiredMixin, UpdateView):
     model = Entidad
     template_name = 'entidad/editar_tipo_gateway.html'

@@ -24,15 +24,36 @@
                 </a>
               </li>
               {% if request.user.is_staff %}
-              <li class="nav-item {% if sidebar_active == 'usuarios' %}active{% endif %}" >
-                <a class="nav-link" href="{% url 'usuarios' %}" >
-                  <span class="nav-link-icon d-md-none d-lg-inline-block">
-                    <i class="bi bi-people"></i>
-                  </span>
+             <li class="nav-item active dropdown">
+                <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" data-bs-auto-close="false" role="button" aria-expanded="true" >
                   <span class="nav-link-title">
+                    <i class="bi bi-people-fill"></i>
                     Usuarios
                   </span>
                 </a>
+                <div class="dropdown-menu {% if sidebar_active == 'usuarios' %}show{% endif %}">
+                  <div class="dropdown-menu-columns">
+                    <div class="dropdown-menu-column">
+                      <a class="dropdown-item {% if sidebar_active_usuarios == 'todos' %}active{% endif %}" href="{% url 'usuarios' %}" >
+                        Todos
+                      </a>
+                      <a class="dropdown-item {% if sidebar_active_usuarios == 'activos' %}active{% endif %}" href="{% url 'usuarios_activos' %}" >
+                        Activos
+                      </a>
+                      <a class="dropdown-item {% if sidebar_active_usuarios == 'inactivos' %}active{% endif %}" href="{% url 'usuarios_inactivos' %}" >
+                        Inactivos
+                      </a>
+                      <a class="dropdown-item {% if sidebar_active_usuarios == 'monitores' %}active{% endif %}" href="{% url 'usuarios_monitores' %}" >
+                        Monitores
+                      </a>
+                      <a class="dropdown-item {% if sidebar_active_usuarios == 'administradores' %}active{% endif %}" href="{% url 'usuarios_administradores' %}" >
+                        Administradores
+                      </a>
+                    </div>
+                    <div class="dropdown-menu-column">
+                    </div>
+                  </div>
+                </div>
               </li>
 
               <li class="nav-item {% if sidebar_active == 'entidades' %}active{% endif %}" >
@@ -57,46 +78,6 @@
                 </a>
               </li>
 
-              <li class="nav-item {% if sidebar_active == 'usuarios' %}active{% endif %}" >
-                <a class="nav-link" href="{% url 'usuarios_activos' %}" >
-                  <span class="nav-link-icon d-md-none d-lg-inline-block">
-                    <i class="bi bi-people"></i>
-                  </span>
-                  <span class="nav-link-title">
-                    Usuarios Activos
-                  </span>
-                </a>
-              </li>
-              <li class="nav-item {% if sidebar_active == 'usuarios' %}active{% endif %}" >
-                <a class="nav-link" href="{% url 'usuarios_inactivos' %}" >
-                  <span class="nav-link-icon d-md-none d-lg-inline-block">
-                    <i class="bi bi-people"></i>
-                  </span>
-                  <span class="nav-link-title">
-                    Usuarios Inactivos
-                  </span>
-                </a>
-              </li>
-              <li class="nav-item {% if sidebar_active == 'usuarios' %}active{% endif %}" >
-                <a class="nav-link" href="{% url 'usuarios_administradores' %}" >
-                  <span class="nav-link-icon d-md-none d-lg-inline-block">
-                    <i class="bi bi-people"></i>
-                  </span>
-                  <span class="nav-link-title">
-                    Usuarios Administrador
-                  </span>
-                </a>
-              </li>
-              <li class="nav-item {% if sidebar_active == 'usuarios' %}active{% endif %}" >
-                <a class="nav-link" href="{% url 'usuarios_monitores' %}" >
-                  <span class="nav-link-icon d-md-none d-lg-inline-block">
-                    <i class="bi bi-people"></i>
-                  </span>
-                  <span class="nav-link-title">
-                    Usuarios Monitor
-                  </span>
-                </a>
-              </li>
               {% endif %}
             </ul>
           </div>
