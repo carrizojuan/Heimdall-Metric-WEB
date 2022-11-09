@@ -102,7 +102,7 @@
                                             {% endif %}
                                         </td>
                                         <td>
-                                        <a href="#">Detalle</a>
+                                        <a href="{% url 'miembro:detalle_miembro' miembro.pk %}">Detalle</a>
                                         <a href="{% url 'miembro:modificar_miembro' miembro.pk %}">Editar</a>
                                         <a href="{% url 'miembro:eliminar_miembro' miembro.pk %}">Eliminar</a>
                                         </td>

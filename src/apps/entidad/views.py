@@ -190,3 +190,18 @@ class ActualizarMiembroView(LoginRequiredMixin, AdminRequiredMixin, UpdateView):
     def get_form_kwargs(self):
         kwargs = super(ActualizarMiembroView, self).get_form_kwargs()
         return kwargs
+
+
+class DetalleMiembroView(LoginRequiredMixin, AdminRequiredMixin, DetailView):
+    model = Miembro
+    template_name = 'entidad/miembro/detalle.html'
+    context_object_name = 'miembro'
+
+    def get_context_data(self, **kwargs):
+        ctx = super(DetalleMiembroView, self).get_context_data(**kwargs)
+        ctx['sidebar_active'] = 'entidades'
+        miembro = Miembro.objects.get(pk=self.kwargs["pk"])
+        entidad = Entidad.objects.get(id=miembro.entidad.pk)
+        ctx["entidad"] = entidad
+        print(ctx)
+        return ctx
