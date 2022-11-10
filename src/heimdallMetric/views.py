@@ -161,3 +161,19 @@ class UsuarioAdministradorListView(LoginRequiredMixin, ListView):
     def get_queryset(self):
         queryset = self.model.objects.filter(is_staff=True)
         return queryset
+
+@login_required
+def inactivar_usuario(request, id):
+    pass
+
+
+class InactivarUsuarioView(LoginRequiredMixin, AdminRequiredMixin, TemplateView):
+    template_name = "usuario/prueba.html"
+    
+    def dispatch(self, request, *args, **kwargs):
+        print(kwargs.get("id"))    
+
+    def get_context_data(self, id, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['id_user'] = id
+        return context

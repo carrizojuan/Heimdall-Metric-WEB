@@ -47,6 +47,9 @@ urlpatterns = [
     path('usuarios/administradores', views.UsuarioAdministradorListView.as_view(), name="usuarios_administradores"),
     path('usuarios/monitores', views.UsuarioMonitorListView.as_view(), name="usuarios_monitores"),
 
+    #INACTIVAR USUARIO
+    path('usuarios/inactivar/<str:id>', views.InactivarUsuarioView.as_view(), name="inactivar_usuario")
+
 ]
 
 
