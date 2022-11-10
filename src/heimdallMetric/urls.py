@@ -46,6 +46,9 @@ urlpatterns = [
     #USUARIOS 
     path('Usuario/', include('apps.usuario.urls')),
 
+    #EQUIPOS
+    path('Equipo/', include('apps.equipo.urls')),
+
 
     path('perfil', views.detalle_usuario, name="detalle_usuario"),
     

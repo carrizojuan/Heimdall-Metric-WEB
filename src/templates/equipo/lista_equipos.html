@@ -1,0 +1,76 @@
+{% extends "base/admin/base.html" %}
+
+{% block categoria_name %}EQUIPOS{% endblock categoria_name %}
+{% block title_name %}Todos los equipos{% endblock title_name %}
+
+{% block items_menu %}
+    <div class="btn-list">
+      <a href="{% url 'equipo:crear_equipo' %}" class="btn btn-primary d-none d-sm-inline-block" >
+        <i class="bi bi-plus"></i>
+        Nuevo Equipo
+      </a>
+
+    </div>
+{% endblock items_menu %}
+
+{% block content %}
+
+
+<div style="position: relative;">
+    <div class="card">
+        <div class="table-responsive">
+            <table class="table table-vcenter card-table">
+            <thead>
+            <tr>
+                <th>Nro Serie</th>
+                <th>Nombre</th>
+                <th>Label</th>
+                <th>Estado</th>
+                <th>Fecha Asignacion</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for equipo in object_list %}
+
+            <tr>
+                <td class="text-muted">
+                    {{equipo.nro_serie}}
+                </td>
+                <td>
+                    {{equipo.name}}
+                </td>
+                <td>
+                    {{equipo.label}}
+                </td>
+                <td class="text-muted">
+                {% if equipo.is_active == True %}
+                    <a class="btn btn-success">
+                        ACTIVO
+                    </a>
+                {% else %}
+                    <a class="btn btn-danger">
+                        INACTIVO
+                    </a>
+                {% endif %}
+                </td>
+                <td>
+                    {{equipo.fecha_asignacion}}
+                </td>
+                <td>
+                <a href="">Detalle</a>
+                <a href="">Editar</a>
+                <a href="">Eliminar</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td>No se encontraron resultados</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

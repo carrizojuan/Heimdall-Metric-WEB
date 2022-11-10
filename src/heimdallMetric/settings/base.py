@@ -44,7 +44,7 @@ LOCAL_APPS = [
     'apps.usuario',
     # 'apps.registro',
     'apps.entidad',
-    # 'apps.equipo',
+    'apps.equipo',
     # 'apps.medidor'
     'apps.tipo_gateway',
 ]

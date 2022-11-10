@@ -78,6 +78,17 @@
                 </a>
               </li>
 
+              <li class="nav-item {% if sidebar_active == 'entidades' %}active{% endif %}" >
+                <a class="nav-link" href="{% url 'equipo:listar_equipos' %}" >
+                  <span class="nav-link-icon d-md-none d-lg-inline-block">
+                    <i class="bi bi-tag"></i>
+                  </span>
+                  <span class="nav-link-title">
+                    Equipos
+                  </span>
+                </a>
+              </li>
+
               {% endif %}
             </ul>
           </div>
