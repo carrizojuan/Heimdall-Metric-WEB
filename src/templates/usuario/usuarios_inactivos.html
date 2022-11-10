@@ -35,9 +35,6 @@
                 {% endif %}
                 </td>
                 <td>
-                <a href="#">Editar</a>
-                </td>
-                <td>
                     <div class="btn-list flex-nowrap">
                         <a href="#" class="btn">
                             Editar
@@ -47,7 +44,7 @@
                                 Acciones
                             </button>
                             <div class="dropdown-menu dropdown-menu-end">
-                                <a class="dropdown-item" href="#">
+                                <a class="dropdown-item" href="{% url 'usuario:activar_usuario' id=user.id %}">
                                     Activar
                                 </a>
                                 <a class="dropdown-item" href="#">

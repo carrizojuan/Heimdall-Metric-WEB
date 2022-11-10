@@ -34,19 +34,19 @@
                 <div class="dropdown-menu {% if sidebar_active == 'usuarios' %}show{% endif %}">
                   <div class="dropdown-menu-columns">
                     <div class="dropdown-menu-column">
-                      <a class="dropdown-item {% if sidebar_active_usuarios == 'todos' %}active{% endif %}" href="{% url 'usuarios' %}" >
+                      <a class="dropdown-item {% if sidebar_active_usuarios == 'todos' %}active{% endif %}" href="{% url 'usuario:usuarios' %}" >
                         Todos
                       </a>
-                      <a class="dropdown-item {% if sidebar_active_usuarios == 'activos' %}active{% endif %}" href="{% url 'usuarios_activos' %}" >
+                      <a class="dropdown-item {% if sidebar_active_usuarios == 'activos' %}active{% endif %}" href="{% url 'usuario:usuarios_activos' %}" >
                         Activos
                       </a>
-                      <a class="dropdown-item {% if sidebar_active_usuarios == 'inactivos' %}active{% endif %}" href="{% url 'usuarios_inactivos' %}" >
+                      <a class="dropdown-item {% if sidebar_active_usuarios == 'inactivos' %}active{% endif %}" href="{% url 'usuario:usuarios_inactivos' %}" >
                         Inactivos
                       </a>
-                      <a class="dropdown-item {% if sidebar_active_usuarios == 'monitores' %}active{% endif %}" href="{% url 'usuarios_monitores' %}" >
+                      <a class="dropdown-item {% if sidebar_active_usuarios == 'monitores' %}active{% endif %}" href="{% url 'usuario:usuarios_monitores' %}" >
                         Monitores
                       </a>
-                      <a class="dropdown-item {% if sidebar_active_usuarios == 'administradores' %}active{% endif %}" href="{% url 'usuarios_administradores' %}" >
+                      <a class="dropdown-item {% if sidebar_active_usuarios == 'administradores' %}active{% endif %}" href="{% url 'usuario:usuarios_administradores' %}" >
                         Administradores
                       </a>
                     </div>

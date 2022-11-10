@@ -44,14 +44,11 @@ urlpatterns = [
     path('reset_password_complete', views.PasswordResetCompleteView.as_view(template_name = "usuario/reset_pass/password_reset_done.html"), name="password_reset_complete"),
 
     #USUARIOS 
+    path('Usuario/', include('apps.usuario.urls')),
+
+
     path('perfil', views.detalle_usuario, name="detalle_usuario"),
-    path('usuarios', views.UsuarioListView.as_view(), name="usuarios"),
-    path('usuarios/activos', views.UsuarioActivosListView.as_view(), name="usuarios_activos"),
-    path('usuarios/inactivos', views.UsuarioInactivosListView.as_view(), name="usuarios_inactivos"),
-    path('usuarios/administradores', views.UsuarioAdministradorListView.as_view(), name="usuarios_administradores"),
-    path('usuarios/monitores', views.UsuarioMonitorListView.as_view(), name="usuarios_monitores"),
-
-
+    
 ]
 
 
