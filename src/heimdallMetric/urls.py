@@ -14,7 +14,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 from django.contrib.auth import views as auth_views
 from . import views
 
@@ -31,7 +31,11 @@ urlpatterns = [
     #CAMBIO CONTRASEÑA
 
     path('cambiar-contraseña', views.CambiarContraseñaView.as_view(), name='change_password'),
-    
+    path('restablecer-contraseña', views.ResetPasswordView.as_view(), name="restablecer_contraseña"),
+
+    path('Entidad/', include('apps.entidad.urls')),
+    path('Miembro/', include('apps.entidad.url_miembros')),
+    path('TipoGateways/', include('apps.tipo_gateway.urls')),
     #RESETEO DE CONTRASEÑA
 
     path('reset_password', views.password_reset_request, name="password_reset"),
@@ -47,8 +51,6 @@ urlpatterns = [
     path('usuarios/administradores', views.UsuarioAdministradorListView.as_view(), name="usuarios_administradores"),
     path('usuarios/monitores', views.UsuarioMonitorListView.as_view(), name="usuarios_monitores"),
 
-    #INACTIVAR USUARIO
-    path('usuarios/inactivar/<str:id>', views.InactivarUsuarioView.as_view(), name="inactivar_usuario")
 
 ]
 

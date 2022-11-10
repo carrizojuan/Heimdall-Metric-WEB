@@ -16,7 +16,7 @@
                 <th>Nombre de Usuario</th>
                 <th>Email</th>
                 <th>Rol</th>
-                <th class="w-1"></th>
+                <th class="w-1">Opciones</th>
             </tr>
             </thead>
             <tbody>
@@ -28,6 +28,7 @@
                 </td>
                 <td class="text-muted"><a href="#" class="text-reset">{{user.email}}</a></td>
                 <td class="text-muted">
+
                 {% if user.is_staff %}
                 Administrador
                 {% else %}
@@ -35,8 +36,14 @@
                 {% endif %}
                 </td>
                 <td>
+                <a href="#">Detalle</a>
                 <a href="#">Editar</a>
+                <a href="#">Eliminar</a>
                 </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td>No se encontraron resultados</td>
             </tr>
             {% endfor %}
             </tbody>

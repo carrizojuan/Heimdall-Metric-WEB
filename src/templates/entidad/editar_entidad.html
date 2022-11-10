@@ -1,0 +1,36 @@
+{% extends "base/admin/base.html" %}
+
+{% block content %}
+
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">Modificar Entidad</h3>
+    </div>
+    <div class="card-body">
+        <form method="post">
+            {% csrf_token %}
+            <div class="mb-3">
+              <label class="form-label">Nombre</label>
+              <input type="text" id="id_nombre" name="nombre" class="form-control" name="example-text-input" placeholder="{{entidad.nombre}}" value="{{entidad.nombre}}">
+            </div>
+          <div class="mb-3">
+            <div>
+              <label class="form-check">
+                <input class="form-check-input" id="id_is_active" name="is_active"  type="checkbox" {% if entidad.is_active == True %}checked {% endif %} >
+                <span class="form-check-label">¿Activo?</span>
+              </label>
+            </div>
+          </div>
+
+
+            <a href="{% url 'entidad:lista_entidades' %}" class="btn">
+			Cancelar
+		  </a>
+            <button type="submit" class="btn btn-primary">Guardar</button>
+        </form>
+    </div>
+</div>
+
+
+{% endblock content %}
+

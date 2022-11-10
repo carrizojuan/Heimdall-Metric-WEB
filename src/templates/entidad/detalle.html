@@ -1,0 +1,131 @@
+{% extends "base/admin/base.html" %}
+
+{% block content %}
+         <div class="container-xl">
+            <div class="row row-cards">
+              <div class="col-lg-4">
+                <div class="card card-lg">
+                  <div class="card-body">
+                          <div class="card-header">
+                                <h3 class="card-title">Detalle Entidad</h3>
+                            </div>
+                            <div class="card-body">
+                                <form method="post">
+                                    {% csrf_token %}
+                                    <div class="mb-3">
+                                      <label class="form-label">Nombre</label>
+                                      <input type="text" id="id_nombre" class="form-control" name="example-text-input" placeholder="{{entidad.nombre}}" readonly="">
+                                    </div>
+                                  <div class="mb-3">
+                                    <div>
+                                      <label class="form-check">
+                                        <input class="form-check-input" id="id_is_active" type="checkbox" {% if entidad.is_active == True %}checked {% endif %} disabled>
+                                        <span class="form-check-label">¿Activo?</span>
+                                      </label>
+                                    </div>
+                                  </div>
+
+
+                                    <a href="{% url 'entidad:lista_entidades' %}" class="btn">
+                                    Cancelar
+                                  </a>
+                                    <a href="{% url 'entidad:modificar_entidad' entidad.pk %}" class="btn  btn-primary">
+                                    Modificar
+                                  </a>
+
+                                </form>
+                            </div>
+                  </div>
+                </div>
+              </div>
+
+                <div class="col-lg-8">
+                <div class="card card-lg">
+                  <div class="card-body">
+                        <div class="card-header">
+                                <h3 class="card-title">Miembros {% if miembro_status == 'inactivos' %}Inactivos{% endif %} {% if miembro_status == 'activos' %}Activos{% endif %} {% if miembro_status == 'todos' %}{% endif %}</h3>
+                          <div class="col-auto ms-auto d-print-none">
+                            <div class="btn-list">
+                                <div class="col-6 col-sm-4 col-md-2 col-xl mb-3">
+                                    <a href="{% url 'entidad:detalle_entidad_inactivos' entidad.pk %}" class="btn btn-ghost-primary active w-100">
+                                      Inactivos
+                                    </a>
+                                </div>
+                               <div class="col-6 col-sm-4 col-md-2 col-xl mb-3">
+                                    <a href="{% url 'entidad:detalle_entidad_activos' entidad.pk %}" class="btn btn-ghost-primary active w-100">
+                                      Activos
+                                    </a>
+                                </div>
+                               <div class="col-6 col-sm-4 col-md-2 col-xl mb-3">
+                                    <a href="{% url 'entidad:detalle_entidad' entidad.pk %}" class="btn btn-ghost-primary active w-100">
+                                      Todos
+                                    </a>
+                                </div>
+
+                              <span class="d-none d-sm-inline">
+                                  <a href="{% url 'miembro:nuevo_miembro' entidad.pk %}" class="btn btn-primary d-none d-sm-inline-block" >
+                                    <i class="bi bi-plus"></i>
+                                    Nuevo Miembro
+                                  </a>
+
+                              </span>
+                            </div>
+                          </div>
+
+
+                        </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                <table class="table table-vcenter card-table">
+                                    <thead>
+                                    <tr>
+                                        <th>Nombre</th>
+                                        <th>Nombre de Usuario</th>
+                                        <th>Email</th>
+                                        <th>Rol</th>
+                                        <th class="w-1">Opciones</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for miembro in miembros %}
+                                    <tr>
+                                        <td>{{miembro.usuario.apellidos}} {{miembro.usuario.nombres}}</td>
+                                        <td class="text-muted">
+                                        {{miembro.usuario.nombre_usuario}}
+                                        </td>
+                                        <td class="text-muted"><a href="#" class="text-reset">{{miembro.usuario.email}}</a></td>
+                                        <td class="text-muted">
+                                            {% if miembro.rol == 1 %}
+                                            Administrador
+                                            {% else %}
+                                            Monitor
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                        <a href="{% url 'miembro:detalle_miembro' miembro.pk %}">Detalle</a>
+                                        <a href="{% url 'miembro:modificar_miembro' miembro.pk %}">Editar</a>
+                                        <a href="{% url 'miembro:eliminar_miembro' miembro.pk %}">Eliminar</a>
+                                        </td>
+                                    </tr>
+                                    {% empty %}
+                                    <tr>
+                                        <td>No se encontraron resultados</td>
+                                    </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+
+
+
+                            </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+         </div>
+
+
+{% endblock content %}
+

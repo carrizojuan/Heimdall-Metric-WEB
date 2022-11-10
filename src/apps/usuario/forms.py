@@ -7,9 +7,7 @@ from django.contrib.auth.models import Permission, Group
 from django.core.exceptions import ValidationError
 from django.contrib.auth.forms import PasswordChangeForm
 
-
 from .models import Usuario
-
 
 """ class UsuarioForm(forms.ModelForm):
     email = forms.EmailField(required=False, widget=forms.TextInput(attrs={'class': 'form-control'}))
@@ -101,38 +99,42 @@ class PassForm(forms.ModelForm):
 
 
 class RegisterForm(forms.ModelForm):
-    email = forms.EmailField(required=True,widget=forms.EmailInput(attrs={'class': 'form-label form-control'}
-    ))
-    nombre_usuario = forms.CharField(required=True,label="Nombre de Usuario",
-                                    widget=forms.TextInput(attrs={'class': 'form-control'}))
+    email = forms.EmailField(required=True, widget=forms.EmailInput(attrs={'class': 'form-label form-control'}
+                                                                    ))
+    nombre_usuario = forms.CharField(required=True, label="Nombre de Usuario",
+                                     widget=forms.TextInput(attrs={'class': 'form-control'}))
     nombres = forms.CharField(required=False, label="Nombres",
                               widget=forms.TextInput(attrs={'class': 'form-control'}))
     apellidos = forms.CharField(required=False, label="Apellidos",
                                 widget=forms.TextInput(attrs={'class': 'form-control'}))
     password = forms.CharField(required=True,
-                                widget=forms.PasswordInput(attrs={'class': 'form-control', 'autocomplete': 'off'}))
+                               widget=forms.PasswordInput(attrs={'class': 'form-control', 'autocomplete': 'off'}))
 
     class Meta:
         model = Usuario
-        fields = ["nombre_usuario", "email", "nombres", "apellidos","password"]
-
+        fields = ["nombre_usuario", "email", "nombres", "apellidos", "password"]
 
 
 class CambiarContraseñaForm(PasswordChangeForm):
     old_password = forms.CharField(required=True, label="Antigua contraseña",
-                                    widget=forms.PasswordInput(attrs={'class': 'form-group mb-3 form-control', 
-                                    'placeholder': "Ingresar actual contraseña", 'type': 'password'}))
+                                   widget=forms.PasswordInput(attrs={'class': 'form-group mb-3 form-control',
+                                                                     'placeholder': "Ingresar actual contraseña",
+                                                                     'type': 'password'}))
     new_password1 = forms.CharField(required=True, label="Nueva contraseña",
-                                    widget=forms.PasswordInput(attrs={'class': 'form-group mb-3 form-control', 
-                                    'placeholder': "Ingresar actual contraseña", 'type': 'password'}))
-    new_password2 = forms.CharField(required=True, label="Confirmacion nueva contraseña",
-                                    widget=forms.PasswordInput(attrs={'class': 'form-group mb-3 form-control', 
-                                    'placeholder': "Ingresar actual contraseña", 'type': 'password'}))
-    
+                                    widget=forms.PasswordInput(attrs={'class': 'form-group mb-3 form-control',
+                                                                      'placeholder': "Ingresar actual contraseña",
+                                                                      'type': 'password'}))
+    new_password2 = forms.CharField(required=True, label="Confirmación nueva contraseña",
+                                    widget=forms.PasswordInput(attrs={'class': 'form-group mb-3 form-control',
+                                                                      'placeholder': "Ingresar actual contraseña",
+                                                                      'type': 'password'}))
+
     class Meta:
         model = Usuario
         fields = ['old_password', 'new_password1', 'new_password2']
-    
+
+
 class ResetPasswordForm(forms.Form):
-    email = forms.EmailField(required=True, label="Direccion de correo electronico", widget=forms.EmailInput(attrs={'class': 'form-label form-control'}
-    ))
+    email = forms.EmailField(required=True, label="Direccion de correo electronico",
+                             widget=forms.EmailInput(attrs={'class': 'form-label form-control'}
+                                                     ))

@@ -5,7 +5,8 @@ from django.views.generic import TemplateView, FormView, ListView
 from apps.utils.mixins import AdminRequiredMixin
 from apps.usuario.forms import RegisterForm, CambiarContraseñaForm, ResetPasswordForm
 from apps.usuario.models import Usuario
-from django.contrib.auth.views import PasswordChangeView, PasswordResetView, PasswordResetDoneView, PasswordResetConfirmView, PasswordResetCompleteView
+from django.contrib.auth.views import PasswordChangeView, PasswordResetView, PasswordResetDoneView, \
+    PasswordResetConfirmView, PasswordResetCompleteView
 from django.shortcuts import render, redirect
 
 from django.core.mail import send_mail, BadHeaderError
@@ -27,7 +28,7 @@ class DashboardAdmin(LoginRequiredMixin, AdminRequiredMixin, TemplateView):
 
 
 def registrar_usuario(request):
-    template_name = "usuario/sign-up.html"
+    template_name = "registrarse.html"
 
     if request.method == 'POST':
         form = RegisterForm(request.POST)
@@ -48,7 +49,7 @@ def registrar_usuario(request):
 def detalle_usuario(request):
     template_name = "usuario/detalle.html"
     usuario = request.user
-    #entidad_id = 
+    # entidad_id =
     ctx = {
         'nombre_apellido': usuario.get_full_name(),
         'nombre_usuario': usuario.nombre_usuario,
@@ -64,15 +65,15 @@ def lista_usuarios(request):
     usuarios = Usuario.objects.filter(is_active=True)
     ctx = {
         'usuarios': usuarios,
-        "sidebar_active": "usuarios"
+        "sidebar_active": "usuarios",
     }
     return render(request, template_name, ctx)
-    
+
+
 class CambiarContraseñaView(PasswordChangeView):
     template_name = "usuario/cambiar_contraseña.html"
     form_class = CambiarContraseñaForm
     success_url = reverse_lazy('dashboard_admin')
-
 
 
 class ResetPasswordView(FormView):
@@ -82,12 +83,10 @@ class ResetPasswordView(FormView):
 
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)
-    
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         return context
-
-
 
 
 def password_reset_request(request):
@@ -121,14 +120,16 @@ def password_reset_request(request):
     return render(request=request, template_name=template_name, context={"form": password_reset_form})
 
 
-
-
-
-
-
 class UsuarioListView(LoginRequiredMixin, ListView):
     model = Usuario
     template_name = "usuario/usuarios.html"
+
+    def get_context_data(self, **kwargs):
+        ctx = super(UsuarioListView, self).get_context_data(**kwargs)
+        ctx['sidebar_active_usuarios'] = 'todos'
+        ctx['sidebar_active'] = 'usuarios'
+        return ctx
+
 
 class UsuarioActivosListView(LoginRequiredMixin, ListView):
     model = Usuario
@@ -138,6 +139,13 @@ class UsuarioActivosListView(LoginRequiredMixin, ListView):
         queryset = self.model.objects.filter(is_active=True)
         return queryset
 
+    def get_context_data(self, **kwargs):
+        ctx = super(UsuarioActivosListView, self).get_context_data(**kwargs)
+        ctx['sidebar_active_usuarios'] = 'activos'
+        ctx['sidebar_active'] = 'usuarios'
+        return ctx
+
+
 class UsuarioInactivosListView(LoginRequiredMixin, ListView):
     model = Usuario
     template_name = "usuario/usuarios_inactivos.html"
@@ -145,6 +153,13 @@ class UsuarioInactivosListView(LoginRequiredMixin, ListView):
     def get_queryset(self):
         queryset = self.model.objects.filter(is_active=False)
         return queryset
+
+    def get_context_data(self, **kwargs):
+        ctx = super(UsuarioInactivosListView, self).get_context_data(**kwargs)
+        ctx['sidebar_active_usuarios'] = 'inactivos'
+        ctx['sidebar_active'] = 'usuarios'
+        return ctx
+
 
 class UsuarioMonitorListView(LoginRequiredMixin, ListView):
     model = Usuario
@@ -154,6 +169,13 @@ class UsuarioMonitorListView(LoginRequiredMixin, ListView):
         queryset = self.model.objects.filter(is_staff=False)
         return queryset
 
+    def get_context_data(self, **kwargs):
+        ctx = super(UsuarioMonitorListView, self).get_context_data(**kwargs)
+        ctx['sidebar_active_usuarios'] = 'monitores'
+        ctx['sidebar_active'] = 'usuarios'
+        return ctx
+
+
 class UsuarioAdministradorListView(LoginRequiredMixin, ListView):
     model = Usuario
     template_name = "usuario/usuarios_administrador.html"
@@ -162,18 +184,8 @@ class UsuarioAdministradorListView(LoginRequiredMixin, ListView):
         queryset = self.model.objects.filter(is_staff=True)
         return queryset
 
-@login_required
-def inactivar_usuario(request, id):
-    pass
-
-
-class InactivarUsuarioView(LoginRequiredMixin, AdminRequiredMixin, TemplateView):
-    template_name = "usuario/prueba.html"
-    
-    def dispatch(self, request, *args, **kwargs):
-        print(kwargs.get("id"))    
-
-    def get_context_data(self, id, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['id_user'] = id
-        return context
+    def get_context_data(self, **kwargs):
+        ctx = super(UsuarioAdministradorListView, self).get_context_data(**kwargs)
+        ctx['sidebar_active_usuarios'] = 'administradores'
+        ctx['sidebar_active'] = 'usuarios'
+        return ctx

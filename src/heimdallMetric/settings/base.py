@@ -46,12 +46,10 @@ LOCAL_APPS = [
     'apps.entidad',
     # 'apps.equipo',
     # 'apps.medidor'
+    'apps.tipo_gateway',
 ]
 
 THIRD_APPS = [
-    # 'rest_framework',
-    # 'drf_yasg',
-    # 'knox'
 ]
 
 INSTALLED_APPS = DJANGO_APPS + LOCAL_APPS + THIRD_APPS
@@ -143,26 +141,6 @@ parser.read(credentials_file)
 
 # modelo utilizado para autenticación (personalizado, no por defecto de Django)
 AUTH_USER_MODEL = 'usuario.Usuario'
-
-# Django Rest-Framework
-REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': ('knox.auth.TokenAuthentication', 'rest_framework.authentication'
-                                                                        '.SessionAuthentication'),
-    'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema',
-    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 10
-}
-
-# Django-rest-knox
-REST_KNOX = {
-  'SECURE_HASH_ALGORITHM': 'cryptography.hazmat.primitives.hashes.SHA512',
-  'AUTH_TOKEN_CHARACTER_LENGTH': 64,
-  'TOKEN_TTL': timedelta(hours=5),
-  'USER_SERIALIZER': 'knox.serializers.UserSerializer',
-  'TOKEN_LIMIT_PER_USER': None,
-  'AUTO_REFRESH': False,
-  # 'EXPIRY_DATETIME_FORMAT': api_settings.DATETME_FORMAT,
-}
 
 LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = '/'
