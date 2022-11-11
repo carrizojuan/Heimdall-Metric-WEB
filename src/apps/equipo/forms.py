@@ -4,8 +4,10 @@ from .models import Equipo
 class RegisterEquipoForm(forms.ModelForm):
     nro_serie = forms.CharField(max_length=255, required=True, label="Numero de serie"
                                 ,widget=forms.TextInput(attrs={'class': 'form-control'}))
-    nombre = forms.CharField(required=False, label="Nombre",
+    name = forms.CharField(required=False, label="Nombre",
                               widget=forms.TextInput(attrs={'class': 'form-control'}))
+
+    label = forms.CharField(max_length=255, required=False, label = "Etiqueta", widget=forms.TextInput(attrs={'class': 'form-control'}))
     activo = forms.BooleanField(required=False, label="¿Activo?",
                                   widget=forms.CheckboxInput(attrs={'class': 'form-check-input'}))
     latitud = forms.DecimalField(max_digits=8, decimal_places=6, label="Latitud", required=False, widget=forms.TextInput(attrs={'class': 'form-control'}))
@@ -17,7 +19,7 @@ class RegisterEquipoForm(forms.ModelForm):
     
     class Meta:
         model = Equipo
-        fields = ["nro_serie", "nombre", "activo","latitud", "longitud","app_eui","app_key", "dev_eui"]
+        fields = ["nro_serie", "name", "label", "activo","latitud", "longitud","app_eui","app_key", "dev_eui"]
 
 """
 nro_serie = models.CharField(max_length=255, primary_key=True, verbose_name=_("equipo"), help_text=_("Nro. de serie del equipo"))

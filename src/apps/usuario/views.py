@@ -73,8 +73,7 @@ class UsuarioListView(LoginRequiredMixin, ListView):
         ctx['sidebar_active'] = 'usuarios'
         return ctx
     
-class InactivarUsuarioView(LoginRequiredMixin):
-    pass
+
 
 def inactivar_usuario(request, id):
     user = Usuario.objects.get(id = id)

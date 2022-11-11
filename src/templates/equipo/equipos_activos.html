@@ -1,17 +1,7 @@
 {% extends "base/admin/base.html" %}
 
 {% block categoria_name %}EQUIPOS{% endblock categoria_name %}
-{% block title_name %}Todos los equipos{% endblock title_name %}
-
-{% block items_menu %}
-    <div class="btn-list">
-      <a href="{% url 'equipo:crear_equipo' %}" class="btn btn-primary d-none d-sm-inline-block" >
-        <i class="bi bi-plus"></i>
-        Nuevo Equipo
-      </a>
-
-    </div>
-{% endblock items_menu %}
+{% block title_name %}ACTIVOS{% endblock title_name %}
 
 {% block content %}
 
@@ -42,16 +32,10 @@
                 <td>
                     {{equipo.label}}
                 </td>
-                <td class="text-muted">
-                {% if equipo.activo == True %}
+                <td class="text-muted">                 
                     <a class="btn btn-success">
                         ACTIVO
                     </a>
-                {% else %}
-                    <a class="btn btn-danger">
-                        INACTIVO
-                    </a>
-                {% endif %}
                 </td>
                 <td>
                     {{equipo.fecha_asignacion}}
@@ -72,5 +56,4 @@
         </div>
     </div>
 </div>
-
 {% endblock content %}
