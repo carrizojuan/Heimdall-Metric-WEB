@@ -12,7 +12,7 @@ from django.views.generic.list import ListView
 from django.views.generic.edit import UpdateView, DeleteView
 from django.shortcuts import render, redirect
 from .models import TipoGateway, Consola
-from .forms import RegisterTipoGatewayForm, DetalleConsolaForm
+from .forms import RegisterTipoGatewayForm, DetalleConsolaForm, RegisterConsolaForm
 
 
 class TiposGatewayView(LoginRequiredMixin, AdminRequiredMixin, ListView):
@@ -104,11 +104,44 @@ class EliminarConsolaView(DeleteView):
         # print(self.object)
         ctx['form'] = DetalleConsolaForm(instance=self.object)
         ctx["tipo_gateway"] = self.object.tipo_gateway
-        # ctx['form'].fields["usuario"].widget.attrs["disabled"] = True
-        # ctx['form'].fields["rol"].widget.attrs["disabled"] = True
-        # ctx['form'].fields["activo"].widget.attrs["disabled"] = True
         ctx['sidebar_active'] = 'tipo_gateway'
         return ctx
+
+
+class ActualizarConsolaView(LoginRequiredMixin, AdminRequiredMixin, UpdateView):
+    model = Consola
+    template_name = 'tipo_gateway/consola/editar_consola.html'
+    form_class = RegisterConsolaForm
+
+    def get_context_data(self, **kwargs):
+        context = super(ActualizarConsolaView, self).get_context_data(**kwargs)
+        context["tipo_gateway"] = self.object.tipo_gateway
+        return context
+
+    def get_success_url(self, **kwargs):
+        consola = Consola.objects.get(pk=self.kwargs["pk"])
+        return reverse('tipo_gateway:detalle_tipo_gateway', kwargs={'pk': consola.tipo_gateway.pk})
+
+    def get_form_kwargs(self):
+        kwargs = super(ActualizarConsolaView, self).get_form_kwargs()
+        return kwargs
+
+
+class DetalleConsolaView(LoginRequiredMixin, AdminRequiredMixin, DetailView):
+    model = Consola
+    template_name = 'tipo_gateway/consola/detalle.html'
+    context_object_name = 'consola'
+
+    def get_context_data(self, **kwargs):
+        ctx = super(DetalleConsolaView, self).get_context_data(**kwargs)
+        ctx['sidebar_active'] = 'tipo_gateway'
+        ctx["tipo_gateway"] = self.object.tipo_gateway
+        ctx['form'] = DetalleConsolaForm(instance=self.object)
+        print(ctx)
+        return ctx
+
+
+
 
 
 

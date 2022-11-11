@@ -11,16 +11,16 @@ class RegisterTipoGatewayForm(forms.ModelForm):
         fields = ["nombre"]
 
 
-# class RegisterConsolaForm(forms.ModelForm):
-#     nombre = forms.CharField(required=False, label="Nombre",
-#                               widget=forms.TextInput(attrs={'class': 'form-control'}))
-#     base_url = forms.CharField(required=True, label="Base URL",
-#                               widget=forms.TextInput(attrs={'class': 'form-control'}))
-#     apikey = forms.CharField(required=True, label="APIKEY",
-#                               widget=forms.TextInput(attrs={'class': 'form-control'}))
-#     class Meta:
-#         model = Consola
-#         fields = ["nombre", "base_url", "apikey", "nombre_tipo_gateway"]
+class RegisterConsolaForm(forms.ModelForm):
+    nombre = forms.CharField(required=False, label="Nombre",
+                              widget=forms.TextInput(attrs={'class': 'form-control'}))
+    base_url = forms.CharField(required=True, label="Base URL",
+                              widget=forms.TextInput(attrs={'class': 'form-control'}))
+    apikey = forms.CharField(required=True, label="APIKEY",
+                              widget=forms.TextInput(attrs={'class': 'form-control'}))
+    class Meta:
+        model = Consola
+        fields = ["nombre", "base_url", "apikey"]
 
 
 class DetalleConsolaForm(forms.ModelForm):

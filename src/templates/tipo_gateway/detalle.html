@@ -69,8 +69,8 @@
                                         </td>
                                         <td class="text-muted"><a href="#" class="text-reset">{{consola.base_url}}</a></td>
                                         <td>
-                                        <a href="">Detalle</a>
-                                        <a href="">Editar</a>
+                                        <a href="{% url 'consola:detalle_consola' consola.pk %}">Detalle</a>
+                                        <a href="{% url 'consola:modificar_consola' consola.pk %}">Editar</a>
                                         <a href="{% url 'consola:eliminar_consola' consola.pk %}">Eliminar</a>
                                         </td>
                                     </tr>
