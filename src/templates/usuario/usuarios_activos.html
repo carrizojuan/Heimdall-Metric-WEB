@@ -35,7 +35,24 @@
                 {% endif %}
                 </td>
                 <td>
-                <a href="#">Editar</a>
+                    <div class="btn-list flex-nowrap">
+                        <a href="#" class="btn">
+                            Editar
+                        </a>
+                        <div class="dropdown">
+                            <button class="btn dropdown-toggle align-text-top" data-bs-toggle="dropdown">
+                                Acciones
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-end">
+                                <a class="dropdown-item" href="{% url 'usuario:inactivar_usuario' id=user.id %}">
+                                    Inactivar
+                                </a>
+                                <a class="dropdown-item" href="#">
+                                    Another action
+                                </a>
+                            </div>
+                        </div>
+                    </div>
                 </td>
             </tr>
             {% endfor %}

@@ -96,6 +96,6 @@ class Usuario(AbstractBaseUser, PermissionsMixin):
     def has_perm(self, perm, obj=None):
         """EL usuario cuenta con los permisos para ver una app en específico"""
         return True
-
+    
     def __str__(self):
         return self.nombre_usuario + " " + self.email

@@ -16,6 +16,7 @@ DATABASES = {
     }
 }
 
+"""
 INFLUXDB_URL = parser.get('influxdb', 'INFLUXDB_URL')
 INFLUXDB_DATABASE_NAME = parser.get('influxdb', 'INFLUXDB_DATABASE_NAME')
 
@@ -25,6 +26,7 @@ INFLUXDB_PASSWORD = parser.get('influxdb', 'INFLUXDB_PASSWORD')
 
 # OSS 2.0
 INFLUXDB_AUTH_TOKEN = parser.get('influxdb', 'INFLUXDB_AUTH_TOKEN')
+"""
 
 # CONFIG LOGGING
 LOGGING = {
