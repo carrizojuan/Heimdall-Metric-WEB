@@ -36,6 +36,7 @@ urlpatterns = [
     path('Entidad/', include('apps.entidad.urls')),
     path('Miembro/', include('apps.entidad.url_miembros')),
     path('TipoGateways/', include('apps.tipo_gateway.urls')),
+    path('Consola/', include('apps.tipo_gateway.url_consolas')),
     #RESETEO DE CONTRASEÑA
 
     path('reset_password', views.password_reset_request, name="password_reset"),

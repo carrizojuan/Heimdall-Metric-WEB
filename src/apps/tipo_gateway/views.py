@@ -12,7 +12,7 @@ from django.views.generic.list import ListView
 from django.views.generic.edit import UpdateView, DeleteView
 from django.shortcuts import render, redirect
 from .models import TipoGateway, Consola
-from .forms import RegisterTipoGatewayForm
+from .forms import RegisterTipoGatewayForm, DetalleConsolaForm
 
 
 class TiposGatewayView(LoginRequiredMixin, AdminRequiredMixin, ListView):
@@ -94,6 +94,21 @@ class EliminarTipoGatewayView(DeleteView):
         return ctx
 
 
+class EliminarConsolaView(DeleteView):
+    model = Consola
+    success_url = reverse_lazy('tipo_gateway:lista_tipogateway')
+    template_name = 'tipo_gateway/consola/eliminar_consola.html'
+
+    def get_context_data(self, **kwargs):
+        ctx = super(EliminarConsolaView, self).get_context_data(**kwargs)
+        # print(self.object)
+        ctx['form'] = DetalleConsolaForm(instance=self.object)
+        ctx["tipo_gateway"] = self.object.tipo_gateway
+        # ctx['form'].fields["usuario"].widget.attrs["disabled"] = True
+        # ctx['form'].fields["rol"].widget.attrs["disabled"] = True
+        # ctx['form'].fields["activo"].widget.attrs["disabled"] = True
+        ctx['sidebar_active'] = 'tipo_gateway'
+        return ctx
 
 
 
