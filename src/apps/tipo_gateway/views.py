@@ -11,7 +11,7 @@ from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 from django.views.generic.edit import UpdateView, DeleteView
 from django.shortcuts import render, redirect
-from .models import TipoGateway
+from .models import TipoGateway, Consola
 from .forms import RegisterTipoGatewayForm
 
 
@@ -53,6 +53,10 @@ class DetalleTipoGatewayView(LoginRequiredMixin, AdminRequiredMixin, DetailView)
         ctx = super(DetalleTipoGatewayView, self).get_context_data(**kwargs)
         # print(ctx)
         ctx['sidebar_active'] = 'tipo_gateway'
+        consolas = Consola.objects.filter(tipo_gateway=kwargs.get("object").pk)
+        # print(miembros)
+        ctx['consolas'] = consolas
+
         return ctx
 
 
@@ -88,3 +92,8 @@ class EliminarTipoGatewayView(DeleteView):
         ctx['form'] = RegisterTipoGatewayForm(instance=self.object)
         ctx['sidebar_active'] = 'tipo_gateway'
         return ctx
+
+
+
+
+
