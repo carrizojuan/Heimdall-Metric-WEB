@@ -57,8 +57,8 @@
                     {{equipo.fecha_asignacion}}
                 </td>
                 <td>
-                <a href="">Detalle</a>
-                <a href="">Editar</a>
+                <a href="{% url 'equipo:equipo_detalle' pk=equipo.nro_serie%}">Detalle</a>
+                {% comment %} <a href="{% url 'equipo:editar_equipo' nro_serie=equipo.nro_serie%}">Editar</a> {% endcomment %}
                 <a href="{% url 'equipo:eliminar_equipo' nro_serie=equipo.nro_serie%}">Eliminar</a>
                 </td>
             </tr>

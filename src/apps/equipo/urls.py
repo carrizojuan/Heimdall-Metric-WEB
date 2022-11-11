@@ -10,6 +10,7 @@ urlpatterns = [
     path('eliminar/<str:nro_serie>', views.eliminar_equipo, name="eliminar_equipo"),
     path('equipos/inactivos', views.EquipoInactivosListView.as_view(), name="equipos_inactivos"),
     path('equipos/activos', views.EquipoActivosListView.as_view(), name="equipos_activos"),
+    path('equipos/<str:pk>', views.EquipoDetalleView.as_view(), name="equipo_detalle"),
 ]
 
 

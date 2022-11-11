@@ -71,13 +71,15 @@ class EquipoActivosListView(LoginRequiredMixin, ListView):
         ctx['sidebar_active'] = 'equipos'
         return ctx
     
-""" class EliminarEquipoView(DeleteView):
+
+class EquipoDetalleView(LoginRequiredMixin, AdminRequiredMixin, DetailView):
     model = Equipo
-    success_url = reverse_lazy('equipo:listar_equipos')
-    
+    template_name = 'equipo/detalle.html'
+    context_object_name = 'equipo'
+
     def get_context_data(self, **kwargs):
-        ctx = super(EliminarEquipoView, self).get_context_data(**kwargs)
-        # print(self.object)
-        ctx['form'] = RegisterEntidadForm(instance=self.object)
-        ctx['sidebar_active'] = 'entidad'
-        return ctx """
+        ctx = super(EquipoDetalleView, self).get_context_data(**kwargs)
+        ctx['sidebar_active'] = 'equipos'
+        equipo = Equipo.objects.get(nro_serie=self.kwargs["pk"])
+        ctx["equipo"] = equipo
+        return ctx
