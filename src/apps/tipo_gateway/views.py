@@ -141,6 +141,24 @@ class DetalleConsolaView(LoginRequiredMixin, AdminRequiredMixin, DetailView):
         return ctx
 
 
+class CrearConsolaView(LoginRequiredMixin, AdminRequiredMixin, CreateView):
+    model = Consola
+    template_name = 'tipo_gateway/consola/nueva_consola.html'
+    form_class = RegisterConsolaForm
+
+    def get_success_url(self, **kwargs):
+        return reverse('tipo_gateway:detalle_tipo_gateway', kwargs={'pk': self.kwargs.get("pk")})
+
+    def form_valid(self, form):
+        f = form.save(commit=False)
+        # print(form)
+        f.tipo_gateway = TipoGateway.objects.get(id=self.kwargs["pk"])
+        return super(CrearConsolaView, self).form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super(CrearConsolaView, self).get_context_data(**kwargs)
+        context["tipo_gateway"] = self.kwargs["pk"]
+        return context
 
 
 
