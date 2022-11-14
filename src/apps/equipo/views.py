@@ -1,12 +1,13 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from apps.utils.mixins import AdminRequiredMixin
+from django import forms
 from django.views.generic.edit import CreateView,UpdateView, DeleteView
 from django.views.generic.detail import DetailView
 from django.views.generic import ListView
 from django.http import HttpResponseRedirect
 from django.urls import reverse, reverse_lazy
 from .models import Equipo
-from .forms import RegisterEquipoForm
+from .forms import RegisterEquipoForm, EditEquipoForm
 
 class CrearEquipoView(LoginRequiredMixin, AdminRequiredMixin, CreateView):
     model = Equipo
@@ -83,3 +84,26 @@ class EquipoDetalleView(LoginRequiredMixin, AdminRequiredMixin, DetailView):
         equipo = Equipo.objects.get(nro_serie=self.kwargs["pk"])
         ctx["equipo"] = equipo
         return ctx
+
+
+class ActualizarEquipoView(LoginRequiredMixin, AdminRequiredMixin, UpdateView):
+    model = Equipo
+    template_name = 'equipo/editar_equipo.html'
+    form_class = EditEquipoForm
+
+    def get_context_data(self, **kwargs):
+        context = {}
+        context['sidebar_active'] = 'equipos'
+        equipo = Equipo.objects.get(nro_serie=self.kwargs["pk"])
+        context["equipo"] = equipo
+        return context
+
+    def form_valid(self, form):
+        f = form.save(commit=True)
+        return super(ActualizarEquipoView, self).form_valid(form)
+
+    def get_form_kwargs(self):
+        kwargs = super(ActualizarEquipoView, self).get_form_kwargs()
+        return kwargs
+
+

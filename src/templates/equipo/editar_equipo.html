@@ -14,7 +14,7 @@
                       {% csrf_token %}
                       <div class="mb-3">
                         <label class="form-label">Nombre</label>
-                        <input type="text" id="id_nombre" value="{{equipo.name}}" class="form-control" name="example-text-input" readonly="">
+                        <input type="text" id="id_nombre" value="{{equipo.name}}" class="form-control" name="example-text-input">
                       </div>
                       <div class="mb-3">
                         <label class="form-label">Nro Serie</label>
@@ -26,11 +26,11 @@
                       </div>
                       <div class="mb-3">
                         <label class="form-label">Etiquetas</label>
-                        <input type="text" id="id_nombre" value="{{equipo.label}}" class="form-control" name="example-text-input" readonly="">
+                        <input type="text" id="id_nombre" value="{{equipo.label}}" class="form-control" name="example-text-input">
                       </div>
                       <div class="mb-3">
                         <label class="form-label">Ubicacion</label>
-                        <input type="text" id="id_nombre" value="{{equipo.get_coordenadas}}" class="form-control" name="example-text-input" readonly="">
+                        <input type="text" id="id_nombre" value="{{equipo.get_coordenadas}}" class="form-control" name="example-text-input">
                       </div>
                       <div class="mb-3">
                         <label class="form-label">App EUI</label>
@@ -54,8 +54,8 @@
                       <a href="" class="btn">
                         Cancelar
                       </a>
-                      <a href="{% url 'equipo:editar_equipo' pk=equipo.nro_serie %}" class="btn  btn-primary">
-                        Modificar
+                      <a class="btn btn-primary" type="submit">
+                        Guardar
                       </a>
                     </form>
                   </div>
