@@ -77,7 +77,7 @@
                   </span>
                 </a>
               </li>
-              <li class="nav-item active dropdown {% if sidebar_active == 'equipos' %}show{% endif %}">
+              <li class="nav-item {% if sidebar_active == 'equipos' %}active{% endif %}" >
                 <a class="nav-link" href="{% url 'equipo:listar_equipos' %}" >
                   <span class="nav-link-icon d-md-none d-lg-inline-block">
                     <i class="bi bi-tag"></i>
@@ -86,23 +86,6 @@
                     Equipos
                   </span>
                 </a>
-                <div class="dropdown-menu {% if sidebar_active == 'equipos' %}show{% endif %}">
-                  <div class="dropdown-menu-columns">
-                    <div class="dropdown-menu-column">
-                      <a class="dropdown-item {% if sidebar_active_equipos == 'todos' %}active{% endif %}" href="{% url 'equipo:listar_equipos' %}" >
-                        Todos
-                      </a>
-                      <a class="dropdown-item {% if sidebar_active_equipos == 'activos' %}active{% endif %}" href="{% url 'equipo:equipos_activos' %}" >
-                        Activos
-                      </a>
-                      <a class="dropdown-item {% if sidebar_active_equipos == 'inactivos' %}active{% endif %}" href="{% url 'equipo:equipos_inactivos' %}" >
-                        Inactivos
-                      </a>
-                    </div>
-                    <div class="dropdown-menu-column">
-                    </div>
-                  </div>
-                </div>
               </li>
               {% endif %}
             </ul>

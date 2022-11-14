@@ -30,10 +30,14 @@ class ListEquiposView(LoginRequiredMixin, AdminRequiredMixin, ListView):
 
     model = Equipo
     template_name = "equipo/lista_equipos.html"
+    context_object_name = 'equipo'
 
     def get_context_data(self, **kwargs):
         ctx = super(ListEquiposView, self).get_context_data(**kwargs)
         ctx['sidebar_active'] = 'equipos'
+        ctx['equipo_status'] = 'todos'
+        equipos = Equipo.objects.all()
+        ctx['equipos'] = equipos
         return ctx
 
 
@@ -43,35 +47,34 @@ def eliminar_equipo(request, nro_serie):
     equipo.delete()
     return HttpResponseRedirect(reverse("equipo:listar_equipos"))
 
-
-class EquipoInactivosListView(LoginRequiredMixin, ListView):
+class EquipoActivosView(LoginRequiredMixin, AdminRequiredMixin, ListView):
     model = Equipo
-    template_name = "equipo/equipos_inactivos.html"
-
-    def get_queryset(self):
-        queryset = self.model.objects.filter(activo=False)
-        return queryset
+    template_name = 'equipo/lista_equipos.html'
+    context_object_name = 'equipo'
 
     def get_context_data(self, **kwargs):
-        ctx = super(EquipoInactivosListView, self).get_context_data(**kwargs)
-        ctx['sidebar_active_equipos'] = 'inactivos'
+        ctx = super(EquipoActivosView, self).get_context_data(**kwargs)
         ctx['sidebar_active'] = 'equipos'
+        ctx['equipo_status'] = 'activos'
+        equipos = Equipo.objects.filter(activo=True)
+        ctx['equipos'] = equipos
         return ctx
-    
-class EquipoActivosListView(LoginRequiredMixin, ListView):
-    model = Equipo
-    template_name = "equipo/equipos_activos.html"
 
-    def get_queryset(self):
-        queryset = self.model.objects.filter(activo=True)
-        return queryset
+
+class EquipoInactivosView(LoginRequiredMixin, AdminRequiredMixin, ListView):
+    model = Equipo
+    template_name = 'equipo/lista_equipos.html'
+    context_object_name = 'equipo'
 
     def get_context_data(self, **kwargs):
-        ctx = super(EquipoActivosListView, self).get_context_data(**kwargs)
-        ctx['sidebar_active_equipos'] = 'activos'
+        ctx = super(EquipoInactivosView, self).get_context_data(**kwargs)
+        # print(ctx)
         ctx['sidebar_active'] = 'equipos'
+        ctx['equipo_status'] = 'inactivos'
+        equipos = Equipo.objects.filter(activo=False)
+        ctx['equipos'] = equipos
         return ctx
-    
+            
 
 class EquipoDetalleView(LoginRequiredMixin, AdminRequiredMixin, DetailView):
     model = Equipo

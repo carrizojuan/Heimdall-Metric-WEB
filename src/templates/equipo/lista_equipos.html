@@ -17,6 +17,30 @@
 
 
 <div style="position: relative;">
+    <div class="card-header">
+        <h3 class="card-title">
+            Equipos {% if equipo_status == 'inactivos' %}Inactivos{% endif %} {% if equipo_status == 'activos' %}Activos{% endif %} {% if equipo_status == 'todos' %}{% endif %}
+        </h3>
+        <div class="col-auto ms-auto d-print-none">
+            <div class="btn-list">
+                <div class="col-6 col-sm-4 col-md-2 col-xl mb-3">
+                    <a href="{% url 'equipo:equipos_inactivos' %}" class="btn btn-ghost-primary active w-100">
+                      Inactivos
+                    </a>
+                </div>
+               <div class="col-6 col-sm-4 col-md-2 col-xl mb-3">
+                    <a href="{% url 'equipo:equipos_activos' %}" class="btn btn-ghost-primary active w-100">
+                      Activos
+                    </a>
+                </div>
+               <div class="col-6 col-sm-4 col-md-2 col-xl mb-3">
+                    <a href="{% url 'equipo:listar_equipos' %}" class="btn btn-ghost-primary active w-100">
+                      Todos
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="card">
         <div class="table-responsive">
             <table class="table table-vcenter card-table">
@@ -30,7 +54,7 @@
             </tr>
             </thead>
             <tbody>
-            {% for equipo in object_list %}
+            {% for equipo in equipos %}
 
             <tr>
                 <td class="text-muted">
