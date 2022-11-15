@@ -27,6 +27,7 @@
             <table class="table table-vcenter card-table">
             <thead>
             <tr>
+                <th>ID</th>
                 <th>Nro Cliente</th>
                 <th>Nro Suministro</th>
                 <th>Nro Serie</th>
@@ -37,6 +38,9 @@
 
             <tr>
                 <td class="text-muted">
+                    {{medidor.id}}
+                </td>
+                <td class="text-muted">
                     {{medidor.nro_cliente}}
                 </td>
                 <td>
@@ -46,6 +50,11 @@
                     {{medidor.nro_serie}}
                 </td>
                 <td>
+                <td>
+                    {% comment %} <a href="{% url 'equipo:equipo_detalle' pk=equipo.nro_serie%}">Detalle</a> {% endcomment %}
+                    <a href="{% url 'medidor:editar_medidor' pk=medidor.id%}">Editar</a>
+                    <a href="{% url 'medidor:eliminar_medidor' pk=medidor.id%}">Eliminar</a>
+                </td>
                 
             </tr>
             {% empty %}
