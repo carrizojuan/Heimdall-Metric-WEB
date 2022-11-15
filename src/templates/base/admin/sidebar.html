@@ -66,6 +66,31 @@
                   </span>
                 </a>
               </li>
+              <li class="nav-item active dropdown {% if sidebar_active == 'medidores' %}active{% endif %}">
+                <a class="nav-link dropdown-toggle" href="#navbar-layout" data-bs-toggle="dropdown" data-bs-auto-close="false" role="button" aria-expanded="false">
+                  <span class="nav-link-icon d-md-none d-lg-inline-block"><!-- Download SVG icon from http://tabler-icons.io/i/layout-2 -->
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><rect x="4" y="4" width="6" height="5" rx="2"></rect><rect x="4" y="13" width="6" height="7" rx="2"></rect><rect x="14" y="4" width="6" height="7" rx="2"></rect><rect x="14" y="15" width="6" height="5" rx="2"></rect></svg>
+                  </span>
+                  <span class="nav-link-title">
+                    Medidor
+                  </span>
+                </a>
+                <div class="dropdown-menu">
+                  <div class="dropdown-menu-columns">
+                    <div class="dropdown-menu-column {% if sidebar_active_sub == 'crear' %}active{% endif %}">
+                      <a class="dropdown-item" href="{% url 'medidor:crear_medidor' %}">
+                        Crear
+                      </a>
+                    </div>
+                    <div class="dropdown-menu-column {% if sidebar_active_sub == 'listar' %}active{% endif %}">
+                      <a class="dropdown-item" href="{% url 'medidor:listar_medidores' %}">
+                        Listar
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </li>
+              
               {% endif %}
             </ul>
           </div>
