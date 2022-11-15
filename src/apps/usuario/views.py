@@ -34,72 +34,109 @@ class EquipoDetalleView(LoginRequiredMixin, AdminRequiredMixin, DetailView):
         ctx["equipo"] = equipo
         return ctx """
 
+
 class UsuarioAdministradorListView(LoginRequiredMixin, AdminRequiredMixin, ListView):
     model = Usuario
     template_name = "usuario/lista_usuarios.html"
+    context_object_name = 'usuarios'
 
     def get_context_data(self, **kwargs):
         ctx = super(UsuarioAdministradorListView, self).get_context_data(**kwargs)
         ctx['sidebar_active'] = 'usuarios'
         ctx['usuario_status'] = 'administradores'
-        usuarios = Usuario.objects.filter(is_staff=True)
-        ctx['usuarios'] = usuarios
         return ctx
 
-    
+    def get_queryset(self):
+        query = Usuario.objects.filter(is_staff=True)
+        search = self.request.GET.get('search', '')
+        if len(search) > 0:
+            query = query.filter(apellidos__icontains=search)
+        return query.order_by('apellidos')
+
+
 class UsuarioMonitorListView(LoginRequiredMixin, AdminRequiredMixin, ListView):
     model = Usuario
     template_name = "usuario/lista_usuarios.html"
+    context_object_name = 'usuarios'
 
     def get_context_data(self, **kwargs):
         ctx = super(UsuarioMonitorListView, self).get_context_data(**kwargs)
         ctx['sidebar_active'] = 'usuarios'
         ctx['usuario_status'] = 'monitores'
-        usuarios = Usuario.objects.filter(is_staff=False)
-        ctx['usuarios'] = usuarios
         return ctx
     
+    def get_queryset(self):
+        query = Usuario.objects.filter(is_staff=False)
+        search = self.request.GET.get('search', '')
+        if len(search) > 0:
+            query = query.filter(apellidos__icontains=search)
+        return query.order_by('apellidos')
+
+
 class UsuarioInactivosListView(LoginRequiredMixin, AdminRequiredMixin, ListView):
     model = Usuario
     template_name = "usuario/lista_usuarios.html"
+    context_object_name = 'usuarios'
 
     def get_context_data(self, **kwargs):
         ctx = super(UsuarioInactivosListView, self).get_context_data(**kwargs)
         ctx['sidebar_active'] = 'usuarios'
         ctx['usuario_status'] = 'inactivos'
-        usuarios = Usuario.objects.filter(is_active=False)
-        ctx['usuarios'] = usuarios
         return ctx
-    
+
+    def get_queryset(self):
+        query = Usuario.objects.filter(is_active=False)
+        search = self.request.GET.get('search', '')
+        if len(search) > 0:
+            query = query.filter(apellidos__icontains=search)
+        return query.order_by('apellidos')
+
+
 class UsuarioActivosListView(LoginRequiredMixin, AdminRequiredMixin, ListView):
     model = Usuario
     template_name = "usuario/lista_usuarios.html"
+    context_object_name = 'usuarios'
 
     def get_context_data(self, **kwargs):
         ctx = super(UsuarioActivosListView, self).get_context_data(**kwargs)
         ctx['sidebar_active'] = 'usuarios'
         ctx['usuario_status'] = 'activos'
-        usuarios = Usuario.objects.filter(is_active=True)
-        ctx['usuarios'] = usuarios
         return ctx
-    
+
+    def get_queryset(self):
+        query = Usuario.objects.filter(is_active=True)
+        search = self.request.GET.get('search', '')
+        if len(search) > 0:
+            query = query.filter(apellidos__icontains=search)
+        return query.order_by('apellidos')
+
+
 class UsuarioListView(LoginRequiredMixin, AdminRequiredMixin, ListView):
     model = Usuario
     template_name = "usuario/lista_usuarios.html"
+    context_object_name = 'usuarios'
 
     def get_context_data(self, **kwargs):
         ctx = super(UsuarioListView, self).get_context_data(**kwargs)
         ctx['sidebar_active'] = 'usuarios'
         ctx['usuario_status'] = 'todos'
-        usuarios = Usuario.objects.all()
-        ctx['usuarios'] = usuarios
+        ctx['search'] = self.request.GET.get('search', '')
         return ctx
-    
+
+    def get_queryset(self):
+        query = Usuario.objects.all()
+        search = self.request.GET.get('search', '')
+        if len(search) > 0:
+            query = query.filter(apellidos__icontains=search)
+        return query.order_by('apellidos')
+
+
 def inactivar_usuario(request, id):
     user = Usuario.objects.get(id = id)
     user.is_active = False
     user.save()
     return HttpResponseRedirect(reverse("usuario:usuarios_activos"))
+
 
 def activar_usuario(request, id):
     user = Usuario.objects.get(id = id)

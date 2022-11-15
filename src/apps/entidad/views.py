@@ -9,22 +9,31 @@ from apps.utils.mixins import AdminRequiredMixin
 from django.views.generic.edit import CreateView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import UpdateView, DeleteView
+from django.views.generic.list import ListView
 from django.shortcuts import render, redirect
 from .models import Entidad, Miembro
 from apps.usuario.models import Usuario
 from .forms import RegisterEntidadForm, RegisterMiembroForm
 
 
-@login_required
-def lista_entidades(request):
+class EntidadesView(LoginRequiredMixin, AdminRequiredMixin, ListView):
     template_name = "entidad/lista_entidades.html"
+    model = Entidad
+    context_object_name = "entidades"
+    # paginate_by = 20
 
-    entidades = Entidad.objects.all()
-    ctx = {
-        'entidades': entidades,
-        "sidebar_active": "entidades"
-    }
-    return render(request, template_name, ctx)
+    def get_context_data(self, **kwargs):
+        ctx = super(EntidadesView, self).get_context_data(**kwargs)
+        ctx['search'] = self.request.GET.get('search', '')
+        ctx['sidebar_active'] = 'entidades'
+        return ctx
+
+    def get_queryset(self):
+        query = Entidad.objects.all()
+        search = self.request.GET.get('search', '')
+        if len(search) > 0:
+            query = query.filter(nombre__icontains=search)
+        return query.order_by('nombre')
 
 
 class CrearEntidadView(LoginRequiredMixin, AdminRequiredMixin, CreateView):
@@ -51,13 +60,11 @@ class DetalleEntidadView(LoginRequiredMixin, AdminRequiredMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         ctx = super(DetalleEntidadView, self).get_context_data(**kwargs)
-        # print(ctx)
         ctx['sidebar_active'] = 'entidades'
         ctx['miembro_status'] = 'todos'
-        # print(kwargs.get("object").pk)
         miembros = Miembro.objects.filter(entidad=kwargs.get("object").pk)
-        # print(miembros)
         ctx['miembros'] = miembros
+        ctx['search'] = self.request.GET.get('search', '')
         return ctx
 
 
@@ -71,9 +78,7 @@ class DetalleEntidadActivosView(LoginRequiredMixin, AdminRequiredMixin, DetailVi
         # print(ctx)
         ctx['sidebar_active'] = 'entidades'
         ctx['miembro_status'] = 'activos'
-        # print(kwargs.get("object").pk)
         miembros = Miembro.objects.filter(entidad=kwargs.get("object").pk,activo=True)
-        # print(miembros)
         ctx['miembros'] = miembros
         return ctx
 
@@ -88,9 +93,7 @@ class DetalleEntidadInactivosView(LoginRequiredMixin, AdminRequiredMixin, Detail
         # print(ctx)
         ctx['sidebar_active'] = 'entidades'
         ctx['miembro_status'] = 'inactivos'
-        # print(kwargs.get("object").pk)
         miembros = Miembro.objects.filter(entidad=kwargs.get("object").pk,activo=False)
-        # print(miembros)
         ctx['miembros'] = miembros
         return ctx
 
@@ -103,7 +106,6 @@ class ActualizarEntidadView(LoginRequiredMixin, AdminRequiredMixin, UpdateView):
     def get_context_data(self, **kwargs):
         context = super(ActualizarEntidadView, self).get_context_data(**kwargs)
         context['sidebar_active'] = 'entidad'
-        print(context)
         return context
 
     def get_success_url(self, **kwargs):
@@ -121,7 +123,6 @@ class EliminarEntidadView(DeleteView):
 
     def get_context_data(self, **kwargs):
         ctx = super(EliminarEntidadView, self).get_context_data(**kwargs)
-        # print(self.object)
         ctx['form'] = RegisterEntidadForm(instance=self.object)
         ctx['sidebar_active'] = 'entidad'
         return ctx
@@ -137,7 +138,6 @@ class CrearMiembroView(LoginRequiredMixin, AdminRequiredMixin, CreateView):
 
     def form_valid(self, form):
         f = form.save(commit=False)
-        # print(form)
         f.entidad = Entidad.objects.get(id=self.kwargs["pk"])
         return super(CrearMiembroView, self).form_valid(form)
 
@@ -145,11 +145,8 @@ class CrearMiembroView(LoginRequiredMixin, AdminRequiredMixin, CreateView):
         context = super(CrearMiembroView, self).get_context_data(**kwargs)
         context["entidad"] = self.kwargs["pk"]
         entidades = Entidad.objects.filter(id=self.kwargs["pk"])
-        # print(entidades)
         miembros_entidad = Miembro.objects.filter(entidad=self.kwargs["pk"]).values('usuario__pk')
-        # print(miembros_entidad)
         context["form"].fields["usuario"].queryset = Usuario.objects.exclude(pk__in=miembros_entidad)
-        # print(context)
         return context
 
 
@@ -160,7 +157,6 @@ class EliminarMiembroView(DeleteView):
 
     def get_context_data(self, **kwargs):
         ctx = super(EliminarMiembroView, self).get_context_data(**kwargs)
-        # print(self.object)
         ctx['form'] = RegisterMiembroForm(instance=self.object)
         ctx['form'].fields["usuario"].widget.attrs["disabled"] = True
         ctx['form'].fields["rol"].widget.attrs["disabled"] = True
@@ -203,5 +199,4 @@ class DetalleMiembroView(LoginRequiredMixin, AdminRequiredMixin, DetailView):
         miembro = Miembro.objects.get(pk=self.kwargs["pk"])
         entidad = Entidad.objects.get(id=miembro.entidad.pk)
         ctx["entidad"] = entidad
-        print(ctx)
         return ctx

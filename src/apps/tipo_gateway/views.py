@@ -24,7 +24,15 @@ class TiposGatewayView(LoginRequiredMixin, AdminRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         ctx = super(TiposGatewayView, self).get_context_data(**kwargs)
         ctx['sidebar_active'] = 'tipo_gateway'
+        ctx['search'] = self.request.GET.get('search', '')
         return ctx
+
+    def get_queryset(self):
+        query = TipoGateway.objects.all()
+        search = self.request.GET.get('search', '')
+        if len(search) > 0:
+            query = query.filter(nombre__icontains=search)
+        return query.order_by('nombre')
 
 
 class CrearTipoGatewayView(LoginRequiredMixin, AdminRequiredMixin, CreateView):
