@@ -1,0 +1,27 @@
+{% extends "base/admin/base.html" %}
+
+{% block content %}
+
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">{{tipo_gateway.nombre}} - Detalle Consola</h3>
+    </div>
+    <div class="card-body">
+        <form method="post">
+            {% csrf_token %}
+            {{form.as_p}}
+            <a href="{% url 'tipo_gateway:detalle_tipo_gateway' tipo_gateway.pk %}" class="btn">
+			Cancelar
+		  </a>
+            <a href="" class="btn  btn-primary">
+			Modificar
+		  </a>
+            <button type="submit" class="btn btn-danger"><i class="far fa-trash"></i>Eliminar</button>
+
+        </form>
+    </div>
+</div>
+
+
+{% endblock content %}
+

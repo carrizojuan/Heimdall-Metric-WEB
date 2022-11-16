@@ -1,0 +1,24 @@
+{% extends "base/admin/base.html" %}
+
+{% block content %}
+
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">Nueva Consola</h3>
+    </div>
+    <div class="card-body">
+        <form method="post">
+            {% csrf_token %}
+            {{form.as_p}}
+
+            <a href="{% url 'tipo_gateway:detalle_tipo_gateway' tipo_gateway %}" class="btn">
+			Cancelar
+		  </a>
+            <button type="submit" class="btn btn-primary">Guardar</button>
+        </form>
+    </div>
+</div>
+
+
+{% endblock content %}
+

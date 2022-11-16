@@ -1,6 +1,6 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from apps.utils.mixins import AdminRequiredMixin
-from django import forms
+# from django import forms
 from django.views.generic.edit import CreateView,UpdateView, DeleteView
 from django.views.generic.detail import DetailView
 from django.views.generic import ListView
@@ -8,6 +8,7 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse, reverse_lazy
 from .models import Equipo
 from .forms import RegisterEquipoForm, EditEquipoForm
+
 
 class CrearEquipoView(LoginRequiredMixin, AdminRequiredMixin, CreateView):
     model = Equipo
@@ -25,21 +26,25 @@ class CrearEquipoView(LoginRequiredMixin, AdminRequiredMixin, CreateView):
         context = super(CrearEquipoView, self).get_context_data(**kwargs)
         return context
 
-    
-class ListEquiposView(LoginRequiredMixin, AdminRequiredMixin, ListView):
 
+class ListEquiposView(LoginRequiredMixin, AdminRequiredMixin, ListView):
     model = Equipo
     template_name = "equipo/lista_equipos.html"
-    context_object_name = 'equipo'
+    context_object_name = 'equipos'
 
     def get_context_data(self, **kwargs):
         ctx = super(ListEquiposView, self).get_context_data(**kwargs)
         ctx['sidebar_active'] = 'equipos'
         ctx['equipo_status'] = 'todos'
-        equipos = Equipo.objects.all()
-        ctx['equipos'] = equipos
+        ctx['search'] = self.request.GET.get('search', '')
         return ctx
 
+    def get_queryset(self):
+        query = Equipo.objects.all()
+        search = self.request.GET.get('search', '')
+        if len(search) > 0:
+            query = query.filter(nro_serie__icontains=search)
+        return query.order_by('nro_serie')
 
 def eliminar_equipo(request, nro_serie):
     print(nro_serie)
@@ -108,5 +113,4 @@ class ActualizarEquipoView(LoginRequiredMixin, AdminRequiredMixin, UpdateView):
     def get_form_kwargs(self):
         kwargs = super(ActualizarEquipoView, self).get_form_kwargs()
         return kwargs
-
 

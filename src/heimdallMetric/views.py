@@ -58,18 +58,6 @@ def detalle_usuario(request):
     return render(request, template_name, ctx)
 
 
-@login_required
-def lista_usuarios(request):
-    template_name = "usuario/lista_usuarios.html"
-
-    usuarios = Usuario.objects.filter(is_active=True)
-    ctx = {
-        'usuarios': usuarios,
-        "sidebar_active": "usuarios",
-    }
-    return render(request, template_name, ctx)
-
-
 class CambiarContraseñaView(PasswordChangeView):
     template_name = "usuario/cambiar_contraseña.html"
     form_class = CambiarContraseñaForm

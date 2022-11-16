@@ -30,6 +30,68 @@
                   </div>
                 </div>
               </div>
+                <div class="col-lg-8">
+                <div class="card card-lg">
+                  <div class="card-body">
+                        <div class="card-header">
+                                <h3 class="card-title">Consolas</h3>
+                          <div class="col-auto ms-auto d-print-none">
+
+                              <span class="d-none d-sm-inline">
+                                  <a href="{% url 'consola:nueva_consola' tipo_gateway.pk %}" class="btn btn-primary d-none d-sm-inline-block" >
+                                    <i class="bi bi-plus"></i>
+                                    Nueva Consola
+                                  </a>
+
+                              </span>
+                            </div>
+                          </div>
+
+
+                        </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                <table class="table table-vcenter card-table">
+                                    <thead>
+                                    <tr>
+                                        <th>Nombre</th>
+                                        <th>APIKEY</th>
+                                        <th>Base URL</th>
+                                        <th class="w-1">Opciones</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for consola in consolas %}
+                                    <tr>
+                                        <td>{{consola.nombre}}</td>
+                                        <td class="text-muted">
+                                        {{consola.apikey}}
+                                        </td>
+                                        <td class="text-muted"><a href="#" class="text-reset">{{consola.base_url}}</a></td>
+                                        <td>
+                                        <a href="{% url 'consola:detalle_consola' consola.pk %}">Detalle</a>
+                                        <a href="{% url 'consola:modificar_consola' consola.pk %}">Editar</a>
+                                        <a href="{% url 'consola:eliminar_consola' consola.pk %}">Eliminar</a>
+                                        </td>
+                                    </tr>
+                                    {% empty %}
+                                    <tr>
+                                        <td>No se encontraron resultados</td>
+                                    </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+
+
+
+                            </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+
          </div>
 
 

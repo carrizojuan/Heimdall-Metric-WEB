@@ -11,3 +11,14 @@ class TipoGateway(models.Model):
     class Meta:
         verbose_name = _("tipo_gateway")
         verbose_name_plural = "tipo_gateways"
+
+
+class Consola(models.Model):
+    nombre = models.CharField(max_length=255, verbose_name=_("nombre"), help_text=_("Nombre de la consola"),null=True)
+    tipo_gateway = models.ForeignKey(TipoGateway, on_delete=models.CASCADE)
+    base_url = models.CharField(max_length=255, verbose_name=_("base_url"), help_text=_("base de url"))
+    apikey = models.CharField(max_length=255, verbose_name=_("apikey"), help_text=_("APIKEY"))
+
+    class Meta:
+        verbose_name = _("consola")
+        verbose_name_plural = "consolas"
