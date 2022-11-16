@@ -1,0 +1,71 @@
+{% extends "base/admin/base.html" %}
+
+{% block categoria_name %}MEDIDORES{% endblock categoria_name %}
+{% block title_name %}{% endblock title_name %}
+
+{% block items_menu %}
+    <div class="btn-list">
+      <a href="{% url 'medidor:crear_medidor' %}" class="btn btn-primary d-none d-sm-inline-block" >
+        <i class="bi bi-plus"></i>
+        Nuevo Medidor
+      </a>
+
+    </div>
+{% endblock items_menu %}
+
+{% block content %}
+
+
+<div style="position: relative;">
+    <div class="card-header">
+        <h3 class="card-title">
+            Medidores
+        </h3>
+    </div>
+    <div class="card">
+        <div class="table-responsive">
+            <table class="table table-vcenter card-table">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nro Cliente</th>
+                <th>Nro Suministro</th>
+                <th>Nro Serie</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for medidor in object_list %}
+
+            <tr>
+                <td class="text-muted">
+                    {{medidor.id}}
+                </td>
+                <td class="text-muted">
+                    {{medidor.nro_cliente}}
+                </td>
+                <td>
+                    {{medidor.nro_cliente}}
+                </td>
+                <td>
+                    {{medidor.nro_serie}}
+                </td>
+                <td>
+                <td>
+                    {% comment %} <a href="{% url 'equipo:equipo_detalle' pk=equipo.nro_serie%}">Detalle</a> {% endcomment %}
+                    <a href="{% url 'medidor:editar_medidor' pk=medidor.id%}">Editar</a>
+                    <a href="{% url 'medidor:eliminar_medidor' pk=medidor.id%}">Eliminar</a>
+                </td>
+                
+            </tr>
+            {% empty %}
+            <tr>
+                <td>No se encontraron resultados</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

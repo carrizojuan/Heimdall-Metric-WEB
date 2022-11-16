@@ -50,6 +50,8 @@ urlpatterns = [
     #EQUIPOS
     path('Equipo/', include('apps.equipo.urls')),
 
+    #MEDIDOR
+    path('Medidor/', include('apps.medidor.urls')),
 
     path('perfil', views.detalle_usuario, name="detalle_usuario"),
     
