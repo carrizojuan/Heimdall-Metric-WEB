@@ -12,51 +12,11 @@
                   <div class="card-body">
                     <form method="post">
                       {% csrf_token %}
-                      <div class="mb-3">
-                        <label class="form-label">Nombre</label>
-                        <input type="text" id="id_nombre" value="{{equipo.name}}" class="form-control" name="example-text-input">
-                      </div>
-                      <div class="mb-3">
-                        <label class="form-label">Nro Serie</label>
-                        <input type="text" id="id_nombre" value="{{equipo.nro_serie}}" class="form-control" name="example-text-input" readonly="">
-                      </div>
-                      <div class="mb-3">
-                        <label class="form-label">Fecha de asignacion</label>
-                        <input type="text" id="id_nombre" value="{{equipo.fecha_asignacion}}" class="form-control" name="example-text-input" readonly="">
-                      </div>
-                      <div class="mb-3">
-                        <label class="form-label">Etiquetas</label>
-                        <input type="text" id="id_nombre" value="{{equipo.label}}" class="form-control" name="example-text-input">
-                      </div>
-                      <div class="mb-3">
-                        <label class="form-label">Ubicacion</label>
-                        <input type="text" id="id_nombre" value="{{equipo.get_coordenadas}}" class="form-control" name="example-text-input">
-                      </div>
-                      <div class="mb-3">
-                        <label class="form-label">App EUI</label>
-                        <input type="text" id="id_nombre" value="{{equipo.app_eui}}" class="form-control" name="example-text-input" readonly="">
-                      </div>
-                      <div class="mb-3">
-                        <label class="form-label">App Key</label>
-                        <input type="text" id="id_nombre" value="{{equipo.app_key}}" class="form-control" name="example-text-input" readonly="">
-                      </div>
-                      <div class="mb-3">
-                        <label class="form-label">Dev EUI</label>
-                        <input type="text" id="id_nombre" value="{{equipo.dev_eui}}" class="form-control" name="example-text-input" readonly="">
-                      </div>
-                      <div class="mb-3">
-                          <label class="form-check">
-                            <input class="form-check-input" id="id_is_active" type="checkbox" {% if equipo.activo == True %}checked {% endif %} disabled>
-                            <span class="form-check-label">¿Activo?</span>
-                          </label>
-                        </div>
-                      </div>
+                      {{form.as_p}}
                       <a href="" class="btn">
                         Cancelar
                       </a>
-                      <a class="btn btn-primary" type="submit">
-                        Guardar
-                      </a>
+                      <button type="submit" class="btn btn-primary">Guardar</button>
                     </form>
                   </div>
                 </div>

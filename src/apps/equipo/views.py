@@ -100,11 +100,14 @@ class ActualizarEquipoView(LoginRequiredMixin, AdminRequiredMixin, UpdateView):
     form_class = EditEquipoForm
 
     def get_context_data(self, **kwargs):
-        context = {}
+        context = super(ActualizarEquipoView, self).get_context_data(**kwargs)
         context['sidebar_active'] = 'equipos'
         equipo = Equipo.objects.get(nro_serie=self.kwargs["pk"])
         context["equipo"] = equipo
         return context
+
+    def get_success_url(self):
+        return reverse('equipo:equipo_detalle', args=[self.kwargs["pk"]])
 
     def form_valid(self, form):
         f = form.save(commit=True)
