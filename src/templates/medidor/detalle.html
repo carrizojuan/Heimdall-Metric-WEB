@@ -1,0 +1,42 @@
+{% extends "base/admin/base.html" %}
+
+{% block content %}
+        <div class="container-xl">
+          <div class="row row-cards">
+            <div class="col-lg-8">
+              <div class="card card-lg">
+                <div class="card-body">
+                  <div class="card-header">
+                    <h3 class="card-title">Detalle Medidor</h3>
+                  </div>
+                  <div class="card-body">
+                    <form method="post">
+                      {% csrf_token %}
+                      <div class="mb-3">
+                        <label class="form-label">Nro Cliente</label>
+                        <input type="text" id="id_nombre" value="{{medidor.nro_cliente}}" class="form-control" name="example-text-input" readonly="">
+                      </div>
+                      <div class="mb-3">
+                        <label class="form-label">Nro Serie</label>
+                        <input type="text" id="id_nombre" value="{{medidor.nro_serie}}" class="form-control" name="example-text-input" readonly="">
+                      </div>
+                      <div class="mb-3">
+                        <label class="form-label">Nro Suministro</label>
+                        <input type="text" id="id_nombre" value="{{medidor.nro_suministro}}" class="form-control" name="example-text-input" readonly="">
+                      </div>
+                      <a href="" class="btn">
+                        Cancelar
+                      </a>
+                      <a href="{% url 'medidor:editar_medidor' pk=medidor.id %}" class="btn  btn-primary">
+                        Modificar
+                      </a>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+{% endblock content %}

@@ -63,8 +63,8 @@
                 </td>
                 <td>
                 <td>
-                    {% comment %} <a href="{% url 'equipo:equipo_detalle' pk=equipo.nro_serie%}">Detalle</a> {% endcomment %}
-                    <a href="{% url 'medidor:editar_medidor' pk=medidor.id%}">Editar</a>
+                    <a href="{% url 'medidor:detalle_medidor' pk=medidor.id%}">Detalle</a>
+                    {% comment %} <a href="{% url 'medidor:editar_medidor' pk=medidor.id%}">Editar</a> {% endcomment %}
                     <a href="{% url 'medidor:eliminar_medidor' pk=medidor.id%}">Eliminar</a>
                 </td>
                 

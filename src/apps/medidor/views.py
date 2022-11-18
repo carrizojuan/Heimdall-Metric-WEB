@@ -1,6 +1,7 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from apps.utils.mixins import AdminRequiredMixin
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 from django.urls import reverse, reverse_lazy
 from django.http import HttpResponseRedirect
@@ -26,6 +27,18 @@ class CrearMedidorView(LoginRequiredMixin, AdminRequiredMixin, CreateView):
         context['sidebar_active_sub'] = 'crear'
         return context
 
+
+class MedidorDetalleView(LoginRequiredMixin, AdminRequiredMixin, DetailView):
+    model = Medidor
+    template_name = 'medidor/detalle.html'
+    context_object_name = 'medidor'
+
+    def get_context_data(self, **kwargs):
+        ctx = super(MedidorDetalleView, self).get_context_data(**kwargs)
+        ctx['sidebar_active'] = 'medidores'
+        medidor = Medidor.objects.get(id=self.kwargs["pk"])
+        ctx["medidor"] = medidor
+        return ctx
 
 class ListMedidoresView(LoginRequiredMixin, AdminRequiredMixin, ListView):
     model = Medidor
