@@ -66,6 +66,14 @@ class DetalleEntidadView(LoginRequiredMixin, AdminRequiredMixin, DetailView):
         ctx['miembros'] = miembros
         ctx['search'] = self.request.GET.get('search', '')
         return ctx
+    
+    def get_queryset(self, **kwargs):
+        query = Miembro.objects.filter(entidad=1)
+        search = self.request.GET.get('search', '')
+        if len(search) > 0:
+            query = query.filter(usuario__apellidos__icontains=search)
+            print(query)
+        return query.order_by('usuario')
 
 
 class DetalleEntidadActivosView(LoginRequiredMixin, AdminRequiredMixin, DetailView):
