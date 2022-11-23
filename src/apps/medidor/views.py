@@ -43,8 +43,8 @@ class ListMedidoresView(LoginRequiredMixin, AdminRequiredMixin, ListView):
         query = Medidor.objects.all()
         search = self.request.GET.get('search', '')
         if len(search) > 0:
-            query = query.filter(nro_serie__nro_serie__icontains=search)
-        return query.order_by('nro_serie')
+            query = query.filter(equipo__nro_serie__icontains=search)
+        return query.order_by('equipo')
 
 
 class EditarMedidorView(LoginRequiredMixin, AdminRequiredMixin, UpdateView):

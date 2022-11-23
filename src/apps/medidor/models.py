@@ -12,6 +12,7 @@ class Medidor(models.Model):
                                help_text=_("Equipo"))
     fecha_asignacion = models.DateTimeField(auto_now_add=True,  verbose_name=_("fecha de asignación"), help_text=_(
         "fecha de asignación del medidor"))
+
     class Meta:
         verbose_name = _("medidor")
         verbose_name_plural = "medidores"

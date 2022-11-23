@@ -36,7 +36,7 @@
     </div>
     <div class="card">
         <div class="table-responsive">
-            <table class="table table-vcenter card-table">
+                        <table class="table table-vcenter card-table">
             <thead>
             <tr>
                 <th>ID</th>
@@ -46,7 +46,7 @@
             </tr>
             </thead>
             <tbody>
-            {% for medidor in object_list %}
+            {% for medidor in equipos %}
 
             <tr>
                 <td class="text-muted">
@@ -67,7 +67,7 @@
                     <a href="{% url 'medidor:editar_medidor' pk=medidor.id%}">Editar</a>
                     <a href="{% url 'medidor:eliminar_medidor' pk=medidor.id%}">Eliminar</a>
                 </td>
-                
+
             </tr>
             {% empty %}
             <tr>
@@ -76,6 +76,7 @@
             {% endfor %}
             </tbody>
         </table>
+
         </div>
     </div>
 </div>
