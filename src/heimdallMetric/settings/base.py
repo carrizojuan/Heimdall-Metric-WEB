@@ -47,6 +47,7 @@ LOCAL_APPS = [
     'apps.equipo',
     'apps.medidor',
     'apps.tipo_gateway',
+    'apps.ciudadano',
 ]
 
 THIRD_APPS = [
