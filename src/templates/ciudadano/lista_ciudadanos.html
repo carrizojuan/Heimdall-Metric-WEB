@@ -1,9 +1,9 @@
 {% extends "base/admin/base.html" %}
 
-{% block categoria_name %}MEDIDORES{% endblock categoria_name %}
-{% block title_name %}{% endblock title_name %}
-
+{% block categoria_name %}CIUDADANO{% endblock categoria_name %}
+{% block title_name %}Todos los Ciudadanos{% endblock title_name %}
 {% block items_menu %}
+
       <div class="my-2 my-md-0 flex-grow-1 flex-md-grow-0 order-first order-md-last">
         <form method="get">
           <div class="input-icon">
@@ -17,57 +17,43 @@
       </div>
 
     <div class="btn-list">
-      <a href="{% url 'medidor:crear_medidor' %}" class="btn btn-primary d-none d-sm-inline-block" >
+      <a href="" class="btn btn-primary d-none d-sm-inline-block" >
         <i class="bi bi-plus"></i>
-        Nuevo Medidor
+        Nuevo Ciudadano
       </a>
 
     </div>
+
 {% endblock items_menu %}
 
 {% block content %}
 
 
 <div style="position: relative;">
-    <div class="card-header">
-        <h3 class="card-title">
-            Medidores
-        </h3>
-    </div>
     <div class="card">
         <div class="table-responsive">
-                        <table class="table table-vcenter card-table">
+        <table class="table table-vcenter card-table">
             <thead>
             <tr>
-                <th>ID</th>
-                <th>Nro Cliente</th>
-                <th>Nro Suministro</th>
-                <th>Nro Serie</th>
+                <th>Apellido y Nombre</th>
+                <th>Nombre de Usuario</th>
+                <th>Email</th>
+                <th class="w-1">Opciones</th>
             </tr>
             </thead>
             <tbody>
-            {% for medidor in equipos %}
-
+            {% for user in ciudadanos %}
             <tr>
+                <td>{{user.apellidos}} {{user.nombres}}</td>
                 <td class="text-muted">
-                    {{medidor.id}}
+                {{user.nombre_usuario}}
                 </td>
-                <td class="text-muted">
-                    {{medidor.nro_cliente}}
-                </td>
+                <td class="text-muted"><a href="#" class="text-reset">{{user.email}}</a></td>
                 <td>
-                    {{medidor.nro_cliente}}
+                <a href="#">Detalle</a>
+                <a href="#">Editar</a>
+                <a href="#">Eliminar</a>
                 </td>
-                <td>
-                    {{medidor.nro_serie.nro_serie}}
-                </td>
-                <td>
-                <td>
-                    <a href="{% url 'medidor:detalle_medidor' pk=medidor.id%}">Detalle</a>
-                    {% comment %} <a href="{% url 'medidor:editar_medidor' pk=medidor.id%}">Editar</a> {% endcomment %}
-                    <a href="{% url 'medidor:eliminar_medidor' pk=medidor.id%}">Eliminar</a>
-                </td>
-
             </tr>
             {% empty %}
             <tr>
@@ -76,9 +62,11 @@
             {% endfor %}
             </tbody>
         </table>
-
         </div>
     </div>
 </div>
 
+
 {% endblock content %}
+
+

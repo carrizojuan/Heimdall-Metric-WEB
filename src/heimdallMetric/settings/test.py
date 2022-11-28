@@ -14,6 +14,14 @@ DATABASES = {
         'PASSWORD': parser.get('default', 'password'),
         'HOST': parser.get('default', 'host'),
         'PORT': parser.get('default', 'port'),
+    },
+    'api': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': parser.get('api', 'name'),
+        'USER': parser.get('api', 'user'),
+        'PASSWORD': parser.get('api', 'password'),
+        'HOST': parser.get('api', 'host'),
+        'PORT': parser.get('api', 'port'),
     }
 }
 
