@@ -145,7 +145,7 @@ class DetalleConsolaView(LoginRequiredMixin, AdminRequiredMixin, DetailView):
         ctx['sidebar_active'] = 'tipo_gateway'
         ctx["tipo_gateway"] = self.object.tipo_gateway
         ctx['form'] = DetalleConsolaForm(instance=self.object)
-        print(ctx)
+        # print(ctx)
         return ctx
 
 

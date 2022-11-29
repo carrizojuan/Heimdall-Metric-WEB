@@ -7,33 +7,6 @@ from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.http import HttpResponseRedirect
 
-""" class EquipoInactivosView(LoginRequiredMixin, AdminRequiredMixin, ListView):
-    model = Equipo
-    template_name = 'equipo/lista_equipos.html'
-    context_object_name = 'equipo'
-
-    def get_context_data(self, **kwargs):
-        ctx = super(EquipoInactivosView, self).get_context_data(**kwargs)
-        # print(ctx)
-        ctx['sidebar_active'] = 'equipos'
-        ctx['equipo_status'] = 'inactivos'
-        equipos = Equipo.objects.filter(activo=False)
-        ctx['equipos'] = equipos
-        return ctx
-            
-
-class EquipoDetalleView(LoginRequiredMixin, AdminRequiredMixin, DetailView):
-    model = Equipo
-    template_name = 'equipo/detalle.html'
-    context_object_name = 'equipo'
-
-    def get_context_data(self, **kwargs):
-        ctx = super(EquipoDetalleView, self).get_context_data(**kwargs)
-        ctx['sidebar_active'] = 'equipos'
-        equipo = Equipo.objects.get(nro_serie=self.kwargs["pk"])
-        ctx["equipo"] = equipo
-        return ctx """
-
 
 class UsuarioAdministradorListView(LoginRequiredMixin, AdminRequiredMixin, ListView):
     model = Usuario
