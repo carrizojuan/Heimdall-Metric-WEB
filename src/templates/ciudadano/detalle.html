@@ -52,7 +52,36 @@
                         </div>
                             <div class="card-body">
                                 <div class="table-responsive">
-
+                                <table class="table table-vcenter card-table">
+                                            <thead>
+                                            <tr>
+                                                <th>Nro. Cliente</th>
+                                                <th>Suministro</th>
+                                                <th>Nro. Serie</th>
+                                                <th class="w-1">Opciones</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            {% for medidor in medidores %}
+                                            <tr>
+                                                <td>{{medidor.nro_cliente}}</td>
+                                                <td class="text-muted">
+                                                {{medidor.nro_suministro}}
+                                                </td>
+                                                <td class="text-muted">{{medidor.equipo.nro_serie}}</td>
+                                                <td>
+                                                <a href="">Detalle</a>
+                                                <a href="">Editar</a>
+                                                <a href="#">Eliminar</a>
+                                                </td>
+                                            </tr>
+                                            {% empty %}
+                                            <tr>
+                                                <td>No se encontraron resultados</td>
+                                            </tr>
+                                            {% endfor %}
+                                            </tbody>
+                                        </table>
 
 
                             </div>

@@ -49,7 +49,7 @@ class DetalleCiudadanoView(LoginRequiredMixin, AdminRequiredMixin, DetailView):
         ctx = super(DetalleCiudadanoView, self).get_context_data(**kwargs)
         ctx['sidebar_active'] = 'ciudadanos'
         ciudadano = AuthUsuario.objects.using('api').get(nro_cliente=kwargs.get("object").pk)
-        ctx['medidores'] = Medidor.objects.filter(nro_cliente=ciudadano.nro_cliente)
+        ctx['medidores'] = Medidor.objects.filter(nro_cliente=ciudadano.id)
         ctx['search'] = self.request.GET.get('search', '')
         ctx['form'] = DetalleCiudadanoForm(instance=self.object)
         print(ctx)
