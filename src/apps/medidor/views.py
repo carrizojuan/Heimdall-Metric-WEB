@@ -55,17 +55,24 @@ class EditarMedidorView(LoginRequiredMixin, AdminRequiredMixin, UpdateView):
     def get_context_data(self, **kwargs):
         context = {}
         context['sidebar_active'] = 'medidores'
+        context['form'] = RegisterMedidorForm(instance=self.object)
+        # print(self.object.nro_cliente)
         equipo = Medidor.objects.get(id=self.kwargs["pk"])
         context["medidor"] = equipo
+        # print(equipo)
         return context
 
     def form_valid(self, form):
-        f = form.save(commit=True)
+        # print(form)
+        f = form.save(commit=False)
         return super(EditarMedidorView, self).form_valid(form)
 
     def get_form_kwargs(self):
         kwargs = super(EditarMedidorView, self).get_form_kwargs()
         return kwargs
+
+    def get_success_url(self, **kw1args):
+        return reverse('medidor:listar_medidores', args=[])
 
 
 def eliminar_medidor(request, pk):

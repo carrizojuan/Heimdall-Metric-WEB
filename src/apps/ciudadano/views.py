@@ -11,6 +11,7 @@ from django.views.generic.detail import DetailView
 from django.views.generic.edit import UpdateView, DeleteView
 from django.views.generic.list import ListView
 from apps.ciudadano.models import AuthUsuario
+from apps.medidor.models import Medidor
 from .forms import CiudadanoForm, DetalleCiudadanoForm
 import logging
 
@@ -47,11 +48,11 @@ class DetalleCiudadanoView(LoginRequiredMixin, AdminRequiredMixin, DetailView):
     def get_context_data(self, **kwargs):
         ctx = super(DetalleCiudadanoView, self).get_context_data(**kwargs)
         ctx['sidebar_active'] = 'ciudadanos'
-        ciudadanos = AuthUsuario.objects.using('api').filter(nro_cliente=kwargs.get("object").pk)
-        ctx['ciudadanos'] = ciudadanos
+        ciudadano = AuthUsuario.objects.using('api').get(nro_cliente=kwargs.get("object").pk)
+        ctx['medidores'] = Medidor.objects.filter(nro_cliente=ciudadano.nro_cliente)
         ctx['search'] = self.request.GET.get('search', '')
         ctx['form'] = DetalleCiudadanoForm(instance=self.object)
-        # print(ctx)
+        print(ctx)
         return ctx
 
     def get_queryset(self):
