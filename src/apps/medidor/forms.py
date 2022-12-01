@@ -4,8 +4,8 @@ from apps.equipo.models import Equipo
 
 
 class RegisterMedidorForm(forms.ModelForm):
-    nro_cliente = forms.CharField(required=True, max_length=255, label="Nro Cliente")
-    nro_suministro = forms.CharField(required=True, max_length=255, label="Nro Suministro")
+    nro_cliente = forms.UUIDField(required=True, label="Nro Cliente",disabled=True)
+    nro_suministro = forms.IntegerField(required=True, label="Nro Suministro")
     equipo = forms.ModelChoiceField(queryset=Equipo.objects.all(),
                                     label="Equipos",
                                     widget=forms.Select(attrs={
@@ -15,4 +15,22 @@ class RegisterMedidorForm(forms.ModelForm):
     class Meta:
         model = Medidor
         fields = ["nro_cliente", "nro_suministro", "equipo"]
-    
+
+
+class AsociarMedidorForm(forms.ModelForm):
+    nro_cliente = forms.UUIDField(required=True, label="Nro Cliente",disabled=True)
+    nro_suministro = forms.IntegerField(required=True, label="Nro Suministro")
+    equipo = forms.ModelChoiceField(queryset=Equipo.objects.all(),
+                                    label="Equipos",
+                                    widget=forms.Select(attrs={
+                                        'class': 'form-control', 'style': "width: 100%"
+                                    }), required=True)
+
+    class Meta:
+        model = Medidor
+        fields = ["nro_cliente","equipo", "nro_suministro"]
+
+    def __init__(self, *args,**kwargs):
+        initial = kwargs.get("initial",{})
+        self.nro_cliente = initial.get("nro_cliente")
+        super(AsociarMedidorForm, self).__init__(*args,**kwargs)

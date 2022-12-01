@@ -151,7 +151,7 @@ class DetalleConsolaView(LoginRequiredMixin, AdminRequiredMixin, DetailView):
 
 class CrearConsolaView(LoginRequiredMixin, AdminRequiredMixin, CreateView):
     model = Consola
-    template_name = 'tipo_gateway/consola/nueva_consola.html'
+    template_name = 'ciudadano/adociar_medidor.html'
     form_class = RegisterConsolaForm
 
     def get_success_url(self, **kwargs):
