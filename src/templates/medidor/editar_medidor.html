@@ -1,0 +1,30 @@
+{% extends "base/admin/base.html" %}
+
+{% block content %}
+        <div class="container-xl">
+          <div class="row row-cards">
+            <div class="col-lg-8">
+              <div class="card card-lg">
+                <div class="card-body">
+                  <div class="card-header">
+                    <h3 class="card-title">Detalle Medidor</h3>
+                  </div>
+                  <div class="card-body">
+                    <form method="post">
+                      {% csrf_token %}
+
+                        {{form.as_p}}
+                      <a href="{% url 'medidor:listar_medidores' %}" class="btn">
+                        Cancelar
+                      </a>
+                      <button type="submit" class="btn btn-primary">Guardar</button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+{% endblock content %}

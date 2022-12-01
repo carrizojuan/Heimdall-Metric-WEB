@@ -1,0 +1,98 @@
+{% extends "base/admin/base.html" %}
+
+{% block content %}
+         <div class="container-xl">
+            <div class="row row-cards">
+              <div class="col-lg-4">
+                <div class="card card-lg">
+                  <div class="card-body">
+                          <div class="card-header">
+                                <h3 class="card-title">Detalle Ciudadano</h3>
+                            </div>
+                            <div class="card-body">
+                                <form method="post">
+                                    {% csrf_token %}
+                                    {{form.as_p}}
+
+
+                                    <a href="{% url 'ciudadano:listar_ciudadanos' %}" class="btn">
+                                    Cancelar
+                                  </a>
+                                    <a href="" class="btn  btn-primary">
+                                    Modificar
+                                  </a>
+
+                                </form>
+                            </div>
+                  </div>
+                </div>
+              </div>
+
+                <div class="col-lg-8">
+                <div class="card card-lg">
+                  <div class="card-body">
+                        <div class="card-header">
+                                <h3 class="card-title">Medidores </h3>
+                          <div class="col-auto ms-auto d-print-none">
+                               <div class="my-2 my-md-0 flex-grow-1 flex-md-grow-0 order-first order-md-last">
+                                <form method="get">
+                                  <div class="input-icon">
+                                    <span class="input-icon-addon">
+                                      <!-- Download SVG icon from http://tabler-icons.io/i/search -->
+                                      <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><circle cx="10" cy="10" r="7" /><line x1="21" y1="21" x2="15" y2="15" /></svg>
+                                    </span>
+                                    <input id='search' type="text" class="form-control" placeholder="Buscar…" aria-label="Buscar en el sitio" name="search" value="{{search}}" value="{{search}}">
+                                  </div>
+                                </form>
+                              </div>
+                                                    </div>
+                          </div>
+
+
+                        </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                <table class="table table-vcenter card-table">
+                                            <thead>
+                                            <tr>
+                                                <th>Nro. Cliente</th>
+                                                <th>Suministro</th>
+                                                <th>Nro. Serie</th>
+                                                <th class="w-1">Opciones</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            {% for medidor in medidores %}
+                                            <tr>
+                                                <td>{{medidor.nro_cliente}}</td>
+                                                <td class="text-muted">
+                                                {{medidor.nro_suministro}}
+                                                </td>
+                                                <td class="text-muted">{{medidor.equipo.nro_serie}}</td>
+                                                <td>
+                                                <a href="">Detalle</a>
+                                                <a href="">Editar</a>
+                                                <a href="#">Eliminar</a>
+                                                </td>
+                                            </tr>
+                                            {% empty %}
+                                            <tr>
+                                                <td>No se encontraron resultados</td>
+                                            </tr>
+                                            {% endfor %}
+                                            </tbody>
+                                        </table>
+
+
+                            </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+         </div>
+
+
+{% endblock content %}
+
