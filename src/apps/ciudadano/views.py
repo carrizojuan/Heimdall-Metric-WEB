@@ -6,17 +6,19 @@ from django.urls import reverse, reverse_lazy
 from apps.utils.mixins import AdminRequiredMixin
 # from django.contrib import messages
 # from django.contrib.auth import update_session_auth_hash
-# from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import UpdateView, DeleteView
 from django.views.generic.list import ListView
 from apps.ciudadano.models import AuthUsuario
 from apps.medidor.models import Medidor
 from .forms import CiudadanoForm, DetalleCiudadanoForm
+from apps.medidor.forms import AsociarMedidorForm
 import logging
 
 
 logger = logging.getLogger(__name__)
+
 
 class CiudadanosView(LoginRequiredMixin, AdminRequiredMixin, ListView):
     template_name = "ciudadano/lista_ciudadanos.html"
@@ -94,3 +96,36 @@ class ActualizarCiudadanoView(LoginRequiredMixin, AdminRequiredMixin, UpdateView
         ciudadano.save()
         print(f,ciudadano)
         return super(ActualizarCiudadanoView, self).form_valid(form)
+
+
+class AsociarMedidorView(LoginRequiredMixin, AdminRequiredMixin, CreateView):
+    model = Medidor
+    template_name = 'ciudadano/asociar_medidor.html'
+    form_class = AsociarMedidorForm
+
+    def get_success_url(self, **kwargs):
+        return reverse('ciudadano:listar_ciudadanos', args=[])
+
+    def form_valid(self, form):
+        print("a")
+        f = form.save(commit=False)
+        print("b")
+        usuario = AuthUsuario.using('api').get(id=self.kwargs["pk"])
+        f.nro_cliente = usuario.nro_cliente
+        print("aaaa>",f)
+        return super(AsociarMedidorView, self).form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super(AsociarMedidorView, self).get_context_data(**kwargs)
+        context['sidebar_active'] = 'ciudadanos'
+        context['sidebar_active_sub'] = 'crear'
+        id= self.kwargs.get("pk")
+        ciudadano = AuthUsuario.objects.using('api').get(pk=id)
+        context["usuario"] = ciudadano
+        context["usuario"] = self.kwargs["pk"]
+        print(">>>",ciudadano.nro_cliente, ciudadano.nombres, ciudadano.id)
+        form = AsociarMedidorForm(initial={"nro_cliente": ciudadano.id})
+        context['form'] = form
+        # print(context)
+        return context
+

@@ -1,5 +1,5 @@
 from django.urls import path, re_path
-from .views import CiudadanosView, DetalleCiudadanoView, ActualizarCiudadanoView
+from .views import CiudadanosView, DetalleCiudadanoView, ActualizarCiudadanoView, AsociarMedidorView
 
 # CrearEntidadView, ActualizarEntidadView, EliminarEntidadView, \
 #     DetalleEntidadInactivosView, DetalleEntidadActivosView
@@ -12,5 +12,5 @@ urlpatterns = [
     path('detalle/<int:pk>/', DetalleCiudadanoView.as_view(), name='detalle_ciudadano'),
     path('editar/<int:pk>/', ActualizarCiudadanoView.as_view(), name='modificar_ciudadano'),
     # path('eliminar/<int:pk>', EliminarCiudadanoView.as_view(), name='eliminar_ciudadano'),
-
+    path('nuevo/<int:pk>/', AsociarMedidorView.as_view(), name='asociar_medidor'),
 ]
