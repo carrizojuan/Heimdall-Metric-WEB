@@ -13,18 +13,20 @@ DATABASES = {
         'PASSWORD': parser.get('default', 'password'),
         'HOST': parser.get('default', 'host'),
         'PORT': parser.get('default', 'port'),
-    },
-    'api': {
+    }
+}
+""" 
+'api': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': parser.get('api', 'name'),
         'USER': parser.get('api', 'user'),
         'PASSWORD': parser.get('api', 'password'),
         'HOST': parser.get('api', 'host'),
         'PORT': parser.get('api', 'port'),
-    }
-}
-
+} 
 """
+
+
 INFLUXDB_URL = parser.get('influxdb', 'INFLUXDB_URL')
 INFLUXDB_DATABASE_NAME = parser.get('influxdb', 'INFLUXDB_DATABASE_NAME')
 
@@ -34,7 +36,7 @@ INFLUXDB_PASSWORD = parser.get('influxdb', 'INFLUXDB_PASSWORD')
 
 # OSS 2.0
 INFLUXDB_AUTH_TOKEN = parser.get('influxdb', 'INFLUXDB_AUTH_TOKEN')
-"""
+
 
 # CONFIG LOGGING
 LOGGING = {

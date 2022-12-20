@@ -10,10 +10,12 @@ from django.views.generic.edit import CreateView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import UpdateView, DeleteView
 from django.views.generic.list import ListView
-from django.shortcuts import render, redirect
+from django.shortcuts import render
 from .models import Entidad, Miembro
 from apps.usuario.models import Usuario
 from .forms import RegisterEntidadForm, RegisterMiembroForm
+from apps.correo.models import EmailService
+import smtplib
 
 
 class EntidadesView(LoginRequiredMixin, AdminRequiredMixin, ListView):
@@ -73,7 +75,33 @@ class DetalleEntidadView(LoginRequiredMixin, AdminRequiredMixin, DetailView):
         return ctx
     
         
-        
+
+def send_email_to_members(request):
+    # Obtener el servicio de correo electrónico de la entidad con id 1
+    email_service = EmailService.objects.get(id_entidad=1)
+    # Obtener la lista de miembros de la entidad con id 1
+    members = Miembro.objects.filter(id_entidad=1)
+
+    # Conectarse al servicio de correo electrónico
+    if email_service.use_tls:
+        server = smtplib.SMTP(email_service.host, email_service.port)
+        server.starttls()
+    else:
+        server = smtplib.SMTP_SSL(email_service.host, email_service.port)
+    server.login(email_service.user, email_service.password)
+
+
+
+    # Enviar correos a todos los miembros de la lista
+    for member in members:
+        message = f"Subject: Mensaje a miembros\n\nEste es un mensaje enviado a todos los miembros de la entidad con id 1."
+        server.sendmail(email_service.user, member.usuario.email, message)
+
+    # Cerrar la conexión al servicio de correo electrónico
+    server.quit()
+
+    return render(request, 'send_email_to_members.html', {'message': 'Correos enviados con éxito'})
+
 
 
 class DetalleEntidadActivosView(LoginRequiredMixin, AdminRequiredMixin, DetailView):

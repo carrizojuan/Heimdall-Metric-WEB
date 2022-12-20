@@ -43,7 +43,7 @@ class MedidorDetalleView(LoginRequiredMixin, AdminRequiredMixin, DetailView):
 class ListMedidoresView(LoginRequiredMixin, AdminRequiredMixin, ListView):
     model = Medidor
     template_name = "medidor/lista_medidores.html"
-    context_object_name = 'equipos'
+    context_object_name = 'medidores'
 
     def get_context_data(self, **kwargs):
         ctx = super(ListMedidoresView, self).get_context_data(**kwargs)
@@ -57,7 +57,7 @@ class ListMedidoresView(LoginRequiredMixin, AdminRequiredMixin, ListView):
         search = self.request.GET.get('search', '')
         if len(search) > 0:
             query = query.filter(equipo__nro_serie__icontains=search)
-        return query.order_by('equipo')
+        return query.order_by('equipo__nro_serie')
 
 
 class EditarMedidorView(LoginRequiredMixin, AdminRequiredMixin, UpdateView):

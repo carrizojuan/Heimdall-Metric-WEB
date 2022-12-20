@@ -46,35 +46,35 @@
             </tr>
             </thead>
             <tbody>
-            {% for medidor in equipos %}
-
-            <tr>
-                <td class="text-muted">
-                    {{medidor.id}}
-                </td>
-                <td class="text-muted">
-                    {{medidor.nro_cliente}}
-                </td>
-                <td>
-                    {{medidor.nro_cliente}}
-                </td>
-                <td>
-                    {{medidor.nro_serie.nro_serie}}
-                </td>
-                <td>
-                <td>
-                    <a href="{% url 'medidor:detalle_medidor' pk=medidor.id%}">Detalle</a>
-                    {% comment %} <a href="{% url 'medidor:editar_medidor' pk=medidor.id%}">Editar</a> {% endcomment %}
-                    <a href="{% url 'medidor:eliminar_medidor' pk=medidor.id%}">Eliminar</a>
-                </td>
-
-            </tr>
-            {% empty %}
-            <tr>
-                <td>No se encontraron resultados</td>
-            </tr>
-            {% endfor %}
-            </tbody>
+              {% for medidor in equipos %}
+              
+              <tr>
+                  <td class="text-muted">
+                      {{medidor.id}}
+                  </td>
+                  <td class="text-muted">
+                      {{medidor.nro_cliente}}
+                  </td>
+                  <td>
+                      {{medidor.nro_cliente}}
+                  </td>
+                  <td>
+                      {{medidor.fecha_asignacion}}
+                  </td>
+                  <td>
+                  <td>
+                      <a href="{% url 'medidor:detalle_medidor' pk=medidor.id%}">Detalle</a>
+                      <a href="{% url 'medidor:editar_medidor' pk=medidor.id%}">Editar</a>
+                      <a href="{% url 'medidor:eliminar_medidor' pk=medidor.id%}">Eliminar</a>
+                  </td>
+  
+              </tr>
+              {% empty %}
+              <tr>
+                  <td>No se encontraron resultados</td>
+              </tr>
+              {% endfor %}
+              </tbody>
         </table>
 
         </div>

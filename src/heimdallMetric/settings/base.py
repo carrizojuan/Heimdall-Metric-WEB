@@ -48,6 +48,7 @@ LOCAL_APPS = [
     'apps.medidor',
     'apps.tipo_gateway',
     'apps.ciudadano',
+    'apps.correo'
 ]
 
 THIRD_APPS = [

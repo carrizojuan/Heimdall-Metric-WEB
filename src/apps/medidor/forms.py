@@ -4,7 +4,7 @@ from apps.equipo.models import Equipo
 
 
 class RegisterMedidorForm(forms.ModelForm):
-    nro_cliente = forms.UUIDField(required=True, label="Nro Cliente",disabled=True)
+    nro_cliente = forms.UUIDField(required=True, label="Nro Cliente")
     nro_suministro = forms.IntegerField(required=True, label="Nro Suministro")
     equipo = forms.ModelChoiceField(queryset=Equipo.objects.all(),
                                     label="Equipos",

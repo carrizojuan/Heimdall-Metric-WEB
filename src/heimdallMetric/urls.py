@@ -56,6 +56,8 @@ urlpatterns = [
 
     path('perfil', views.detalle_usuario, name="detalle_usuario"),
     
+    #SERVICIO EMAIL
+    path("servicio-email/", include('apps.correo.urls'))
 ]
 
 
