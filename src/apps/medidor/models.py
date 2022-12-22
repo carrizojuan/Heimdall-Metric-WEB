@@ -18,3 +18,4 @@ class Medidor(models.Model):
         verbose_name_plural = "medidores"
         db_table = "medidor"
         unique_together = ('nro_cliente', 'nro_suministro','equipo')
+        

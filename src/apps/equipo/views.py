@@ -47,7 +47,6 @@ class ListEquiposView(LoginRequiredMixin, AdminRequiredMixin, ListView):
         return query.order_by('nro_serie')
 
 def eliminar_equipo(request, nro_serie):
-    print(nro_serie)
     equipo = Equipo.objects.get(nro_serie = nro_serie)
     equipo.delete()
     return HttpResponseRedirect(reverse("equipo:listar_equipos"))

@@ -1,0 +1,55 @@
+{% extends "base/admin/base.html" %}
+
+{% block content %}
+<div class="container-xl">
+    <div class="row row-cards">
+      <div class="col-lg-8">
+        <div class="card card-lg">
+          <div class="card-body">
+            <div class="card-header">
+              <h3 class="card-title">Detalles del servicio de correo electrónico</h3>
+            </div>
+            <div class="card-body">
+              <form method="post">
+                {% csrf_token %}
+                <div class="mb-3">
+                  <label class="form-label">Host</label>
+                  <input type="text" id="id_nombre" value="{{email_service.host}}" class="form-control" name="example-text-input" readonly="">
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Puerto</label>
+                  <input type="text" id="id_nombre" value="{{email_service.port}}" class="form-control" name="example-text-input" readonly="">
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Usuario</label>
+                  <input type="text" id="id_nombre" value="{{email_service.user}}" class="form-control" name="example-text-input" readonly="">
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Contraseña</label>
+                  <input type="text" id="id_nombre" value="{{email_service.password}}" class="form-control" name="example-text-input" readonly="">
+                </div>
+                <div class="mb-3">
+                    <label class="form-check">
+                      <input class="form-check-input" id="tls_is_active" type="checkbox" {% if email_service.use_tls == True %}checked {% endif %} disabled>
+                      <span class="form-check-label">¿Usa TLS?</span>
+                    </label>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Entidad</label>
+                    <input type="text" id="id_nombre" value="{{email_service.entidad}}" class="form-control" name="example-text-input" readonly="">
+                </div>
+                <a href="" class="btn">
+                  Cancelar
+                </a>
+                <a href="" class="btn  btn-primary">
+                  Modificar
+                </a>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+{% endblock %}

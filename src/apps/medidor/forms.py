@@ -11,6 +11,7 @@ class RegisterMedidorForm(forms.ModelForm):
                                     widget=forms.Select(attrs={
                                         'class': 'form-control', 'style': "width: 100%"
                                     }), required=True)
+    
 
     class Meta:
         model = Medidor

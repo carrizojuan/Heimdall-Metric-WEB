@@ -1,25 +1,50 @@
-from django.shortcuts import render, redirect
-from django.views import View
+
+from django.urls import reverse
+from django.contrib.auth.mixins import LoginRequiredMixin
+from apps.utils.mixins import AdminRequiredMixin
 from .forms import EmailServiceForm
-from .models import EmailService, Entidad
+from .models import EmailService
+from django.views.generic.edit import CreateView
+from django.views.generic.list import ListView
+from django.views.generic.detail import DetailView
+from django.shortcuts import get_object_or_404, redirect
+from django.http import HttpResponseRedirect
 
-class CreateEmailServiceView(View):
-    def get(self, request):
-        form = EmailServiceForm()
-        return render(request, 'correo/crear_servicio.html', {'form': form})
+class CreateEmailServiceView(LoginRequiredMixin, AdminRequiredMixin, CreateView):
+    model = EmailService
+    template_name = 'correo/crear_servicio.html'
+    form_class = EmailServiceForm
 
-    def post(self, request):
-        form = EmailServiceForm(request.POST)
-        if form.is_valid():
-            entidad = Entidad.objects.get(id=form.cleaned_data['id_entidad'])  # Obtén la entidad
-            email_service = EmailService(
-                host=form.cleaned_data['host'],
-                port=form.cleaned_data['port'],
-                user=form.cleaned_data['user'],
-                password=form.cleaned_data['password'],
-                use_tls=form.cleaned_data['use_tls'],
-                id_entidad=entidad,
-            )
-            email_service.save()  # Guarda la instancia del modelo en la base de datos
-            return redirect('email_service_success')
-        return render(request, 'correo/crear_servicio.html', {'form': form})
+    def get_success_url(self, **kwargs):
+        return reverse('dashboard_admin', args=[])
+
+    def form_valid(self, form):
+        f = form.save(commit=True)
+        return super(CreateEmailServiceView, self).form_valid(form)
+    
+    def get_context_data(self, **kwargs):
+        context = super(CreateEmailServiceView, self).get_context_data(**kwargs)
+        return context
+
+
+class EmailServiceDetailView(DetailView):
+    model = EmailService
+    template_name = 'correo/email_service_detail.html'
+    context_object_name = "email_service"
+
+
+class EmailServiceListView(ListView):
+    model = EmailService
+    template_name = 'correo/email_service_list.html'
+
+
+def email_service_delete(request, pk):
+
+    # Obtener el servicio de correo electrónico a eliminar
+    service = get_object_or_404(EmailService, pk=pk)
+    print(service)
+    # Eliminar el servicio de correo electrónico
+    service.delete()
+    
+    # Redirigir al usuario a la lista de servicios de correo electrónico
+    return HttpResponseRedirect(reverse("email_service:email_service_list"))

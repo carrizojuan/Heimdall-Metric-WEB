@@ -78,16 +78,16 @@ class DetalleEntidadView(LoginRequiredMixin, AdminRequiredMixin, DetailView):
 
 def send_email_to_members(request):
     # Obtener el servicio de correo electrónico de la entidad con id 1
-    email_service = EmailService.objects.get(id_entidad=1)
+    email_service = EmailService.objects.get(entidad=1)
     # Obtener la lista de miembros de la entidad con id 1
-    members = Miembro.objects.filter(id_entidad=1)
+    members = Miembro.objects.filter(entidad=1)
 
     # Conectarse al servicio de correo electrónico
     if email_service.use_tls:
-        server = smtplib.SMTP(email_service.host, email_service.port)
+        server = smtplib.SMTP(email_service.host, email_service.port, None, 30)
         server.starttls()
     else:
-        server = smtplib.SMTP_SSL(email_service.host, email_service.port)
+        server = smtplib.SMTP_SSL(email_service.host, email_service.port, None, 30)
     server.login(email_service.user, email_service.password)
 
 

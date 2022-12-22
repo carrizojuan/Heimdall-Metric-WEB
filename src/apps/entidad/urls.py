@@ -1,6 +1,6 @@
 from django.urls import path
 from .views import EntidadesView, DetalleEntidadView, CrearEntidadView, ActualizarEntidadView, EliminarEntidadView, \
-    DetalleEntidadInactivosView, DetalleEntidadActivosView
+    DetalleEntidadInactivosView, DetalleEntidadActivosView, send_email_to_members
 
 app_name = 'entidad'
 
@@ -12,6 +12,8 @@ urlpatterns = [
     path('detalle/<int:pk>/miembros/inactivos', DetalleEntidadInactivosView.as_view(), name='detalle_entidad_inactivos'),
     path('editar/<int:pk>/', ActualizarEntidadView.as_view(), name='modificar_entidad'),
     path('eliminar/<int:pk>', EliminarEntidadView.as_view(), name='eliminar_entidad'),
+
+    path('send-email/', send_email_to_members, name='send_email_to_members')
 
 ]
 

@@ -46,7 +46,7 @@
             </tr>
             </thead>
             <tbody>
-              {% for medidor in equipos %}
+              {% for medidor in medidores %}
               
               <tr>
                   <td class="text-muted">
@@ -56,10 +56,10 @@
                       {{medidor.nro_cliente}}
                   </td>
                   <td>
-                      {{medidor.nro_cliente}}
+                      {{medidor.nro_suministro}}
                   </td>
                   <td>
-                      {{medidor.fecha_asignacion}}
+                      {{medidor.equipo.nro_serie}}
                   </td>
                   <td>
                   <td>

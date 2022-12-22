@@ -1,7 +1,8 @@
 from django import forms
 from apps.entidad.models import Entidad
+from .models import EmailService
 
-class EmailServiceForm(forms.Form):
+class EmailServiceForm(forms.ModelForm):
     host = forms.CharField(max_length=100)
     port = forms.IntegerField()
     user = forms.CharField(max_length=100)
@@ -12,3 +13,6 @@ class EmailServiceForm(forms.Form):
                                     widget=forms.Select(attrs={
                                         'class': 'form-control', 'style': "width: 100%"
                                     }), required=True)
+    class Meta:
+        model = EmailService
+        fields = ["host", "port", "user", "password", "use_tls", "entidad"]
