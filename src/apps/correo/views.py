@@ -4,7 +4,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from apps.utils.mixins import AdminRequiredMixin
 from .forms import EmailServiceForm
 from .models import EmailService
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView, UpdateView
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.shortcuts import get_object_or_404, redirect
@@ -48,3 +48,12 @@ def email_service_delete(request, pk):
     
     # Redirigir al usuario a la lista de servicios de correo electrónico
     return HttpResponseRedirect(reverse("email_service:email_service_list"))
+
+
+class EmailServiceUpdateView(UpdateView):
+    model = EmailService
+    form_class = EmailServiceForm
+    template_name = 'correo/email_service_update.html'
+
+    def get_success_url(self):
+        return reverse('email_service:email_service_detail', kwargs={'pk': self.kwargs['pk']})

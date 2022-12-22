@@ -38,10 +38,10 @@
                     <label class="form-label">Entidad</label>
                     <input type="text" id="id_nombre" value="{{email_service.entidad}}" class="form-control" name="example-text-input" readonly="">
                 </div>
-                <a href="" class="btn">
+                <a href="{% url 'email_service:email_service_list' %}" class="btn">
                   Cancelar
                 </a>
-                <a href="" class="btn  btn-primary">
+                <a href="{% url 'email_service:email_service_update' pk=email_service.id%}" class="btn  btn-primary">
                   Modificar
                 </a>
               </form>

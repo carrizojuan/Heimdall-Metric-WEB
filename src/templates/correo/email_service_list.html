@@ -66,7 +66,7 @@
                 </td>
                 <td>
                 <a href="{% url 'email_service:email_service_detail' pk=service.id%}">Detalle</a>
-                <a href="">Editar</a>
+                <a href="{% url 'email_service:email_service_update' pk=service.id%}">Editar</a>
                 <a href="{% url 'email_service:email_service_delete' pk=service.id%}">Eliminar</a>
                 </td>
             </tr>
