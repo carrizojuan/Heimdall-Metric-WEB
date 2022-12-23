@@ -2,9 +2,9 @@
 from django.urls import reverse
 from django.contrib.auth.mixins import LoginRequiredMixin
 from apps.utils.mixins import AdminRequiredMixin
-from .forms import EmailServiceForm
+from .forms import EmailServiceForm, EmailForm
 from .models import EmailService
-from django.views.generic.edit import CreateView, UpdateView
+from django.views.generic.edit import CreateView, UpdateView, FormView
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.shortcuts import get_object_or_404, redirect
@@ -57,3 +57,7 @@ class EmailServiceUpdateView(UpdateView):
 
     def get_success_url(self):
         return reverse('email_service:email_service_detail', kwargs={'pk': self.kwargs['pk']})
+
+class EmailSendView(FormView):
+    form_class = EmailForm
+    template_name = 'correo/email_send.html'

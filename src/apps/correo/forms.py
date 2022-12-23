@@ -16,3 +16,8 @@ class EmailServiceForm(forms.ModelForm):
     class Meta:
         model = EmailService
         fields = ["host", "port", "user", "password", "use_tls", "entidad"]
+
+
+class EmailForm(forms.Form):
+    subject = forms.CharField(max_length=255)
+    message = forms.CharField(widget=forms.Textarea)
