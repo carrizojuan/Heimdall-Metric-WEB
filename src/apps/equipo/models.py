@@ -17,6 +17,7 @@ class Equipo(models.Model):
     app_key = models.CharField(null=True, max_length=255, default="", verbose_name=_("APPKEY"), help_text=_("APPKEY de credencial"))
     dev_eui = models.CharField(null=True, max_length=255, default="", verbose_name=_("DEVEUI"), help_text=_("DEVEUI de credencial"))
 
+    
     def get_coordenadas(self):
         return "lat: {}, lng: {}".format(self.latitud, self.longitud)
     

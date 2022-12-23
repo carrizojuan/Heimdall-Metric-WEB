@@ -14,6 +14,7 @@ import configparser
 from datetime import timedelta
 from django.urls import reverse_lazy
 
+
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -26,8 +27,6 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = '47n=jx8_r6oiekp9g-%!3ud_=r#2@jqj+9ve2u&_xetd8eu1@3'
 
-
-
 # Application definition
 
 DJANGO_APPS = [
@@ -38,6 +37,7 @@ DJANGO_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 ]
+
 
 
 LOCAL_APPS = [

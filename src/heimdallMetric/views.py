@@ -16,6 +16,7 @@ from django.db.models.query_utils import Q
 from django.utils.http import urlsafe_base64_encode
 from django.contrib.auth.tokens import default_token_generator
 from django.utils.encoding import force_bytes
+from apps.equipo.models import Equipo
 
 
 class DashboardAdmin(LoginRequiredMixin, AdminRequiredMixin, TemplateView):
@@ -24,6 +25,8 @@ class DashboardAdmin(LoginRequiredMixin, AdminRequiredMixin, TemplateView):
     def get_context_data(self, **kwargs):
         context = super(DashboardAdmin, self).get_context_data(**kwargs)
         context["sidebar_active"] = "dashboard"
+        equipos = Equipo.objects.all()
+        context["equipos"] = equipos
         return context
 
 

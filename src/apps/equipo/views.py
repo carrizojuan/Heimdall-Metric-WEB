@@ -1,13 +1,16 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from apps.utils.mixins import AdminRequiredMixin
 # from django import forms
-from django.views.generic.edit import CreateView,UpdateView, DeleteView
+from django.views.generic.edit import CreateView,UpdateView
 from django.views.generic.detail import DetailView
 from django.views.generic import ListView
 from django.http import HttpResponseRedirect
 from django.urls import reverse, reverse_lazy
 from .models import Equipo
 from .forms import RegisterEquipoForm, EditEquipoForm
+from django.http import JsonResponse
+
+
 
 
 class CrearEquipoView(LoginRequiredMixin, AdminRequiredMixin, CreateView):
@@ -116,3 +119,9 @@ class ActualizarEquipoView(LoginRequiredMixin, AdminRequiredMixin, UpdateView):
         kwargs = super(ActualizarEquipoView, self).get_form_kwargs()
         return kwargs
 
+#API PARA MOSTRAR LOS EQUIPOS EN EL MAPA
+
+def api_equipos(request):
+    equipos = Equipo.objects.all()
+    data = [{'latitud': equipo.latitud, 'longitud': equipo.longitud} for equipo in equipos]
+    return JsonResponse(data, safe=False)
