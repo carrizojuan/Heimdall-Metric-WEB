@@ -13,14 +13,17 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 // Espera a que la conexión se establezca correctamente
 socket.onopen = function(){
     // Hace una solicitud HTTP para obtener la lista de equipos
-    fetch("Equipo/api/equipos/")
-    .then(response => response.json())
-    .then(equipos => {
-      // Envía la lista de equipos a través del WebSocket
-      socket.send(JSON.stringify({
-        'equipos': equipos
-      }));
-    });
+    setInterval(function(){
+            fetch("Equipo/api/equipos/")
+        .then(response => response.json())
+        .then(equipos => {
+        // Envía la lista de equipos a través del WebSocket
+        socket.send(JSON.stringify({
+            'equipos': equipos
+        }));
+        });
+    }, 10000)
+    
 }
 
 // Procesa el mensaje recibido del WebSocket

@@ -8,12 +8,11 @@ class EquipoConsumer(WebsocketConsumer):
 
         # Se conecta al canal
         self.accept()
-        #self.channel_layer.group_add('equipos', self.channel_name)
+        
 
     def disconnect(self, close_code):
         # Se desconecta del canal
         pass
-        #self.channel_layer.group_discard('equipos', self.channel_name)
 
     def receive(self, text_data):
         # Procesa el mensaje recibido
@@ -22,3 +21,5 @@ class EquipoConsumer(WebsocketConsumer):
         self.send(text_data=json.dumps({
             'equipos': equipos
         }))
+
+    
