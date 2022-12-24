@@ -1,23 +1,37 @@
-// Crear un mapa y agregar una capa base
-const map = L.map("map").setView([-27.442777, -58.985833], 12);
-L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-    attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>'
+var ws_path = '/ws/equipos/';
+var socket = new WebSocket('ws://' + window.location.host + ws_path);
+
+// Crear un mapa de Leaflet
+var map = L.map('map').setView([-27.454567, -58.986893], 13);  // Establezca las coordenadas y el nivel de zoom iniciales del mapa
+
+// Añadir una capa de mapa (por ejemplo, OpenStreetMap)
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
+    maxZoom: 18
 }).addTo(map);
 
-
-// Crear una capa de marcadores y agregarla al mapa
-const markersLayer = L.layerGroup().addTo(map);
-
-// Obtener los datos del modelo y cargarlos en la capa de marcadores
-fetch("Equipo/api/equipos/")
+// Espera a que la conexión se establezca correctamente
+socket.onopen = function(){
+    // Hace una solicitud HTTP para obtener la lista de equipos
+    fetch("Equipo/api/equipos/")
     .then(response => response.json())
     .then(equipos => {
-        // Iterar sobre cada equipo y crear un marcador en el mapa
-        for (const equipo of equipos) {
-            // Obtener los datos de ubicación del equipo
-            const latitud = equipo.latitud;
-            const longitud = equipo.longitud;
+      // Envía la lista de equipos a través del WebSocket
+      socket.send(JSON.stringify({
+        'equipos': equipos
+      }));
+    });
+}
 
-            // Crear un marcador en el mapa
-            const marker = L.marker([latitud, longitud]).addTo(markersLayer);
-        }})
+// Procesa el mensaje recibido del WebSocket
+socket.onmessage = function(e) {
+    // Deserializa la lista de equipos del mensaje recibido
+    var equipos = JSON.parse(e.data).equipos;
+    equipos.forEach(function(equipo) {
+        L.marker([equipo.latitud, equipo.longitud]).addTo(map)
+            .bindPopup(equipo.nombre)
+            .openPopup();
+    });
+}
+
+

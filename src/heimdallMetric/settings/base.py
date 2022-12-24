@@ -11,9 +11,6 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 import os
 import configparser
-from datetime import timedelta
-from django.urls import reverse_lazy
-
 
 from pathlib import Path
 
@@ -30,6 +27,7 @@ SECRET_KEY = '47n=jx8_r6oiekp9g-%!3ud_=r#2@jqj+9ve2u&_xetd8eu1@3'
 # Application definition
 
 DJANGO_APPS = [
+    'daphne',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -52,6 +50,7 @@ LOCAL_APPS = [
 ]
 
 THIRD_APPS = [
+    
 ]
 
 INSTALLED_APPS = DJANGO_APPS + LOCAL_APPS + THIRD_APPS
@@ -85,6 +84,8 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'heimdallMetric.wsgi.application'
+ASGI_APPLICATION = "heimdallMetric.asgi.application"
+
 
 
 # Password validation
