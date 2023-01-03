@@ -40,7 +40,7 @@ DJANGO_APPS = [
 
 LOCAL_APPS = [
     'apps.usuario',
-    # 'apps.registro',
+    'apps.registro',
     'apps.entidad',
     'apps.equipo',
     'apps.medidor',
@@ -50,7 +50,8 @@ LOCAL_APPS = [
 ]
 
 THIRD_APPS = [
-    
+    "influxable",
+    'influxdb_client'
 ]
 
 INSTALLED_APPS = DJANGO_APPS + LOCAL_APPS + THIRD_APPS

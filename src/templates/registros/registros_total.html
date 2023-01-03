@@ -1,0 +1,61 @@
+{% extends "base/admin/base.html" %}
+
+{% block categoria_name %}REGISTROS TOTALES{% endblock categoria_name %}
+{% block title_name %}Todos los registros{% endblock title_name %}
+
+{% block items_menu %}
+      <div class="my-2 my-md-0 flex-grow-1 flex-md-grow-0 order-first order-md-last">
+        <form method="get">
+          <div class="input-icon">
+            <span class="input-icon-addon">
+              <!-- Download SVG icon from http://tabler-icons.io/i/search -->
+              <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><circle cx="10" cy="10" r="7" /><line x1="21" y1="21" x2="15" y2="15" /></svg>
+            </span>
+            <input id='search' type="text" class="form-control" placeholder="Buscar…" aria-label="Buscar en el sitio" name="search" value="{{search}}" value="{{search}}">
+          </div>
+        </form>
+      </div>
+
+{% endblock items_menu %}
+
+{% block content %}
+
+
+<div style="position: relative;">
+    <div class="card">
+        <div class="table-responsive">
+            <table class="table table-vcenter card-table">
+            <thead>
+              <tr>
+                  <th>Fecha y hora</th>
+                  <th>Kwh</th>
+                  <th>Topic</th>
+                  <th>Host</th>
+                  <th>Número de serie</th>
+                  <th>ID de lectura</th>
+                  <th>Tipo de lectura</th>
+              </tr>
+            </thead>
+            <tbody>
+                {% for r in readings %}
+                <tr>
+                    <td>{{ r.time }}</td>
+                    <td>{{ r.Kwh }}</td>
+                    <td>{{ r.topic }}</td>
+                    <td>{{ r.host }}</td>
+                    <td>{{ r.nro_serie }}</td>
+                    <td>{{ r.id_lectura }}</td>
+                    <td>{{ r.tipo_lectura }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                  <td>No se encontraron resultados</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

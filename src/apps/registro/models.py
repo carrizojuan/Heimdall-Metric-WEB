@@ -1,3 +1,10 @@
-from django.db import models
+from influxable import attributes, serializers
+from influxable.measurement import Measurement
 
-# Create your models here.
+class TemperatureMeasurement(Measurement):
+    parser_class = serializers.MeasurementPointSerializer # Default
+    measurement_name = 'temperature'
+
+    time = attributes.TimestampFieldAttribute()
+    phase = attributes.TagFieldAttribute()
+    value = attributes.FloatFieldAttribute()
