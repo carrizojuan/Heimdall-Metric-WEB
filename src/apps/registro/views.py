@@ -2,6 +2,7 @@ from django.views.generic import ListView, DetailView
 from .measurement import MQTTConsumerMeasurement
 from influxable.db import RawQuery
 import calendar
+import time
 from influxable.db import Field
 from datetime import datetime
 from apps.equipo.models import Equipo
@@ -285,3 +286,34 @@ class RegistrosIntervaloFechaEquipoView(ListView):
 
 
 
+class RegistrosAñoEquipoView(ListView):
+    template_name = 'registros/registros_equipo.html'
+    context_object_name = 'readings'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["equipo"] = self.kwargs["nro_serie"]
+        return context
+
+    def get_queryset(self):
+        nro_serie = int(self.kwargs["nro_serie"])
+        año = int(self.kwargs["año"])
+        ult_dia_año = datetime(año, 12, 31)
+        ult_dia_año = int(ult_dia_año.timestamp())*1000000000 + 86400*1000000000
+        primer_dia_año = datetime(año, 1, 1)
+        primer_dia_año = int(primer_dia_año.timestamp())*1000000000
+
+        res = MQTTConsumerMeasurement.get_query().select('*') \
+                .where(
+                    Field("nro_serie") == nro_serie,
+                    Field("time") > primer_dia_año,
+                    Field("time") < ult_dia_año
+                ).evaluate()
+
+        registros = []
+
+        for r in res:
+            registro = create_registro(r)
+            # Añadimos el registro a la lista de registros
+            registros.append(registro)
+        return registros

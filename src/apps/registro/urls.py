@@ -23,5 +23,6 @@ urlpatterns = [
     path('<str:nro_serie>/ultimo/', views.UltimoRegistroEquipoView.as_view(), name='ultimo_registro_equipo'),
     path('<str:nro_serie>/mes/<str:mes>/', views.RegistrosMesEquipoView.as_view(), name='registros_equipo_mes'),
     path('<str:nro_serie>/fecha/<str:fecha>/', views.RegistrosFechaEquipoView.as_view(), name='registros_equipo_fecha'),
-    path('<str:nro_serie>/entre-fechas/', views.RegistrosIntervaloFechaEquipoView.as_view(), name='registros_equipo_intervalo')
+    path('<str:nro_serie>/entre-fechas/', views.RegistrosIntervaloFechaEquipoView.as_view(), name='registros_equipo_intervalo'),
+    path('<str:nro_serie>/año/<str:año>', views.RegistrosAñoEquipoView.as_view(), name='registros_equipo_intervalo')
 ]
