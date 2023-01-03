@@ -1,6 +1,7 @@
 from django.views.generic import ListView, DetailView
 from .measurement import MQTTConsumerMeasurement
 from influxable.db import RawQuery
+import calendar
 from influxable.db import Field
 from datetime import datetime
 from apps.equipo.models import Equipo
@@ -39,18 +40,44 @@ class ListarRegistrosEquipoView(ListView):
 
     def get_queryset(self):
         nro_serie = int(self.kwargs["nro_serie"])
-        # Ejecuta la consulta y devuelve los resultados
-        res = MQTTConsumerMeasurement.get_query().select('*') \
-                .where(
-                Field("nro_serie") == nro_serie
-            ).evaluate()
-        registros = []
+        fecha = self.request.GET.get('fecha')
+        print(fecha)
+        if fecha:
+            #Convertimos la fecha a un objeto datetime
+            fecha = datetime.strptime(fecha, '%Y-%m-%d')
         
-        for r in res:
-            registro = create_registro(r)
-            # Añadimos el registro a la lista de registros
-            registros.append(registro)
-        return registros
+            # Obtenemos el valor de timestamp Unix a partir del objeto datetime
+            timestamp_unix = int(fecha.timestamp())*1000000000
+        
+
+            # Ejecutamos la consulta y filtramos los registros por la fecha
+            res = MQTTConsumerMeasurement.get_query().select('*') \
+                    .where(
+                        Field("nro_serie") == nro_serie,
+                        Field("time") > timestamp_unix,
+                        Field("time") < (timestamp_unix + 86400*1000000000)
+                    ).evaluate()
+            
+            registros = []
+
+            for r in res:
+                registro = create_registro(r)
+                # Añadimos el registro a la lista de registros
+                registros.append(registro)
+            return registros
+        else:
+            # Ejecuta la consulta y devuelve los resultados
+            res = MQTTConsumerMeasurement.get_query().select('*') \
+                    .where(
+                    Field("nro_serie") == nro_serie
+                ).evaluate()
+            registros = []
+            
+            for r in res:
+                registro = create_registro(r)
+                # Añadimos el registro a la lista de registros
+                registros.append(registro)
+            return registros
 
 
 def create_registro(r):
@@ -150,3 +177,111 @@ class RegistrosFechaEquipoView(ListView):
             # Añadimos el registro a la lista de registros
             registros.append(registro)
         return registros
+
+
+#Lista los registros de un equipo dada una fecha en un mes
+class RegistrosMesEquipoView(ListView):
+    template_name = 'registros/registros_equipo.html'
+    context_object_name = 'readings'
+
+    def get_queryset(self):
+    
+        nro_serie = int(self.kwargs["nro_serie"])
+        mes_año = self.kwargs["mes"]
+        
+        año = int(mes_año.split("-")[1])
+        mes = int(mes_año.split("-")[0])
+
+        # Obtenemos el primer y último día del mes
+        primer_dia = datetime(año, mes, 1)
+        ult_dia = datetime(año, mes, calendar.monthrange(año, mes)[1], 23, 59, 59)
+
+        primer_dia = int(primer_dia.timestamp())*1000000000
+        ult_dia = int(ult_dia.timestamp())*1000000000
+
+        res = MQTTConsumerMeasurement.get_query().select('*') \
+                .where(
+                    Field("nro_serie") == nro_serie,
+                    Field("time") > primer_dia,
+                    Field("time") < (ult_dia + 86400*1000000000)
+                ).evaluate()
+        
+        registros = []
+
+        for r in res:
+            registro = create_registro(r)
+            # Añadimos el registro a la lista de registros
+            registros.append(registro)
+        return registros
+
+
+class RegistrosIntervaloFechaEquipoView(ListView):
+    template_name = 'registros/registros_equipo_intervalo.html'
+    context_object_name = 'readings'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["equipo"] = self.kwargs["nro_serie"]
+        return context
+
+    def get_queryset(self):
+        # Obtenemos los parámetros de la URL
+        nro_serie = int(self.kwargs["nro_serie"])
+        fecha = ('fecha')
+        fecha_inicio = self.request.GET.get("fecha_inicio")
+        fecha_fin = self.request.GET.get("fecha_fin")
+
+        if fecha_inicio and fecha_fin:
+            # Convertimos la fecha a un objeto datetime
+            fecha_inicio = datetime.strptime(fecha_inicio, '%Y-%m-%d')
+            fecha_fin = datetime.strptime(fecha_fin, '%Y-%m-%d')
+       
+            # Obtenemos el valor de timestamp Unix a partir del objeto datetime
+            fecha_inicio = int(fecha_inicio.timestamp())*1000000000
+            fecha_fin = int(fecha_fin.timestamp())*1000000000
+        
+
+            # Ejecutamos la consulta y filtramos los registros por la fecha
+            res = MQTTConsumerMeasurement.get_query().select('*') \
+                    .where(
+                        Field("nro_serie") == nro_serie,
+                        Field("time") > fecha_inicio,
+                        Field("time") < (fecha_fin + 86400*1000000000)
+                    ).evaluate()
+        
+        elif fecha_inicio:
+            fecha_inicio = datetime.strptime(fecha_inicio, '%Y-%m-%d')
+            fecha_inicio = int(fecha_inicio.timestamp())*1000000000
+
+            res = MQTTConsumerMeasurement.get_query().select('*') \
+                    .where(
+                        Field("nro_serie") == nro_serie,
+                        Field("time") > fecha_inicio
+                    ).evaluate()
+        elif fecha_fin:
+        
+            fecha_fin = datetime.strptime(fecha_fin, '%Y-%m-%d')
+            fecha_fin = int(fecha_fin.timestamp())*1000000000
+
+            res = MQTTConsumerMeasurement.get_query().select('*') \
+                    .where(
+                        Field("nro_serie") == nro_serie,
+                        Field("time") < (fecha_fin + 86400*1000000000)
+                    ).evaluate()
+        else:
+            res = MQTTConsumerMeasurement.get_query().select('*') \
+                    .where(
+                    Field("nro_serie") == nro_serie
+                ).evaluate()
+
+
+        registros = []
+
+        for r in res:
+            registro = create_registro(r)
+            # Añadimos el registro a la lista de registros
+            registros.append(registro)
+        return registros
+
+
+

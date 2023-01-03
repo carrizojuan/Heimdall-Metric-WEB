@@ -19,10 +19,12 @@
 {% endblock items_menu %}
 
 {% block content %}
-<form action="{% url 'listar_registros_equipo' nro_serie=equipo %}" method="get">
+<form action="{% url 'registros_equipo_intervalo' nro_serie=equipo %}" method="get">
   {% csrf_token %}
-  <label for="fecha">Fecha:</label>
-  <input type="date" name="fecha" id="fecha" required>
+  <label for="fecha_inicio">Fecha de inicio:</label><br>
+  <input type="date" id="fecha_inicio" name="fecha_inicio"><br>
+  <label for="fecha_fin">Fecha fin:</label><br>
+  <input type="date" id="fecha_fin" name="fecha_fin"><br><br>
   <button type="submit" class="btn btn-primary">Filtrar</button>
 </form>
 
