@@ -1,0 +1,27 @@
+{% extends "base/admin/base.html" %}
+
+{% block categoria_name %}REGISTROS EQUIPO {% endblock categoria_name %}
+{% block title_name %}Todos los registros{% endblock title_name %}
+
+{% block items_menu %}
+      <div class="my-2 my-md-0 flex-grow-1 flex-md-grow-0 order-first order-md-last">
+        <form method="get">
+          <div class="input-icon">
+            <span class="input-icon-addon">
+              <!-- Download SVG icon from http://tabler-icons.io/i/search -->
+              <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><circle cx="10" cy="10" r="7" /><line x1="21" y1="21" x2="15" y2="15" /></svg>
+            </span>
+            <input id='search' type="text" class="form-control" placeholder="Buscar…" aria-label="Buscar en el sitio" name="search" value="{{search}}" value="{{search}}">
+          </div>
+        </form>
+      </div>
+
+{% endblock items_menu %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1>Consumo anual del equipo {{ equipo }}</h1>
+    <h2>Año {{ año }}</h2>
+    <p>Consumo total: {{ consumo }} Kwh</p>
+</div>
+{% endblock content %}

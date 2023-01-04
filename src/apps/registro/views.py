@@ -1,8 +1,7 @@
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, View
 from .measurement import MQTTConsumerMeasurement
-from influxable.db import RawQuery
 import calendar
-import time
+from influxable.db.function import aggregations
 from influxable.db import Field
 from datetime import datetime
 from apps.equipo.models import Equipo
@@ -126,11 +125,10 @@ class UltimoRegistroEquipoView(DetailView):
     template_name = 'registros/ultimo_registro_equipo.html'
     context_object_name = 'registro'
 
-    """ def get_context_data(self, **kwargs):
+    def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        equipo = Equipo.objects.get_or
         context["equipo"] = self.kwargs["nro_serie"]
-        return context """
+        return context
 
     def get_object(self, queryset=None):
         nro_serie = int(self.kwargs["nro_serie"])
@@ -184,6 +182,11 @@ class RegistrosFechaEquipoView(ListView):
 class RegistrosMesEquipoView(ListView):
     template_name = 'registros/registros_equipo.html'
     context_object_name = 'readings'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["equipo"] = self.kwargs["nro_serie"]
+        return context
 
     def get_queryset(self):
     
@@ -317,3 +320,36 @@ class RegistrosAñoEquipoView(ListView):
             # Añadimos el registro a la lista de registros
             registros.append(registro)
         return registros
+    
+
+class ConsumoAnualEquipoView(DetailView):
+    template_name = 'registros/consumo_equipo.html'
+    context_object_name = 'consumo'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["equipo"] = self.kwargs["nro_serie"]
+        context["año"] = self.kwargs["año"]
+        return context
+
+
+
+    def get_object(self, queryset=None):
+        nro_serie = int(self.kwargs["nro_serie"])
+        año = int(self.kwargs["año"])
+        ult_dia_año = datetime(año, 12, 31)
+        ult_dia_año = int(ult_dia_año.timestamp())*1000000000 + 86400*1000000000
+        primer_dia_año = datetime(año, 1, 1)
+        primer_dia_año = int(primer_dia_año.timestamp())*1000000000
+
+        res = MQTTConsumerMeasurement.get_query().select(aggregations.Sum("Kwh")) \
+                .where(
+                    Field("nro_serie") == nro_serie,
+                    Field("time") > primer_dia_año,
+                    Field("time") < ult_dia_año
+                ).evaluate()
+        
+        print(res)
+        consumo_anual = res[0]['sum']
+
+        return consumo_anual
