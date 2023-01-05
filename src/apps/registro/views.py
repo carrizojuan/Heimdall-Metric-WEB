@@ -3,6 +3,7 @@ from .measurement import MQTTConsumerMeasurement
 import calendar
 from influxable.db.function import aggregations
 from influxable.db import Field
+from influxable.db import RawQuery
 from datetime import datetime
 from apps.equipo.models import Equipo
 
@@ -353,3 +354,52 @@ class ConsumoAnualEquipoView(DetailView):
         consumo_anual = res[0]['sum']
 
         return consumo_anual
+    
+class ConsumoMensualEquipoView(ListView):
+    template_name = 'registros/consumo_mensual_equipo.html'
+    context_object_name = 'consumos'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["equipo"] = self.kwargs["nro_serie"]
+        context["año"] = int(self.kwargs["fecha"].split("-")[1])
+        meses = {
+            1: "Enero",
+            2: "Febrero",
+            3: "Marzo",
+            4: "Abril",
+            5: "Mayo",
+            6: "Junio",
+            7: "Julio",
+            8: "Agosto",
+            9: "Septiembre",
+            10: "Octubre",
+            11: "Noviembre",
+            12: "Diciembre"
+        }
+
+        context["mes"] = meses[(int(self.kwargs["fecha"].split("-")[0]))]
+        return context
+
+    def get_queryset(self):
+        nro_serie = int(self.kwargs["nro_serie"])
+        mes = int(self.kwargs["fecha"].split("-")[0])
+        año = int(self.kwargs["fecha"].split("-")[1])
+         # Obtenemos el primer y último día del mes
+        primer_dia = int(datetime(año, mes, 1, 0, 0, 0).timestamp())*1000000000
+        ult_dia = int(datetime(año, mes, calendar.monthrange(año, mes)[1], 23, 59, 59).timestamp())*1000000000
+        
+        str_query = f'SELECT sum(Kwh) FROM mqtt_consumer WHERE nro_serie={nro_serie} AND time > {primer_dia} AND time < {ult_dia} GROUP BY time(1d, 3h) fill(0)'
+        res = RawQuery(str_query).execute()
+        registros = []
+        print(res)
+        if 'series' in res['results'][0]:
+            valores = res['results'][0]['series'][0]['values']
+            for v in valores:
+                registro = {}
+                registro["time"] = datetime.fromtimestamp(v[0]/(1000000000)).strftime('%d-%m-%Y')
+                registro["consumo"] = v[1]
+                registros.append(registro)
+
+        return registros
+    
