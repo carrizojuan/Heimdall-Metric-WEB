@@ -23,6 +23,8 @@ class ListarRegistrosView(ListView):
         registros = []
         print(res)
         for r in res:
+            print("*"*50)
+            print(r)
             registro = create_registro(r)
             # Añadimos el registro a la lista de registros
             registros.append(registro)
@@ -103,6 +105,11 @@ class ListarNRegistrosEquipoView(ListView):
     template_name = 'registros/registros_equipo.html'
     context_object_name = 'readings'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["equipo"] = self.kwargs["nro_serie"]
+        return context
+
     def get_queryset(self):
         nro_serie = int(self.kwargs["nro_serie"])
         nro_registros = int(self.kwargs["n"])
@@ -151,12 +158,17 @@ class RegistrosFechaEquipoView(ListView):
     template_name = 'registros/registros_equipo.html'
     context_object_name = 'readings'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["equipo"] = self.kwargs["nro_serie"]
+        return context
+
     def get_queryset(self):
         # Obtenemos los parámetros de la URL
         nro_serie = int(self.kwargs["nro_serie"])
         fecha = self.kwargs["fecha"]
         # Convertimos la fecha a un objeto datetime
-        fecha = datetime.strptime(fecha, '%Y-%m-%d')
+        fecha = datetime.strptime(fecha, '%d-%m-%Y')
        
         # Obtenemos el valor de timestamp Unix a partir del objeto datetime
         timestamp_unix = int(fecha.timestamp())*1000000000
@@ -355,7 +367,43 @@ class ConsumoAnualEquipoView(DetailView):
 
         return consumo_anual
     
-class ConsumoMensualEquipoView(ListView):
+class ConsumoMensualEquipoView(DetailView):
+    template_name = 'registros/consumo_equipo.html'
+    context_object_name = 'consumo'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["equipo"] = self.kwargs["nro_serie"]
+        context["año"] = self.kwargs["mes"].split("-")[1]
+        context["mes"] = self.kwargs["mes"].split("-")[0]
+        return context
+
+    def get_object(self, queryset=None):
+        nro_serie = int(self.kwargs["nro_serie"])        
+        año = int(self.kwargs["mes"].split("-")[1])
+        mes = int(self.kwargs["mes"].split("-")[0])
+
+        primer_dia_mes = datetime(año, mes, 1, 0, 0, 0)
+        print(primer_dia_mes)
+        primer_dia_mes = int(primer_dia_mes.timestamp())*1000000000
+        ult_dia_mes = datetime(año, mes, calendar.monthrange(año, mes)[1], 23, 59, 59)
+        print(ult_dia_mes)
+        ult_dia_mes = int(ult_dia_mes.timestamp())*1000000000
+        
+
+        res = MQTTConsumerMeasurement.get_query().select(aggregations.Sum("Kwh")) \
+                .where(
+                    Field("nro_serie") == nro_serie,
+                    Field("time") > primer_dia_mes,
+                    Field("time") < ult_dia_mes
+                ).evaluate()
+        
+        print(res)
+        consumo_mensual = res[0]['sum']
+
+        return consumo_mensual
+    
+class ConsumoMensualPorDiaEquipoView(ListView):
     template_name = 'registros/consumo_mensual_equipo.html'
     context_object_name = 'consumos'
 
