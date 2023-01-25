@@ -6,7 +6,7 @@ from apps.registro.utils import instanciar
 
 def main():
     """Run administrative tasks."""
-    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'heimdallMetric.settings.local')
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'heimdallMetric.settings.local2')
     try:
         from django.core.management import execute_from_command_line
         # instanciar influxdb

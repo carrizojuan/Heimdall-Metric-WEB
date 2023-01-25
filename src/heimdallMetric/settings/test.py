@@ -6,6 +6,12 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['10.1.75.100', 'heimdallmetrics-test.ecom.com.ar']
 
+# Configuración credenciales
+credentials_file = os.path.join(BASE_DIR, "settings", "credentials", "accessfede.conf")
+parser = configparser.ConfigParser()
+parser.read(credentials_file)
+
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',

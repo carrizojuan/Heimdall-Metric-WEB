@@ -137,11 +137,6 @@ STATICFILES_DIRS = (
 
 MEDIA_URL = '/media/'
 
-# Configuración credenciales
-credentials_file = os.path.join(BASE_DIR, "settings", "credentials", "access.conf")
-parser = configparser.ConfigParser()
-parser.read(credentials_file)
-
 
 # modelo utilizado para autenticación (personalizado, no por defecto de Django)
 AUTH_USER_MODEL = 'usuario.Usuario'

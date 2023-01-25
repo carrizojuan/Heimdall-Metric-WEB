@@ -5,6 +5,12 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+# Configuración credenciales
+credentials_file = os.path.join(BASE_DIR, "settings", "credentials", "accessfede.conf")
+parser = configparser.ConfigParser()
+parser.read(credentials_file)
+
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',

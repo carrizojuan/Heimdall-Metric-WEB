@@ -10,8 +10,8 @@ class RegisterEquipoForm(forms.ModelForm):
     label = forms.CharField(max_length=255, required=False, label = "Etiqueta", widget=forms.TextInput(attrs={'class': 'form-control'}))
     activo = forms.BooleanField(required=False, label="¿Activo?",
                                   widget=forms.CheckboxInput(attrs={'class': 'form-check-input'}))
-    latitud = forms.DecimalField(max_digits=8, decimal_places=6, label="Latitud", required=False, widget=forms.TextInput(attrs={'class': 'form-control'}))
-    longitud = forms.DecimalField(max_digits=9, decimal_places=6, label="Longitud",  required=False, widget=forms.TextInput(attrs={'class': 'form-control'}))
+    latitud = forms.DecimalField(max_digits=20, decimal_places=17, label="Latitud", required=False, widget=forms.TextInput(attrs={'class': 'form-control'}))
+    longitud = forms.DecimalField(max_digits=20, decimal_places=17, label="Longitud",  required=False, widget=forms.TextInput(attrs={'class': 'form-control'}))
     
     app_eui = forms.CharField( required=False, max_length=255, label="App EUI", widget=forms.TextInput(attrs={'class': 'form-control'}))
     app_key = forms.CharField( required=False, max_length=255, label="App Key", widget=forms.TextInput(attrs={'class': 'form-control'}))
