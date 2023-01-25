@@ -451,3 +451,37 @@ class ConsumoMensualPorDiaEquipoView(ListView):
 
         return registros
     
+
+
+class ConsumoDiarioEquipoView(DetailView):
+    template_name = 'registros/consumo_equipo.html'
+    context_object_name = 'consumo'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["equipo"] = self.kwargs["nro_serie"]
+        context["año"] = self.kwargs["fecha"].split("-")[2]
+        context["mes"] = self.kwargs["fecha"].split("-")[1]
+        return context
+
+    def get_object(self, queryset=None):
+        nro_serie = int(self.kwargs["nro_serie"])
+        # Convertimos la fecha a un objeto datetime
+        fecha = datetime.strptime(self.kwargs["fecha"], '%d-%m-%Y') 
+        primer_segundo = int(fecha.replace(hour=0, minute=0, second=0).timestamp())*1000000000
+        ultimo_segundo = int(fecha.replace(hour=23, minute=59, second=59).timestamp())*1000000000   
+    
+        res = MQTTConsumerMeasurement.get_query().select(aggregations.Sum("Kwh")) \
+                .where(
+                    Field("nro_serie") == nro_serie,
+                    Field("time") > primer_segundo,
+                    Field("time") < ultimo_segundo
+                ).evaluate()
+        
+        print(res)
+        if len(res)>0:
+            consumo_diario = res[0]['sum']
+        else:
+            consumo_diario = "0"
+    
+        return consumo_diario
