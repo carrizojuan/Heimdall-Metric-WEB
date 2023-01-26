@@ -8,8 +8,8 @@ class Equipo(models.Model):
     nro_serie = models.CharField(max_length=255, primary_key=True, verbose_name=_("equipo"), help_text=_("Nro. de serie del equipo"))
     label = models.CharField(max_length=255, null=True, verbose_name=_("etiqueta"), help_text=_("Nombre de la etiqueta"))
     name = models.CharField(max_length=255, null=False, verbose_name=_("nombre"), help_text=_("Nombre del equipo asignado"))
-    latitud = models.DecimalField(max_digits=8, decimal_places=6, null=True, verbose_name=_("latitud"), help_text=_("latitud"))
-    longitud = models.DecimalField(max_digits=9, decimal_places=6, null=True, verbose_name=_("longitud"), help_text=_("longitud"))
+    latitud = models.DecimalField(max_digits=20, decimal_places=17, null=True, verbose_name=_("latitud"), help_text=_("latitud"))
+    longitud = models.DecimalField(max_digits=20, decimal_places=17, null=True, verbose_name=_("longitud"), help_text=_("longitud"))
     fecha_asignacion = models.DateTimeField(auto_now_add=True,  verbose_name=_("fecha de asignación"), help_text=_(
         "fecha de asignación del equipo"))
     activo = models.BooleanField(default=False, verbose_name=_("activo"), help_text=_("equipo activo?"))
