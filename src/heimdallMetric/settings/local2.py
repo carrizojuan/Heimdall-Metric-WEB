@@ -1,4 +1,7 @@
+# ------------------------ CONFIGURACION 1: FEDE ----------------------------------------------
 from .base import *
+
+CONFIG_SEL = 2  # VARIABLE PARA ELEGIR COMO INSTANCIAR INFLUXDB
 
 DEBUG = True
 
@@ -8,7 +11,6 @@ ALLOWED_HOSTS = []
 credentials_file = os.path.join(BASE_DIR, "settings", "credentials", "accessfede.conf")
 parser = configparser.ConfigParser()
 parser.read(credentials_file)
-
 
 DATABASES = {
     'default': {

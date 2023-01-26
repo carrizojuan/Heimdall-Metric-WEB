@@ -1,15 +1,16 @@
+# ------------------------ CONFIGURACION 1: JUAN ----------------------------------------------
 from .base import *
 
-# SECURITY WARNING: don't run with debug turned on in production!
+CONFIG_SEL = 1  # VARIABLE PARA ELEGIR COMO INSTANCIAR INFLUXDB
+
 DEBUG = True
 
 ALLOWED_HOSTS = []
 
 # Configuración credenciales
-credentials_file = os.path.join(BASE_DIR, "settings", "credentials", "accessfede.conf")
+credentials_file = os.path.join(BASE_DIR, "settings", "credentials", "access.conf")
 parser = configparser.ConfigParser()
 parser.read(credentials_file)
-
 
 DATABASES = {
     'default': {
@@ -26,7 +27,6 @@ INFLUXDB_ORG = parser.get('influxdb', 'INFLUXDB_ORG')
 INFLUXDB_BUCKET = parser.get('influxdb', 'INFLUXDB_BUCKET')
 INFLUXDB_TOKEN = parser.get('influxdb', 'INFLUXDB_AUTH_TOKEN')
 INFLUXDB_DATABASE_NAME = parser.get('influxdb', 'INFLUXDB_DATABASE_NAME')
-
 
 INFLUXDB_DATABASES = {
     'default': {
