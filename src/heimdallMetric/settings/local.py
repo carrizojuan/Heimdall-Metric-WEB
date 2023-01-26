@@ -28,28 +28,12 @@ DATABASES = {
 
 
 INFLUXDB_URL = parser.get('influxdb', 'INFLUXDB_URL')
-INFLUXDB_ORG = parser.get('influxdb', 'INFLUXDB_ORG')
-INFLUXDB_BUCKET = parser.get('influxdb', 'INFLUXDB_BUCKET')
+INFLUXDB_USER = parser.get('influxdb', 'INFLUXDB_USER')
+INFLUXDB_PASSWORD = parser.get('influxdb', 'INFLUXDB_PASSWORD')
+#INFLUXDB_ORG = parser.get('influxdb', 'INFLUXDB_ORG')
+#INFLUXDB_BUCKET = parser.get('influxdb', 'INFLUXDB_BUCKET')
 INFLUXDB_TOKEN = parser.get('influxdb', 'INFLUXDB_AUTH_TOKEN')
 INFLUXDB_DATABASE_NAME = parser.get('influxdb', 'INFLUXDB_DATABASE_NAME')
-
-
-INFLUXDB_DATABASES = {
-    'default': {
-        'NAME': INFLUXDB_DATABASE_NAME,
-        'TOKEN': INFLUXDB_TOKEN,
-        'URL': INFLUXDB_URL,
-        'PORT': 8086,
-    }
-}
-#,
-# Optional
-#INFLUXDB_USER = parser.get('influxdb', 'INFLUXDB_USER')
-#NFLUXDB_PASSWORD = parser.get('influxdb', 'INFLUXDB_PASSWORD')
-
-
-
-
 
 
 # CONFIG LOGGING

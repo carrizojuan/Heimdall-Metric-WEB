@@ -12,49 +12,27 @@ def instanciar():
     """
     Instancia de InfluxDB
     """
-    token = settings.INFLUXDB_TOKEN
+    """ token = settings.INFLUXDB_TOKEN
     database = settings.INFLUXDB_DATABASE_NAME
     url = settings.INFLUXDB_URL
     client = Influxable(
         base_url=url,
         token = token,
         database_name = database
-    )
+    ) """
+    client = Influxable(base_url=settings.INFLUXDB_URL,
+                        user=settings.INFLUXDB_USER,
+                        database_name=settings.INFLUXDB_DATABASE_NAME,
+                        password=settings.INFLUXDB_PASSWORD)
+    
     print(f"Conectado: {client.ping()}")
       
-    res = MQTTConsumerMeasurement.get_query().select('*').evaluate()
+    """ res = MQTTConsumerMeasurement.get_query().select('*').limit(100).evaluate()
     print("*"*100)
     print(res)
-    
-    print("*"*100)
-    init_date = int(datetime(2023, 2, 1, 22).timestamp())
-    end_date = int(datetime(2023, 3, 5).timestamp())
-    # Generamos los datos aleatorios
-    points = []
-    
-    
-    for i in range(5):
-        current_date = random.randint(init_date, end_date)*1000000000
-        
-        # Generamos una lectura aleatoria de consumo (en Kwh)
-        kwh = round(random.uniform(0, 100), 1)
-        print(kwh)
-        # Generamos el registro con la fecha actual y el consumo aleatorio
-        points.append(MQTTConsumerMeasurement(time= current_date, Kwh = kwh, nro_serie=20, topic="medicion", id_lectura=2, host="120.9.20", tipo_lectura="electricidad"))
-    
-    
+ """    
     # Ahora podemos imprimir los datos generados para comprobar que están correctos
 
-    print(points)
-    #point=[MQTTConsumerMeasurement(time = date, Kwh = 10.5, nro_serie = 20)]
-
-    MQTTConsumerMeasurement.bulk_save(points)
-    res = MQTTConsumerMeasurement.get_query().select('*').evaluate()
-    print("*"*100)
-    print(res)
-    
-
-    
 
     return client
 
