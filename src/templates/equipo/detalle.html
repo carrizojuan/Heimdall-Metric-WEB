@@ -2,68 +2,130 @@
 
 {% block content %}
 <div class="container-xl">
-  <div class="row row-cards">
-    <div class="col-lg-8">
-      <div class="card card-lg">
-        <div class="card-body">
-          <div class="card-header">
-            <h3 class="card-title">Detalle Equipo</h3>
+  <div class="card">
+    <div class="card-header">
+      <div class="row align-items-center">
+        <div class="col">
+          <h3 class="card-title">{{equipo.name}}</h3>
+        </div>
+        <div class="col">
+          <div class="btn-list">
+            <a href="{% url 'registros:listar_registros_equipo' nro_serie=equipo.nro_serie%}" class="btn btn-primary d-none d-sm-inline-block" >
+              Ver registros
+            </a>
           </div>
-          <div class="card-body">
-            <form method="post">
-              {% csrf_token %}
-              <div class="mb-3">
-                <label class="form-label">Nombre</label>
-                <input type="text" id="id_nombre" value="{{equipo.name}}" class="form-control" name="example-text-input" readonly="">
-              </div>
-              <div class="mb-3">
-                <label class="form-label">Nro Serie</label>
-                <input type="text" id="id_nombre" value="{{equipo.nro_serie}}" class="form-control" name="example-text-input" readonly="">
-              </div>
-              <div class="mb-3">
-                <label class="form-label">Fecha de asignacion</label>
-                <input type="text" id="id_nombre" value="{{equipo.fecha_asignacion}}" class="form-control" name="example-text-input" readonly="">
-              </div>
-              <div class="mb-3">
-                <label class="form-label">Etiquetas</label>
-                <input type="text" id="id_nombre" value="{{equipo.label}}" class="form-control" name="example-text-input" readonly="">
-              </div>
-              <div class="mb-3">
-                <label class="form-label">Ubicacion</label>
-                <input type="text" id="id_nombre" value="{{equipo.get_coordenadas}}" class="form-control" name="example-text-input" readonly="">
-              </div>
-              <div class="mb-3">
-                <label class="form-label">App EUI</label>
-                <input type="text" id="id_nombre" value="{{equipo.app_eui}}" class="form-control" name="example-text-input" readonly="">
-              </div>
-              <div class="mb-3">
-                <label class="form-label">App Key</label>
-                <input type="text" id="id_nombre" value="{{equipo.app_key}}" class="form-control" name="example-text-input" readonly="">
-              </div>
-              <div class="mb-3">
-                <label class="form-label">Dev EUI</label>
-                <input type="text" id="id_nombre" value="{{equipo.dev_eui}}" class="form-control" name="example-text-input" readonly="">
-              </div>
-              <div class="mb-3">
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="row row-cards">
+        <div class="col-md-6">
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">Detalle Equipo</h3>
+            </div>
+            <div class="card-body">
+              <form method="post">
+                {% csrf_token %}
+                <div class="mb-3">
+                  <label class="form-label">Nombre</label>
+                  <input type="text" id="id_nombre" value="{{equipo.name}}" class="form-control" name="example-text-input" readonly="">
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Nro Serie</label>
+                  <input type="text" id="id_nombre" value="{{equipo.nro_serie}}" class="form-control" name="example-text-input" readonly="">
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Fecha de asignacion</label>
+                  <input type="text" id="id_nombre" value="{{equipo.fecha_asignacion}}" class="form-control" name="example-text-input" readonly="">
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Etiquetas</label>
+                  <input type="text" id="id_nombre" value="{{equipo.label}}" class="form-control" name="example-text-input" readonly="">
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Ubicacion</label>
+                  <input type="text" id="id_nombre" value="{{equipo.get_coordenadas}}" class="form-control" name="example-text-input" readonly="">
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">App EUI</label>
+                  <input type="text" id="id_nombre" value="{{equipo.app_eui}}" class="form-control" name="example-text-input" readonly="">
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">App Key</label>
+                  <input type="text" id="id_nombre" value="{{equipo.app_key}}" class="form-control" name="example-text-input" readonly="">
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Dev EUI</label>
+                  <input type="text" id="id_nombre" value="{{equipo.dev_eui}}" class="form-control" name="example-text-input" readonly="">
+                </div>
+                <div class="mb-3">
                   <label class="form-check">
                     <input class="form-check-input" id="id_is_active" type="checkbox" {% if equipo.activo == True %}checked {% endif %} disabled>
                     <span class="form-check-label">¿Activo?</span>
                   </label>
                 </div>
+                <a href="" class="btn">
+                  Cancelar
+                </a>
+                <a href="{% url 'equipo:editar_equipo' pk=equipo.nro_serie %}" class="btn  btn-primary">
+                  Modificar
+                </a>
+              </form>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="card">
+            <div class="card-header">
+              <div class="row align-items-center">
+                <div class="col">
+                  <h3 class="card-title">Consumos</h3>
+                </div>
+                <div class="col">
+                  <div class="btn-list">
+                    <a href="{% url 'consumos:equipo_consumo_mensual_dia' nro_serie=equipo.nro_serie%}" class="btn btn-primary d-none d-sm-inline-block" >
+                      Ver mas
+                    </a>
+              
+                  </div>
+                </div>
               </div>
-              <a href="" class="btn">
-                Cancelar
-              </a>
-              <a href="{% url 'equipo:editar_equipo' pk=equipo.nro_serie %}" class="btn  btn-primary">
-                Modificar
-              </a>
-            </form>
+              
+            </div>
+            <div class="card-body">
+              <div>
+                <div class="row">
+                  <div class="col">
+                    <span>Total</span>
+                    <br>
+                    <span>0</span>
+                    <br>
+                    <br>
+                    <span>Mensual</span>
+                    <br>
+                    <span>0</span>
+                  </div>
+                  <div class="col">
+                    <span>Semanal</span>
+                    <br>
+                    <span>0</span>
+                    <br>
+                    <br>
+                    <span>Ultimas 24 horas</span>
+                    <br>
+                    <span>0</span>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
+  
 </div>
 
-
+{% comment %} <div class="col-lg-8"> {% endcomment %}
 {% endblock content %}

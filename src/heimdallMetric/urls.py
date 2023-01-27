@@ -59,8 +59,13 @@ urlpatterns = [
     #SERVICIO EMAIL
     path("servicio-email/", include('apps.correo.urls')),
 
-    #MEDICIONES
-    path("registros/", include('apps.registro.urls'))
+    #CONSUMOS
+    path("consumos/", include('apps.registro.url_consumos'), name="consumos_equipo"),
+
+    #REGISTROS
+    path("registros/", include('apps.registro.urls')),
+
+    
 ]
 
 

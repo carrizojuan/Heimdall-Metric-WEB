@@ -11,7 +11,7 @@ class MQTTConsumerMeasurement(Measurement):
     # valor_lectura=attributes.FloatFieldAttribute()
     topic = attributes.TagFieldAttribute()
     host = attributes.TagFieldAttribute()
-    nro_serie= attributes.IntegerFieldAttribute()
+    NumeroDeSerie= attributes.TagFieldAttribute()
     id_lectura= attributes.IntegerFieldAttribute()
     tipo_lectura= attributes.TagFieldAttribute()
 

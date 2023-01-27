@@ -19,11 +19,27 @@
 {% endblock items_menu %}
 
 {% block content %}
-<form action="{% url 'listar_registros_equipo' nro_serie=equipo %}" method="get">
+
+  
+<form action="{% url 'registros:listar_registros_equipo' nro_serie=equipo %}" method="get">
   {% csrf_token %}
-  <label for="fecha">Fecha:</label>
-  <input type="date" name="fecha" id="fecha" required>
-  <button type="submit" class="btn btn-primary">Filtrar</button>
+  <div class="row align-items-center">
+    <div class="col">
+      <label for="fecha">Fecha:</label><br>
+      <input type="date" name="fecha" id="fecha">
+    </div>
+    <div class="col">
+      <label for="fecha_inicio">Fecha de inicio:</label><br>
+      <input type="date" id="fecha_inicio" name="fecha_inicio">
+    </div>
+    <div class="col">
+      <label for="fecha_fin">Fecha fin:</label><br>
+      <input type="date" id="fecha_fin" name="fecha_fin">
+    </div>
+    <div class="col">
+      <button type="submit" class="btn btn-primary">Filtrar</button>
+    </div>
+  </div>
 </form>
 
 <div style="position: relative;">
@@ -35,10 +51,7 @@
                   <th>Fecha y hora</th>
                   <th>Kwh</th>
                   <th>Topic</th>
-                  <th>Host</th>
                   <th>Número de serie</th>
-                  <th>ID de lectura</th>
-                  <th>Tipo de lectura</th>
               </tr>
             </thead>
             <tbody>
@@ -47,10 +60,7 @@
                     <td>{{ r.time }}</td>
                     <td>{{ r.Kwh }}</td>
                     <td>{{ r.topic }}</td>
-                    <td>{{ r.host }}</td>
                     <td>{{ r.nro_serie }}</td>
-                    <td>{{ r.id_lectura }}</td>
-                    <td>{{ r.tipo_lectura }}</td>
                 </tr>
                 {% empty %}
                 <tr>

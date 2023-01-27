@@ -19,15 +19,19 @@ class ListarRegistrosView(ListView):
 
     def get_queryset(self):
         # Ejecuta la consulta y devuelve los resultados
-        res = MQTTConsumerMeasurement.get_query().select('*').evaluate()
+        str_query = f'SELECT time, Kwh, topic, NumeroDeSerie FROM mqtt_consumer ORDER BY time DESC LIMIT 20'
+        res = RawQuery(str_query).execute()
         registros = []
-        print(res)
-        for r in res:
-            print("*"*50)
-            print(r)
-            registro = create_registro(r)
-            # Añadimos el registro a la lista de registros
-            registros.append(registro)
+        if 'series' in res['results'][0]:
+            valores = res['results'][0]['series'][0]['values']
+            for v in valores:
+                registro = {}
+                registro["time"] = datetime.fromtimestamp(v[0]/(1000000000)).strftime('%d-%m-%Y')
+                registro["Kwh"] = v[1]
+                registro["topic"] = v[2]
+                registro["nro_serie"] = v[3]
+                registros.append(registro)
+        
         return registros
     
 
@@ -44,7 +48,8 @@ class ListarRegistrosEquipoView(ListView):
     def get_queryset(self):
         nro_serie = int(self.kwargs["nro_serie"])
         fecha = self.request.GET.get('fecha')
-        print(fecha)
+        fecha_inicio = self.request.GET.get('fecha_inicio')
+        fecha_fin = self.request.GET.get('fecha_fin')
         if fecha:
             #Convertimos la fecha a un objeto datetime
             fecha = datetime.strptime(fecha, '%Y-%m-%d')
@@ -52,48 +57,80 @@ class ListarRegistrosEquipoView(ListView):
             # Obtenemos el valor de timestamp Unix a partir del objeto datetime
             timestamp_unix = int(fecha.timestamp())*1000000000
         
-
-            # Ejecutamos la consulta y filtramos los registros por la fecha
-            res = MQTTConsumerMeasurement.get_query().select('*') \
-                    .where(
-                        Field("nro_serie") == nro_serie,
-                        Field("time") > timestamp_unix,
-                        Field("time") < (timestamp_unix + 86400*1000000000)
-                    ).evaluate()
-            
+            str_query = f'SELECT time, Kwh, topic, NumeroDeSerie FROM mqtt_consumer WHERE NumeroDeSerie={nro_serie} AND time>{timestamp_unix} AND time<{timestamp_unix + 86400*1000000000} ORDER BY time DESC LIMIT 20'
+            res = RawQuery(str_query).execute()
             registros = []
-
-            for r in res:
-                registro = create_registro(r)
-                # Añadimos el registro a la lista de registros
-                registros.append(registro)
+            if 'series' in res['results'][0]:
+                valores = res['results'][0]['series'][0]['values']
+                for v in valores:
+                    registro = {}
+                    registro["time"] = datetime.fromtimestamp(v[0]/(1000000000)).strftime('%d-%m-%Y')
+                    registro["Kwh"] = v[1]
+                    registro["topic"] = v[2]
+                    registro["nro_serie"] = v[3]
+                    registros.append(registro)
             return registros
         else:
             # Ejecuta la consulta y devuelve los resultados
-            res = MQTTConsumerMeasurement.get_query().select('*') \
-                    .where(
-                    Field("nro_serie") == nro_serie
-                ).evaluate()
             registros = []
+            if fecha_inicio and fecha_fin:
+                # Convertimos la fecha a un objeto datetime
+                fecha_inicio = datetime.strptime(fecha_inicio, '%Y-%m-%d')
+                fecha_fin = datetime.strptime(fecha_fin, '%Y-%m-%d')
+        
+                # Obtenemos el valor de timestamp Unix a partir del objeto datetime
+                fecha_inicio = int(fecha_inicio.timestamp())*1000000000
+                fecha_fin = int(fecha_fin.timestamp())*1000000000
             
-            for r in res:
-                registro = create_registro(r)
-                # Añadimos el registro a la lista de registros
-                registros.append(registro)
+
+                # Ejecutamos la consulta y filtramos los registros por la fecha
+                
+                str_query = f'SELECT time, Kwh, topic, NumeroDeSerie FROM mqtt_consumer WHERE NumeroDeSerie={nro_serie} AND time>{fecha_inicio} AND time<{fecha_fin} ORDER BY time DESC LIMIT 20'
+                res = RawQuery(str_query).execute()
+                
+            elif fecha_inicio:
+                fecha_inicio = datetime.strptime(fecha_inicio, '%Y-%m-%d')
+                fecha_inicio = int(fecha_inicio.timestamp())*1000000000
+
+                str_query = f'SELECT time, Kwh, topic, NumeroDeSerie FROM mqtt_consumer WHERE NumeroDeSerie={nro_serie} AND time>{fecha_inicio} ORDER BY time DESC LIMIT 20'
+                res = RawQuery(str_query).execute()
+
+            elif fecha_fin:
+            
+                fecha_fin = datetime.strptime(fecha_fin, '%Y-%m-%d')
+                fecha_fin = int(fecha_fin.timestamp())*1000000000
+                print(fecha_fin)
+
+                str_query = f'SELECT time, Kwh, topic, NumeroDeSerie FROM mqtt_consumer WHERE NumeroDeSerie={nro_serie} AND time<{fecha_fin} ORDER BY time DESC LIMIT 20'
+                res = RawQuery(str_query).execute()
+
+            else:
+                str_query = f'SELECT time, Kwh, topic, NumeroDeSerie FROM mqtt_consumer WHERE NumeroDeSerie={nro_serie} ORDER BY time DESC LIMIT 20'
+                res = RawQuery(str_query).execute()
+                
+            if 'series' in res['results'][0]:
+                    valores = res['results'][0]['series'][0]['values']
+                    for v in valores:
+                        registro = {}
+                        registro["time"] = datetime.fromtimestamp(v[0]/(1000000000)).strftime('%d-%m-%Y')
+                        registro["Kwh"] = v[1]
+                        registro["topic"] = v[2]
+                        registro["nro_serie"] = v[3]
+                        registros.append(registro)
+
             return registros
 
 
 def create_registro(r):
     registro = {}
     registro["time"] = datetime.fromtimestamp(r["time"]/(1000000000))
-    print(r["time"])
     # Accedemos a los campos de la medición y los almacenamos en el diccionario
     registro["Kwh"] = r["Kwh"]
     registro["topic"] = r["topic"]
-    registro["host"] = r["host"]
-    registro["nro_serie"] = r["nro_serie"]
-    registro["id_lectura"] = r["id_lectura"]
-    registro["tipo_lectura"] = r["tipo_lectura"]
+    #registro["host"] = r["host"]
+    registro["nro_serie"] = r["NumeroDeSerie"]
+    #registro["id_lectura"] = r["id_lectura"]
+    #registro["tipo_lectura"] = r["tipo_lectura"]
     # Añadimos el registro a la lista de registros
     return registro
 
@@ -410,7 +447,9 @@ class ConsumoMensualPorDiaEquipoView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["equipo"] = self.kwargs["nro_serie"]
-        context["año"] = int(self.kwargs["fecha"].split("-")[1])
+        fecha_actual = datetime.now()
+        mes = fecha_actual.month
+        año = fecha_actual.year
         meses = {
             1: "Enero",
             2: "Febrero",
@@ -425,19 +464,27 @@ class ConsumoMensualPorDiaEquipoView(ListView):
             11: "Noviembre",
             12: "Diciembre"
         }
+        context["año"] = año
+        context["mes"] = meses[(int(mes))]
 
-        context["mes"] = meses[(int(self.kwargs["fecha"].split("-")[0]))]
         return context
 
     def get_queryset(self):
         nro_serie = int(self.kwargs["nro_serie"])
-        mes = int(self.kwargs["fecha"].split("-")[0])
-        año = int(self.kwargs["fecha"].split("-")[1])
+
+        # Obtener la fecha actual
+        fecha_actual = datetime.now()
+        # Darle el formato "dd-mm-aaaa"
+        dia = fecha_actual.day
+        mes = fecha_actual.month
+        año = fecha_actual.year
+        print(mes)
+        print(año)
          # Obtenemos el primer y último día del mes
         primer_dia = int(datetime(año, mes, 1, 0, 0, 0).timestamp())*1000000000
         ult_dia = int(datetime(año, mes, calendar.monthrange(año, mes)[1], 23, 59, 59).timestamp())*1000000000
         
-        str_query = f'SELECT sum(Kwh) FROM mqtt_consumer WHERE nro_serie={nro_serie} AND time > {primer_dia} AND time < {ult_dia} GROUP BY time(1d, 3h) fill(0)'
+        str_query = f'SELECT sum(Kwh) FROM mqtt_consumer WHERE NumeroDeSerie={nro_serie} AND time > {primer_dia} AND time < {ult_dia} GROUP BY time(1d, 3h) fill(0)'
         res = RawQuery(str_query).execute()
         registros = []
         print(res)
