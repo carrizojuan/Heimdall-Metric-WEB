@@ -11,7 +11,6 @@ var grayIcon = L.icon.pulse({iconSize:[10,10],color:'#464646'});
 // Crear un mapa de Leaflet
 var map = L.map('map', {condensedAttributionControl: false, fullscreenControl: {pseudoFullscreen: false}}).setView([-26, -60], 7);  // Establezca las coordenadas y el nivel de zoom iniciales del mapa
 
-
 //Instancias de Capas:Activas y desactivadas
 /* var nodos_d = L.layerGroup(); // equipos desactivados
 var nodos_a = L.layerGroup(); // equipos activos */

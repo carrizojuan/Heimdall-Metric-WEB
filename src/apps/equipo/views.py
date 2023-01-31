@@ -5,13 +5,12 @@ from django.views.generic.edit import CreateView,UpdateView
 from django.views.generic.detail import DetailView
 from django.views.generic import ListView
 from django.http import HttpResponseRedirect
-from django.urls import reverse, reverse_lazy
+from django.urls import reverse
+from influxable.db import RawQuery
 from .models import Equipo
 from .forms import RegisterEquipoForm, EditEquipoForm
 from django.http import JsonResponse
-
-
-
+from datetime import datetime
 
 class CrearEquipoView(LoginRequiredMixin, AdminRequiredMixin, CreateView):
     model = Equipo
@@ -93,6 +92,19 @@ class EquipoDetalleView(LoginRequiredMixin, AdminRequiredMixin, DetailView):
         ctx['sidebar_active'] = 'equipos'
         equipo = Equipo.objects.get(nro_serie=self.kwargs["pk"])
         ctx["equipo"] = equipo
+
+        str_query = f'SELECT time, Kwh, topic FROM mqtt_consumer WHERE NumeroDeSerie={self.kwargs["pk"]} ORDER BY time DESC LIMIT 20'
+        res = RawQuery(str_query).execute()
+        registros = []
+        if 'series' in res['results'][0]:
+            valores = res['results'][0]['series'][0]['values']
+            for v in valores:
+                registro = {}
+                registro["time"] = datetime.fromtimestamp(v[0]/(1000000000)).strftime('%d-%m-%Y %H:%M:%S')
+                registro["Kwh"] = v[1]
+                registro["topic"] = v[2]
+                registros.append(registro)
+        ctx["registros"] = registros
         return ctx
 
 
@@ -125,3 +137,5 @@ def api_equipos(request):
     equipos = Equipo.objects.filter(activo=True)
     data = [{'latitud': equipo.latitud, 'longitud': equipo.longitud, 'activo': equipo.activo} for equipo in equipos]
     return JsonResponse(data, safe=False)
+
+

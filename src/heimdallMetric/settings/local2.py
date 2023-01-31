@@ -5,7 +5,9 @@ CONFIG_SEL = 2  # VARIABLE PARA ELEGIR COMO INSTANCIAR INFLUXDB
 
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
+
+CORS_ORIGIN_ALLOW_ALL = True
 
 # Configuración credenciales
 credentials_file = os.path.join(BASE_DIR, "settings", "credentials", "accessfede.conf")

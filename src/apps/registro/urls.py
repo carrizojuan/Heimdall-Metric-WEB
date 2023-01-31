@@ -15,6 +15,7 @@ OBTENER CONSUMO ANUAL DE UN EQUIPO
 
 from django.urls import path
 from . import views
+from django.views.decorators.csrf import csrf_exempt
 
 app_name = 'registros'
 
@@ -48,7 +49,7 @@ urlpatterns = [
     #LISTAR LOS REGISTROS DE UN EQUIPO EN UN AÑO
     path('<str:nro_serie>/año/<str:año>', views.RegistrosAñoEquipoView.as_view(), name='registros_equipo_intervalo'),
 
-    
+    path('obtener-registros/', views.obtener_registros, name='obtener_registros')
 ]
 
 """ path('<str:nro_serie>/consumo-diario/<str:fecha>', views.ConsumoMensualEquipoView.as_view(), name='registros_equipo_consumo_diario') """

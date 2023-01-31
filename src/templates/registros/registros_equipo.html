@@ -43,34 +43,35 @@
 </form>
 
 <div style="position: relative;">
-    <div class="card">
-        <div class="table-responsive">
-            <table class="table table-vcenter card-table">
-            <thead>
-              <tr>
-                  <th>Fecha y hora</th>
-                  <th>Kwh</th>
-                  <th>Topic</th>
-                  <th>Número de serie</th>
-              </tr>
-            </thead>
-            <tbody>
-                {% for r in readings %}
-                <tr>
-                    <td>{{ r.time }}</td>
-                    <td>{{ r.Kwh }}</td>
-                    <td>{{ r.topic }}</td>
-                    <td>{{ r.nro_serie }}</td>
-                </tr>
-                {% empty %}
-                <tr>
-                  <td>No se encontraron resultados</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-        </div>
+  <div class="card">
+    <div class="table-responsive">
+      <table class="table table-vcenter card-table">
+        <thead>
+          <tr>
+              <th>Fecha y hora</th>
+              <th>Kwh</th>
+              <th>Topic</th>
+              <th>Número de serie</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for r in readings %}
+          <tr>
+              <td>{{ r.time }}</td>
+              <td>{{ r.Kwh }}</td>
+              <td>{{ r.topic }}</td>
+              <td>{{ r.nro_serie }}</td>
+          </tr>
+          {% empty %}
+          <tr>
+            <td>No se encontraron resultados</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
     </div>
+  </div>
 </div>
 
 {% endblock content %}
+

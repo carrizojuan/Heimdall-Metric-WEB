@@ -2,9 +2,11 @@ from django.views.generic import ListView, DetailView, View
 from .measurement import MQTTConsumerMeasurement
 import calendar
 from influxable.db.function import aggregations
+from django.http import JsonResponse
 from influxable.db import Field
 from influxable.db import RawQuery
 from datetime import datetime
+
 from apps.equipo.models import Equipo
 
 
@@ -59,24 +61,15 @@ class ListarRegistrosEquipoView(ListView):
         
             str_query = f'SELECT time, Kwh, topic, NumeroDeSerie FROM mqtt_consumer WHERE NumeroDeSerie={nro_serie} AND time>{timestamp_unix} AND time<{timestamp_unix + 86400*1000000000} ORDER BY time DESC LIMIT 20'
             res = RawQuery(str_query).execute()
-            registros = []
-            if 'series' in res['results'][0]:
-                valores = res['results'][0]['series'][0]['values']
-                for v in valores:
-                    registro = {}
-                    registro["time"] = datetime.fromtimestamp(v[0]/(1000000000)).strftime('%d-%m-%Y')
-                    registro["Kwh"] = v[1]
-                    registro["topic"] = v[2]
-                    registro["nro_serie"] = v[3]
-                    registros.append(registro)
-            return registros
+            
+            
         else:
             # Ejecuta la consulta y devuelve los resultados
-            registros = []
             if fecha_inicio and fecha_fin:
                 # Convertimos la fecha a un objeto datetime
                 fecha_inicio = datetime.strptime(fecha_inicio, '%Y-%m-%d')
                 fecha_fin = datetime.strptime(fecha_fin, '%Y-%m-%d')
+                print(fecha_inicio)
         
                 # Obtenemos el valor de timestamp Unix a partir del objeto datetime
                 fecha_inicio = int(fecha_inicio.timestamp())*1000000000
@@ -99,7 +92,6 @@ class ListarRegistrosEquipoView(ListView):
             
                 fecha_fin = datetime.strptime(fecha_fin, '%Y-%m-%d')
                 fecha_fin = int(fecha_fin.timestamp())*1000000000
-                print(fecha_fin)
 
                 str_query = f'SELECT time, Kwh, topic, NumeroDeSerie FROM mqtt_consumer WHERE NumeroDeSerie={nro_serie} AND time<{fecha_fin} ORDER BY time DESC LIMIT 20'
                 res = RawQuery(str_query).execute()
@@ -107,18 +99,20 @@ class ListarRegistrosEquipoView(ListView):
             else:
                 str_query = f'SELECT time, Kwh, topic, NumeroDeSerie FROM mqtt_consumer WHERE NumeroDeSerie={nro_serie} ORDER BY time DESC LIMIT 20'
                 res = RawQuery(str_query).execute()
-                
-            if 'series' in res['results'][0]:
-                    valores = res['results'][0]['series'][0]['values']
-                    for v in valores:
-                        registro = {}
-                        registro["time"] = datetime.fromtimestamp(v[0]/(1000000000)).strftime('%d-%m-%Y')
-                        registro["Kwh"] = v[1]
-                        registro["topic"] = v[2]
-                        registro["nro_serie"] = v[3]
-                        registros.append(registro)
 
-            return registros
+        registros = []
+                
+        if 'series' in res['results'][0]:
+                valores = res['results'][0]['series'][0]['values']
+                for v in valores:
+                    registro = {}
+                    registro["time"] = datetime.fromtimestamp(v[0]/(1000000000)).strftime('%d-%m-%Y %H:%M:%S')
+                    registro["Kwh"] = v[1]
+                    registro["topic"] = v[2]
+                    registro["nro_serie"] = v[3]
+                    registros.append(registro)
+
+        return registros
 
 
 def create_registro(r):
@@ -532,3 +526,37 @@ class ConsumoDiarioEquipoView(DetailView):
             consumo_diario = "0"
     
         return consumo_diario
+
+
+def obtener_registros(request):
+    fecha_inicio = request.GET["fecha_inicio"]
+    fecha_fin = request.GET["fecha_fin"]
+    nro_serie = request.GET["nro_serie"]
+    
+    # Convertimos la fecha a un objeto datetime
+    fecha_inicio = datetime.strptime(fecha_inicio, '%Y-%m-%d')
+    fecha_fin = datetime.strptime(fecha_fin, '%Y-%m-%d')
+    print(fecha_inicio)
+    print("*"*26)
+
+    # Obtenemos el valor de timestamp Unix a partir del objeto datetime
+    fecha_inicio = int(fecha_inicio.timestamp())*1000000000
+    fecha_fin = int(fecha_fin.timestamp())*1000000000
+
+
+    # Ejecutamos la consulta y filtramos los registros por la fecha
+
+    str_query = f'SELECT time, Kwh, topic FROM mqtt_consumer WHERE NumeroDeSerie={nro_serie} AND time>{fecha_inicio} AND time<{fecha_fin + 86400*1000000000} ORDER BY time DESC LIMIT 20'
+    res = RawQuery(str_query).execute()
+
+    registros = []
+    if 'series' in res['results'][0]:
+        valores = res['results'][0]['series'][0]['values']
+        for v in valores:
+            registro = {}
+            registro["time"] = datetime.fromtimestamp(v[0]/(1000000000)).strftime('%d-%m-%Y %H:%M:%S')
+            registro["Kwh"] = v[1]
+            registro["topic"] = v[2]
+            registros.append(registro)
+    
+    return JsonResponse({"registros": registros})
