@@ -15,13 +15,6 @@
         <div class="col">
           <h3 class="card-title">{{equipo.name}}</h3>
         </div>
-        <div class="col">
-          <div class="btn-list">
-            <a href="{% url 'registros:listar_registros_equipo' nro_serie=equipo.nro_serie%}" class="btn btn-primary d-none d-sm-inline-block" >
-              Ver registros
-            </a>
-          </div>
-        </div>
       </div>
     </div>
     <div class="card-body">
@@ -91,9 +84,9 @@
                 </div>
                 <div class="col">
                   <div class="btn-list">
-                    <a href="" class="btn btn-primary d-none d-sm-inline-block" >
+                    <button id="prueba" class="btn btn-primary d-none d-sm-inline-block" >
                       Ver mas
-                    </a>
+                    </button>
               
                   </div>
                 </div>
@@ -109,12 +102,12 @@
                     <span>0</span>
                     <br>
                     <br>
-                    <span>Mensual</span>
+                    <span>Ultimos 7 dias</span>
                     <br>
                     <span>0</span>
                   </div>
                   <div class="col">
-                    <span>Semanal</span>
+                    <span>Ultimos 30 dias</span>
                     <br>
                     <span>0</span>
                     <br>
@@ -148,20 +141,18 @@
                         <th>Topic</th>
                     </tr>
                   </thead>
-                  <tbody>
-                    <div id="registro-values">
+                  <tbody id="registro-values">
                       {% for r in registros %}
-                    <tr>
-                        <td>{{ r.time }}</td>
-                        <td>{{ r.Kwh }}</td>
-                        <td>{{ r.topic }}</td>
-                    </tr>
-                    {% empty %}
-                    <tr>
-                      <td>No se encontraron resultados</td>
-                    </tr>
-                    {% endfor %}
-                    </div>
+                      <tr>
+                          <td>{{ r.time }}</td>
+                          <td>{{ r.Kwh }}</td>
+                          <td>{{ r.topic }}</td>
+                      </tr>
+                      {% empty %}
+                      <tr>
+                        <td>No se encontraron resultados</td>
+                      </tr>
+                      {% endfor %}
                   </tbody>
                 </table>
               </div>
@@ -181,5 +172,62 @@
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <script src="https://npmcdn.com/flatpickr/dist/l10n/es.js"></script>
-<script src="{% static 'dist/js/registros.js' %}"></script>
+<script>
+
+function Prueba(){
+  const data= {
+    "prueba": "wepp"
+  };
+  $.ajax({
+    url: "{% url 'registros:obtener_registros' %}",
+    type: 'get',
+    dataType: 'json',
+    data: data,
+    success: function(data){
+      console.log(data)
+    }
+  });
+}
+
+flatpickr("#datepicker", {
+    locale: "es",
+    allowInput: true,
+    dateFormat: "d-M-y",
+    mode: "range",
+    onClose: function (selectedDates) {
+      var fecha_inicio = selectedDates[0].getTime();
+      var fecha_fin = selectedDates[1].getTime();
+      var nro_serie = document.getElementById("nro_serie").value;
+      const data= {
+        "fecha_inicio": fecha_inicio,
+        "fecha_fin": fecha_fin,
+        "nro_serie": nro_serie
+      };
+      $.ajax({
+        url: "{% url 'registros:obtener_registros' %}",
+        type: 'get',
+        dataType: 'json',
+        data: data,
+        success: function(data){
+          console.log(data)
+          const content = document.getElementById("registro-values")
+          content.innerHTML = ""
+          if (data.length < 1) {
+            content.innerHTML = '<tr><td>No se encontraron resultados</td></tr>'
+          }else{
+            data.forEach(r => {
+            let filaNueva = '<tr>' +
+                        '<td>' + r.time + '</td>' +
+                        '<td>' + r.Kwh + '</td>' +
+                        '<td>' + r.topic + '</td>' +
+                        '</tr>';
+            content.innerHTML += filaNueva
+          });
+          }
+          
+        }
+      });
+    }
+});
+</script>
 {% endblock javascript_extra %}

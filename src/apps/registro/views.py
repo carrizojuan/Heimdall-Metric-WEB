@@ -5,7 +5,12 @@ from influxable.db.function import aggregations
 from django.http import JsonResponse
 from influxable.db import Field
 from influxable.db import RawQuery
+from django.contrib.auth.decorators import login_required
 from datetime import datetime
+import json
+import dateutil.parser
+from django.http import HttpResponse
+
 
 from apps.equipo.models import Equipo
 
@@ -28,7 +33,9 @@ class ListarRegistrosView(ListView):
             valores = res['results'][0]['series'][0]['values']
             for v in valores:
                 registro = {}
-                registro["time"] = datetime.fromtimestamp(v[0]/(1000000000)).strftime('%d-%m-%Y')
+                registro["time"] = datetime.fromtimestamp(v[0]/(1000000000)).strftime('%d-%m-%Y %H:%M:%S')
+                print(v[0]/(1000000000))
+                print(v[0])
                 registro["Kwh"] = v[1]
                 registro["topic"] = v[2]
                 registro["nro_serie"] = v[3]
@@ -527,28 +534,16 @@ class ConsumoDiarioEquipoView(DetailView):
     
         return consumo_diario
 
-
+@login_required
 def obtener_registros(request):
-    fecha_inicio = request.GET["fecha_inicio"]
-    fecha_fin = request.GET["fecha_fin"]
-    nro_serie = request.GET["nro_serie"]
+    fecha_inicio = request.GET.get("fecha_inicio")
+    fecha_fin = request.GET.get("fecha_fin")
+    nro_serie = request.GET.get("nro_serie")
+    fecha_inicio = int(fecha_inicio)*1000000
+    fecha_fin = int(fecha_fin)*1000000
     
-    # Convertimos la fecha a un objeto datetime
-    fecha_inicio = datetime.strptime(fecha_inicio, '%Y-%m-%d')
-    fecha_fin = datetime.strptime(fecha_fin, '%Y-%m-%d')
-    print(fecha_inicio)
-    print("*"*26)
-
-    # Obtenemos el valor de timestamp Unix a partir del objeto datetime
-    fecha_inicio = int(fecha_inicio.timestamp())*1000000000
-    fecha_fin = int(fecha_fin.timestamp())*1000000000
-
-
-    # Ejecutamos la consulta y filtramos los registros por la fecha
-
     str_query = f'SELECT time, Kwh, topic FROM mqtt_consumer WHERE NumeroDeSerie={nro_serie} AND time>{fecha_inicio} AND time<{fecha_fin + 86400*1000000000} ORDER BY time DESC LIMIT 20'
-    res = RawQuery(str_query).execute()
-
+    res = RawQuery(str_query).execute() 
     registros = []
     if 'series' in res['results'][0]:
         valores = res['results'][0]['series'][0]['values']
@@ -559,4 +554,6 @@ def obtener_registros(request):
             registro["topic"] = v[2]
             registros.append(registro)
     
-    return JsonResponse({"registros": registros})
+
+    salida = json.dumps(registros)
+    return HttpResponse(salida, content_type='json')

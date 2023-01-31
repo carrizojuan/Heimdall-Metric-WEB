@@ -31,7 +31,36 @@ flatpickr("#datepicker", {
         "fecha_fin": fecha_fin,
         "nro_serie": nro_serie
       };
-      fetch("http://localhost:8000/registros/obtener-registros", {
+      $.ajax({
+        url: "{% url 'registros:obtener_registros' %}",
+        type: 'get',
+        dataType: 'json',
+        data: data,
+        success: function(data){
+          console.log(data)
+        }
+      });
+    }
+});
+
+function Prueba(){
+  const data= {
+    "prueba": "wepp"
+  };
+  $.ajax({
+    url: "{% url 'registros:obtener_registros' %}",
+    type: 'get',
+    dataType: 'json',
+    data: data,
+    success: function(data){
+      console.log(data)
+    }
+  });
+}
+document.getElementById("prueba").onclick = Prueba
+
+
+/* fetch("http://localhost:8000/registros/obtener-registros", {
         method: "POST",
         credentials: 'same-origin',
         mode: "no-cors",
@@ -45,7 +74,4 @@ flatpickr("#datepicker", {
       .then(response => response.json())
       .then(data => {
         console.log(data);
-      });
-    }
-});
-
+      }); */

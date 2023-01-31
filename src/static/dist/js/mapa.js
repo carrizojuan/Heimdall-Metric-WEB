@@ -2,10 +2,10 @@ var ws_path = '/ws/equipos/';
 var socket = new WebSocket('ws://' + window.location.host + ws_path);
 
 //Seteo de iconos personalizados
-var redIcon = L.icon.pulse({iconSize:[10,10],color:'red'});
-var greenIcon = L.icon.pulse({iconSize:[10,10],color:'#008000'});
-var orangeIcon = L.icon.pulse({iconSize:[10,10],color:'#FF8C00'});
-var grayIcon = L.icon.pulse({iconSize:[10,10],color:'#464646'});
+var redIcon = L.icon.pulse({iconSize:[10,10],color:'red', fillColor: 'red'});
+var greenIcon = L.icon.pulse({iconSize:[10,10],color:'#008000', fillColor: '#008000'});
+var orangeIcon = L.icon.pulse({iconSize:[10,10],color:'#FF8C00', fillColor: '#FF8C00'});
+var grayIcon = L.icon.pulse({iconSize:[10,10],color:'#464646', fillColor: '#464646'});
 
 
 // Crear un mapa de Leaflet

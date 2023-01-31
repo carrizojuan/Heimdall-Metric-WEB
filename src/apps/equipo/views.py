@@ -134,7 +134,7 @@ class ActualizarEquipoView(LoginRequiredMixin, AdminRequiredMixin, UpdateView):
 #API PARA MOSTRAR LOS EQUIPOS EN EL MAPA
 
 def api_equipos(request):
-    equipos = Equipo.objects.filter(activo=True)
+    equipos = Equipo.objects.all()
     data = [{'latitud': equipo.latitud, 'longitud': equipo.longitud, 'activo': equipo.activo} for equipo in equipos]
     return JsonResponse(data, safe=False)
 
