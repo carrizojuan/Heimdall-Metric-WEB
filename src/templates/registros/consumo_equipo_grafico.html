@@ -1,0 +1,169 @@
+{% extends "base/admin/base.html" %}
+
+{% block css_extra %}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+{% endblock css_extra %}
+
+{% block categoria_name %}CONSUMO DEL EQUIPO{% endblock categoria_name %}
+{% block title_name %}{% endblock title_name %}
+
+{% block items_menu %}
+      
+{% endblock items_menu %}
+
+{% block content %}
+<div class="container-xl">
+    <div class="card">
+        <div class="card-header">
+            <div class="row align-items-center">
+              <div class="col">
+                <h3 class="card-title">Consumo equipo 22</h3>
+              </div>
+            </div>
+        </div>
+    </div>
+    <div class="card-body" >
+        <form action="">
+            {% csrf_token %}
+            <input type="date" id="datepicker">
+        </form>
+        <div id="chartdiv" style="width: 100%; height: 500px;">
+        </div>
+    </div>
+</div>
+{% endblock content %}
+
+{% block javascript_extra %}
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script src="https://npmcdn.com/flatpickr/dist/l10n/es.js"></script>
+<script src="https://www.amcharts.com/lib/4/core.js"></script>
+<script src="https://www.amcharts.com/lib/4/charts.js"></script>
+<script src="https://www.amcharts.com/lib/4/themes/animated.js"></script>
+<script>
+
+
+    
+window.onload = function(){
+    var fecha_inicio = new Date("2023-01-01T00:00:00").getTime()
+    var fecha_fin = new Date("2023-01-30T00:00:00").getTime()
+    var nro_serie = 22;
+    const data= {
+    "fecha_inicio": fecha_inicio,
+    "fecha_fin": fecha_fin,
+    "nro_serie": nro_serie
+    };
+    $.ajax({
+        url: "{% url 'consumos:obtener_consumos_intervalo' %}",
+        type: 'get',
+        dataType: 'json',
+        data: data,
+        success: function(data){
+            console.log(data)
+            // Crea la instancia del gráfico
+            var chart = am4core.create("chartdiv", am4charts.XYChart);
+            chart.pixelPerfect = false;
+            chart.height = 400;
+
+            // Configura el eje X
+            var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
+            dateAxis.renderer.grid.template.location = 0;
+            dateAxis.renderer.minGridDistance = 50;
+
+            // Configura el eje Y
+            var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+            valueAxis.title.text = "Consumo (Kwh)";
+
+            // Agrega una serie de datos al gráfico
+            var series = chart.series.push(new am4charts.LineSeries());
+            series.dataFields.valueY = "consumo";
+            series.dataFields.dateX = "fecha";
+            series.strokeWidth = 2;
+            series.minBulletDistance = 10;
+            series.bullet = "circle";
+            series.bulletSize = 8;
+            series.tooltipText = "{valueY}";
+
+            // Agrega un cursor para interactuar con el gráfico
+            chart.cursor = new am4charts.XYCursor();
+            chart.cursor.behavior = "zoomY";
+
+            // Agrega una leyenda
+            chart.legend = new am4charts.Legend();
+
+            // Add chart title
+            chart.titles.create().text = "Consumo por dia";
+
+            // Agrega los datos al gráfico
+            chart.data = data
+        }
+    })
+
+    flatpickr("#datepicker", {
+    locale: "es",
+    allowInput: true,
+    dateFormat: "d-M-y",
+    mode: "range",
+    defaultDate: ["01-01-2023", "30-01-2023"],
+    onClose: function (selectedDates) {
+        var fecha_inicio = selectedDates[0].getTime();
+        var fecha_fin = selectedDates[1].getTime();
+        var nro_serie = 22;
+        const data= {
+            "fecha_inicio": fecha_inicio,
+            "fecha_fin": fecha_fin,
+            "nro_serie": nro_serie
+        };
+        $.ajax({
+            url: "{% url 'consumos:obtener_consumos_intervalo' %}",
+            type: 'get',
+            dataType: 'json',
+            data: data,
+            success: function(data){
+                console.log(data)
+                // Crea la instancia del gráfico
+                var chart = am4core.create("chartdiv", am4charts.XYChart);
+                chart.pixelPerfect = false;
+                chart.height = 400;
+
+                // Configura el eje X
+                var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
+                dateAxis.renderer.grid.template.location = 0;
+                dateAxis.renderer.minGridDistance = 50;
+
+                // Configura el eje Y
+                var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+                valueAxis.title.text = "Consumo (Kwh)";
+
+                // Agrega una serie de datos al gráfico
+                var series = chart.series.push(new am4charts.LineSeries());
+                series.dataFields.valueY = "consumo";
+                series.dataFields.dateX = "fecha";
+                series.strokeWidth = 2;
+                series.minBulletDistance = 10;
+                series.bullet = "circle";
+                series.bulletSize = 8;
+                series.tooltipText = "{valueY}";
+
+                // Agrega un cursor para interactuar con el gráfico
+                chart.cursor = new am4charts.XYCursor();
+                chart.cursor.behavior = "zoomY";
+
+                // Agrega una leyenda
+                chart.legend = new am4charts.Legend();
+
+                // Add chart title
+                chart.titles.create().text = "Consumo por dia";
+
+                // Agrega los datos al gráfico
+                chart.data = data
+            }
+        })
+    }
+});
+}
+    
+    
+    
+</script>
+{% endblock javascript_extra %}

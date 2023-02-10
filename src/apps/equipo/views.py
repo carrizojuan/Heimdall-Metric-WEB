@@ -3,7 +3,7 @@ from apps.utils.mixins import AdminRequiredMixin
 # from django import forms
 from django.views.generic.edit import CreateView,UpdateView
 from django.views.generic.detail import DetailView
-from django.views.generic import ListView
+from django.views.generic import ListView, View
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from influxable.db import RawQuery
@@ -139,3 +139,14 @@ def api_equipos(request):
     return JsonResponse(data, safe=False)
 
 
+class EquipoConsumoView(LoginRequiredMixin, View):
+    model = Equipo
+    template_name = "equipo/consumo.html"
+    
+    def get_context_data(self, **kwargs):
+        context = super(EquipoConsumoView, self).get_context_data(**kwargs)
+        context['sidebar_active'] = 'equipos'
+        equipo = Equipo.objects.get(nro_serie=self.kwargs["pk"])
+        print(equipo)
+        context["equipo"] = equipo
+        return context

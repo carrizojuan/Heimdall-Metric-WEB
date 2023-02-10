@@ -13,6 +13,7 @@ urlpatterns = [
     path('detalle/<str:pk>', views.EquipoDetalleView.as_view(), name="equipo_detalle"),
     path('editar/<str:pk>', views.ActualizarEquipoView.as_view(), name="editar_equipo"),
     path('api/equipos/', views.api_equipos, name='api_equipos'),
+    path('consumo/<str:pk>', views.EquipoConsumoView.as_view(), name="consumo_equipo")
 ]
 
 

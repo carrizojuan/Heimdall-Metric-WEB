@@ -18,4 +18,7 @@ urlpatterns=[
     path('<str:nro_serie>/consumo-mensual-dia/<str:fecha>', views.ConsumoMensualPorDiaEquipoView.as_view(), name='equipo_consumo_mensual_dia'),
     
     #LISTAR CONSUMOS ENTRE DOS FECHAS POR DIA
-]
+    path('<str:nro_serie>/consumo-grafico', views.ConsumoGraficoEquipoView.as_view(), name="consumo_equipo_grafico"),
+
+    path('obtener-consumos-intervalo/', views.obtener_consumos_por_dia, name='obtener_consumos_intervalo')
+]   

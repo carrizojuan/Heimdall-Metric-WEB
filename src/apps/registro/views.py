@@ -472,15 +472,9 @@ class ConsumoMensualPorDiaEquipoView(ListView):
 
     def get_queryset(self):
         nro_serie = int(self.kwargs["nro_serie"])
-
-        # Obtener la fecha actual
-        fecha_actual = datetime.now()
-        # Darle el formato "dd-mm-aaaa"
-        dia = fecha_actual.day
-        mes = fecha_actual.month
-        año = fecha_actual.year
-        print(mes)
-        print(año)
+        fecha = self.kwargs["fecha"]
+        año = int(self.kwargs["fecha"].split("-")[1])
+        mes = int(self.kwargs["fecha"].split("-")[0])
          # Obtenemos el primer y último día del mes
         primer_dia = int(datetime(año, mes, 1, 0, 0, 0).timestamp())*1000000000
         ult_dia = int(datetime(año, mes, calendar.monthrange(año, mes)[1], 23, 59, 59).timestamp())*1000000000
@@ -488,7 +482,6 @@ class ConsumoMensualPorDiaEquipoView(ListView):
         str_query = f'SELECT sum(Kwh) FROM mqtt_consumer WHERE NumeroDeSerie={nro_serie} AND time > {primer_dia} AND time < {ult_dia} GROUP BY time(1d, 3h) fill(0)'
         res = RawQuery(str_query).execute()
         registros = []
-        print(res)
         if 'series' in res['results'][0]:
             valores = res['results'][0]['series'][0]['values']
             for v in valores:
@@ -533,6 +526,60 @@ class ConsumoDiarioEquipoView(DetailView):
             consumo_diario = "0"
     
         return consumo_diario
+    
+class ConsumoGraficoEquipoView(ListView):
+
+    template_name = 'registros/consumo_equipo_grafico.html'
+    context_object_name = 'consumos'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["equipo"] = self.kwargs["nro_serie"]
+        fecha_actual = datetime.now()
+        mes = fecha_actual.month
+        año = fecha_actual.year
+        meses = {
+            1: "Enero",
+            2: "Febrero",
+            3: "Marzo",
+            4: "Abril",
+            5: "Mayo",
+            6: "Junio",
+            7: "Julio",
+            8: "Agosto",
+            9: "Septiembre",
+            10: "Octubre",
+            11: "Noviembre",
+            12: "Diciembre"
+        }
+        context["año"] = año
+        context["mes"] = meses[(int(mes))]
+
+        return context
+
+    def get_queryset(self):
+        nro_serie = int(self.kwargs["nro_serie"])
+        año = 2023
+        mes = 1
+         # Obtenemos el primer y último día del mes
+        primer_dia = int(datetime(año, mes, 1, 0, 0, 0).timestamp())*1000000000
+        ult_dia = int(datetime(año, mes, calendar.monthrange(año, mes)[1], 23, 59, 59).timestamp())*1000000000
+        
+        str_query = f'SELECT sum(Kwh) FROM mqtt_consumer WHERE NumeroDeSerie={nro_serie} AND time > {primer_dia} AND time < {ult_dia} GROUP BY time(1d, 3h) fill(0)'
+        res = RawQuery(str_query).execute()
+        print(res)
+        registros = []
+        print(res)
+        if 'series' in res['results'][0]:
+            valores = res['results'][0]['series'][0]['values']
+            for v in valores:
+                registro = {}
+                registro["time"] = datetime.fromtimestamp(v[0]/(1000000000)).strftime('%d-%m-%Y')
+                registro["consumo"] = v[1]
+                registros.append(registro)
+
+        return registros
+    
 
 @login_required
 def obtener_registros(request):
@@ -557,3 +604,29 @@ def obtener_registros(request):
 
     salida = json.dumps(registros)
     return HttpResponse(salida, content_type='json')
+
+
+@login_required
+def obtener_consumos_por_dia(request):
+    fecha_inicio = request.GET.get("fecha_inicio")
+    fecha_fin = request.GET.get("fecha_fin")
+    nro_serie = request.GET.get("nro_serie")
+    fecha_inicio = int(fecha_inicio)*1000000
+    fecha_fin = int(fecha_fin)*1000000
+    
+    str_query = f'SELECT sum(Kwh) FROM mqtt_consumer WHERE NumeroDeSerie={nro_serie} AND time > {fecha_inicio} AND time < {fecha_fin} GROUP BY time(1d, 3h) fill(0)'
+    res = RawQuery(str_query).execute()
+    print(res)
+    registros = []
+    if 'series' in res['results'][0]:
+        valores = res['results'][0]['series'][0]['values']
+        for v in valores:
+            registro = {}
+            registro["fecha"] = datetime.fromtimestamp(v[0]/(1000000000)).strftime('%Y-%m-%d')
+            registro["consumo"] = v[1]
+            registros.append(registro)
+
+    salida = json.dumps(registros)
+    return HttpResponse(salida, content_type='json')
+
+

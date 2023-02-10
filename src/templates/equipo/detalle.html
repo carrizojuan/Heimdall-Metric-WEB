@@ -84,9 +84,9 @@
                 </div>
                 <div class="col">
                   <div class="btn-list">
-                    <button id="prueba" class="btn btn-primary d-none d-sm-inline-block" >
+                    <a href="{% url 'consumos:consumo_equipo_grafico' nro_serie=equipo.nro_serie %}" class="btn btn-primary d-none d-sm-inline-block" >
                       Ver mas
-                    </button>
+                    </a>
               
                   </div>
                 </div>
@@ -173,21 +173,6 @@
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <script src="https://npmcdn.com/flatpickr/dist/l10n/es.js"></script>
 <script>
-
-function Prueba(){
-  const data= {
-    "prueba": "wepp"
-  };
-  $.ajax({
-    url: "{% url 'registros:obtener_registros' %}",
-    type: 'get',
-    dataType: 'json',
-    data: data,
-    success: function(data){
-      console.log(data)
-    }
-  });
-}
 
 flatpickr("#datepicker", {
     locale: "es",
