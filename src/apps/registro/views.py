@@ -558,27 +558,7 @@ class ConsumoGraficoEquipoView(ListView):
         return context
 
     def get_queryset(self):
-        nro_serie = int(self.kwargs["nro_serie"])
-        año = 2023
-        mes = 1
-         # Obtenemos el primer y último día del mes
-        primer_dia = int(datetime(año, mes, 1, 0, 0, 0).timestamp())*1000000000
-        ult_dia = int(datetime(año, mes, calendar.monthrange(año, mes)[1], 23, 59, 59).timestamp())*1000000000
-        
-        str_query = f'SELECT sum(Kwh) FROM mqtt_consumer WHERE NumeroDeSerie={nro_serie} AND time > {primer_dia} AND time < {ult_dia} GROUP BY time(1d, 3h) fill(0)'
-        res = RawQuery(str_query).execute()
-        print(res)
-        registros = []
-        print(res)
-        if 'series' in res['results'][0]:
-            valores = res['results'][0]['series'][0]['values']
-            for v in valores:
-                registro = {}
-                registro["time"] = datetime.fromtimestamp(v[0]/(1000000000)).strftime('%d-%m-%Y')
-                registro["consumo"] = v[1]
-                registros.append(registro)
-
-        return registros
+        return []
     
 
 @login_required

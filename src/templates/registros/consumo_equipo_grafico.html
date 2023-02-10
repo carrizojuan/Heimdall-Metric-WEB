@@ -45,8 +45,10 @@
 
     
 window.onload = function(){
-    var fecha_inicio = new Date("2023-01-01T00:00:00").getTime()
+    /* var fecha_inicio = new Date("2023-01-01T00:00:00").getTime()
     var fecha_fin = new Date("2023-01-30T00:00:00").getTime()
+    var fecha_fin = Date.now();
+    var fecha_inicio = fecha_fin - (3 * 24 * 60 * 60 * 1000);
     var nro_serie = 22;
     const data= {
     "fecha_inicio": fecha_inicio,
@@ -91,24 +93,13 @@ window.onload = function(){
             // Agrega una leyenda
             chart.legend = new am4charts.Legend();
 
-            // Add chart title
             chart.titles.create().text = "Consumo por dia";
 
             // Agrega los datos al gráfico
             chart.data = data
         }
-    })
-
-    flatpickr("#datepicker", {
-    locale: "es",
-    allowInput: true,
-    dateFormat: "d-M-y",
-    mode: "range",
-    defaultDate: ["01-01-2023", "30-01-2023"],
-    onClose: function (selectedDates) {
-        var fecha_inicio = selectedDates[0].getTime();
-        var fecha_fin = selectedDates[1].getTime();
-        var nro_serie = 22;
+    }) */
+    getGraphic = function(fecha_inicio, fecha_fin, nro_serie){
         const data= {
             "fecha_inicio": fecha_inicio,
             "fecha_fin": fecha_fin,
@@ -120,7 +111,6 @@ window.onload = function(){
             dataType: 'json',
             data: data,
             success: function(data){
-                console.log(data)
                 // Crea la instancia del gráfico
                 var chart = am4core.create("chartdiv", am4charts.XYChart);
                 chart.pixelPerfect = false;
@@ -159,6 +149,43 @@ window.onload = function(){
                 chart.data = data
             }
         })
+    }
+
+    let currentDate = new Date();
+
+    let day = currentDate.getDate().toString().padStart(2, '0');
+    let month = (currentDate.getMonth() + 1).toString().padStart(2, '0');
+    let year = currentDate.getFullYear();
+
+    let formattedDate = `${day}-${month}-${year}`;
+
+    var previousDate = new Date(currentDate.getTime() - 3 * 24 * 60 * 60 * 1000);
+    var previousDateString = previousDate.toLocaleDateString("es-ES", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric"
+    });
+
+    console.log(formattedDate);
+    // Manejo del filtro por calendario con flatpickr
+    flatpickr("#datepicker", {
+    locale: "es",
+    allowInput: true,
+    dateFormat: "d-M-y",
+    mode: "range",
+    maxDate: currentDate,
+    defaultDate: [currentDate, previousDate],
+    onReady: function(selectedDates, dateStr, instance) {
+        var fecha_inicio = selectedDates[0].getTime();
+        var fecha_fin = selectedDates[1].getTime() + 24 * 60 * 60 * 1000;
+        var nro_serie = 22;
+        getGraphic(fecha_inicio, fecha_fin, nro_serie)
+    },
+    onClose: function (selectedDates) {
+        var fecha_inicio = selectedDates[0].getTime();
+        var fecha_fin = selectedDates[1].getTime() + 24 * 60 * 60 * 1000;
+        var nro_serie = 22;
+        getGraphic(fecha_inicio, fecha_fin, nro_serie)
     }
 });
 }
