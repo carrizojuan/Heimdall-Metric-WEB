@@ -45,60 +45,7 @@
 
     
 window.onload = function(){
-    /* var fecha_inicio = new Date("2023-01-01T00:00:00").getTime()
-    var fecha_fin = new Date("2023-01-30T00:00:00").getTime()
-    var fecha_fin = Date.now();
-    var fecha_inicio = fecha_fin - (3 * 24 * 60 * 60 * 1000);
-    var nro_serie = 22;
-    const data= {
-    "fecha_inicio": fecha_inicio,
-    "fecha_fin": fecha_fin,
-    "nro_serie": nro_serie
-    };
-    $.ajax({
-        url: "{% url 'consumos:obtener_consumos_intervalo' %}",
-        type: 'get',
-        dataType: 'json',
-        data: data,
-        success: function(data){
-            console.log(data)
-            // Crea la instancia del gráfico
-            var chart = am4core.create("chartdiv", am4charts.XYChart);
-            chart.pixelPerfect = false;
-            chart.height = 400;
-
-            // Configura el eje X
-            var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
-            dateAxis.renderer.grid.template.location = 0;
-            dateAxis.renderer.minGridDistance = 50;
-
-            // Configura el eje Y
-            var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
-            valueAxis.title.text = "Consumo (Kwh)";
-
-            // Agrega una serie de datos al gráfico
-            var series = chart.series.push(new am4charts.LineSeries());
-            series.dataFields.valueY = "consumo";
-            series.dataFields.dateX = "fecha";
-            series.strokeWidth = 2;
-            series.minBulletDistance = 10;
-            series.bullet = "circle";
-            series.bulletSize = 8;
-            series.tooltipText = "{valueY}";
-
-            // Agrega un cursor para interactuar con el gráfico
-            chart.cursor = new am4charts.XYCursor();
-            chart.cursor.behavior = "zoomY";
-
-            // Agrega una leyenda
-            chart.legend = new am4charts.Legend();
-
-            chart.titles.create().text = "Consumo por dia";
-
-            // Agrega los datos al gráfico
-            chart.data = data
-        }
-    }) */
+    
     getGraphic = function(fecha_inicio, fecha_fin, nro_serie){
         const data= {
             "fecha_inicio": fecha_inicio,
@@ -115,6 +62,10 @@ window.onload = function(){
                 var chart = am4core.create("chartdiv", am4charts.XYChart);
                 chart.pixelPerfect = false;
                 chart.height = 400;
+
+                // Habilita la opción de mostrar balas (puntos)
+                chart.scrollbarX = new am4core.Scrollbar();
+                chart.bulletsEnabled = true;
 
                 // Configura el eje X
                 var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
@@ -135,6 +86,12 @@ window.onload = function(){
                 series.bulletSize = 8;
                 series.tooltipText = "{valueY}";
 
+                series.bullets.push(new am4charts.CircleBullet());
+
+                // Configura el eje X para que muestre la fecha
+                var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
+                dateAxis.renderer.grid.template.location = 0;
+
                 // Agrega un cursor para interactuar con el gráfico
                 chart.cursor = new am4charts.XYCursor();
                 chart.cursor.behavior = "zoomY";
@@ -150,6 +107,7 @@ window.onload = function(){
             }
         })
     }
+
 
     let currentDate = new Date();
 

@@ -1,23 +1,96 @@
 {% extends "base/admin/base.html" %}
 
+
+{% block css_extra %}>
+<link rel="stylesheet" href="https://unpkg.com/@geoapify/leaflet-address-search-plugin@^1/dist/L.Control.GeoapifyAddressSearch.min.css" />
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin="" />
+{% endblock css_extra %}
+
 {% block categoria_name %}EQUIPOS{% endblock categoria_name %}
 {% block title_name %}Agregar equipo{% endblock title_name %}
 
 {% block content %}
-
-<div class="card">
-
-    <div class="card-body">
-        <form method="post">
-            {% csrf_token %}
-            {{form.as_p}}
-            <a href="" class="btn">
-			Cancelar
-		  </a>
-            <button type="submit" class="btn btn-primary">Guardar</button>
-        </form>
+<div class="container-xl">
+    <div class="card">
+        <div class="card-header">
+            <div class="row align-items-center">
+              <div class="col">
+                <h3 class="card-title">Crear equipo</h3>
+              </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="row row-cards">
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Datos</h3>
+                        </div>
+                        <div class="card-body">
+                            <form method="post">
+                                {% csrf_token %}
+                                {{form.as_p}}
+                                <a href="" class="btn">
+                                Cancelar
+                              </a>
+                                <button type="submit" class="btn btn-primary">Guardar</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Prueba</h3>
+                        </div>
+                        <div class="card-body">
+                            
+                            <div id="map" style="height: 500px;">
+    
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
-
 {% endblock content %}
+
+{% block javascript_extra %}
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
+<script src="https://unpkg.com/@geoapify/leaflet-address-search-plugin@^1/dist/L.Control.GeoapifyAddressSearch.min.js"></script>
+<script>
+    console.log("prueba")
+    var map = L.map('map').setView([-27.45, -59.05], 13);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        apiKey: 'f4f21758b61c4d778cdda8e883172879',
+        mapStyle: "osm-bright-smooth"
+    }).addTo(map);
+    var marker = L.marker([-27.45, -59.05]).addTo(map);
+
+    map.on('click', function(e) {
+        var latlng = e.latlng;
+        marker.setLatLng(latlng);
+        console.log(latlng.lat + ', ' + latlng.lng);
+    
+        // Guarda las coordenadas en un lugar de tu elección (por ejemplo, en una variable)
+        var coordenadas = [latlng.lat, latlng.lng];
+    });
+
+    const addressSearchControl = L.control.addressSearch('f4f21758b61c4d778cdda8e883172879', {
+        position: 'topleft',
+        resultCallback: (selectedAddress) => {
+          console.log(selectedAddress);
+        },
+        suggestionsCallback: (suggestions) => {
+          console.log(suggestions);
+        }
+      });
+    map.addControl(addressSearchControl);
+    L.control.zoom({ position: 'bottomright' }).addTo(map);
+    
+</script>
+{% endblock javascript_extra %}
