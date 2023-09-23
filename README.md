@@ -1,4 +1,4 @@
-# Heimdall-Metric - web
+# Telemedicion de energia - web
 
 Plataforma de telemedición de energia en hogares. Se obtienen las mediciones desde un dispositivo IOT
 
